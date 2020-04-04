@@ -1,0 +1,17 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <title th:text="'Teti | ' + #{title.manage_is}"></title>
+    <link rel="stylesheet" th:href="@{/css/admin.css}">
+    <script th:src="@{/js/admin.js}"></script>
+</head>
+<body>
+<nav th:replace="components/bars :: navbar(#{title.manage_is})"></nav>
+<div class="container-fluid" sec:authorize="isAuthenticated()">
+    <div class="row">
+        <nav th:replace="components/bars :: sidebar('registries', 'invoice-subjects')"></nav>
+        <main role="main" class="over-sidebar col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+        </main>
+    </div>
+</div>
+</body>
+</html>

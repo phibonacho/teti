@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Forms Fragment</title>
+</head>
+<body>
+    <!-- Admin add form -->
+    <!--/*@thymesVar id="admin" type="it.phibonachos.teti.datasource.model.teti.Administrator"*/-->
+    <form action="#" th:action="@{/adm-api/save}" th:method="post" th:object="" th:fragment="add-admin" th:id="add-admin-form">
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-6">
+                    <h6 class="text-primary">Anagrafica</h6
+                </div>
+                <div class="col-6">
+                    <h6 class="text-primary">Contatti</h6>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-3">
+                    <label th:for="businessName" class="sr-only">Business Name</label>
+                    <input type="text" th:field="businessName" class="form-control mb-2" placeholder="Ragione Sociale">
+                </div>
+                <div class="col-3">
+                    <label th:for="fiscalCode" class="sr-only">Fiscal Code</label>
+                    <input type="text" th:field="fiscalCode" class="form-control mb-2" placeholder="Codice Fiscale">
+                </div>
+                <div class="col-2">
+                    <label th:for="phone" class="sr-only">Phone</label>
+                    <input type="text" th:field="phone" class="form-control mb-2" placeholder="Telefono Fisso">
+                </div>
+                <div class="col-2">
+                    <label th:for="fax" class="sr-only">Fax</label>
+                    <input type="text" th:field="fax" class="form-control mb-2" placeholder="Fax">
+                </div>
+                <div class="col-2">
+                    <label th:for="mobilePhone" class="sr-only">Mobile Phone</label>
+                    <input type="text" th:field="mobilePhone" class="form-control mb-2" placeholder="Telefono">
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-6">
+                    <h6 class="text-primary">Indirizzo</h6>
+                </div>
+                <div class="col-6">
+                    <h6 class="text-primary">Note</h6>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-6">
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" th:field="*{address.street}" class="form-control mb-2" placeholder="Via">
+                            <label th:for="address.street" class="sr-only">Street</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-6">
+                            <input type="text" th:field="*{address.streetNumber}" class="form-control mb-2" placeholder="Civico">
+                            <label th:for="address.streetNumber" class="sr-only">StreetNumber</label>
+                        </div>
+                        <div class="col-6">
+                            <input type="text" th:field="*{address.zipCode}" class="form-control mb-2" placeholder="CAP">
+                            <label th:for="address.zipCode" class="sr-only">Zip Phone</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 pb-2">
+                    <textarea th:field="*{note}" class="form-control mb-2 h-100"></textarea>
+                    <label th:for="note" class="sr-only">Note</label>
+                </div>
+            </div>
+            <div class="form-row justify-content-end mt-4">
+                <button type="submit" class="btn btn-primary px-4 mx-1 text-uppercase" th:text="#{btn.save}"></button>
+            </div>
+        </div>
+    </form>
+    <!-- IS add form -->
+    <!--/*@thymesVar id="is" type="it.phibonachos.teti.datasource.model.teti.InvoiceSubject"*/-->
+    <form action="#" th:action="@{/registries/add}" th:method="post" th:object="${is}" id="is" th:fragment="add-invoice-subject">
+        <div class="form-row">
+            <div class="col-6">
+                <h6 class="text-primary">Anagrafica</h6>
+                <input type="text" th:field="*{businessName}" class="form-control mb-2" placeholder="Ragione Sociale">
+                <label th:for="businessName" class="sr-only">Business Name</label>
+                <input type="text" th:field="*{businessName2}" class="form-control mb-2" placeholder="Codice Fiscale">
+                <label th:for="businessName2" class="sr-only">Fiscal Code</label>
+            </div>
+            <div class="col-6">
+                <h6 class="text-primary hidden">Anagrafica 2</h6>
+                <input type="text" th:field="*{fiscalCode}" class="form-control mb-2" placeholder="Codice Fiscale">
+                <label th:for="fiscalCode" class="sr-only">FiscalCode</label>
+                <input type="text" th:field="*{vatCode}" class="form-control mb-2" placeholder="Partita IVA">
+                <label th:for="vatCode" class="sr-only">VAT Code</label>
+            </div>
+        </div>
+        <h6 class="text-primary">Contatti</h6>
+        <div class="form-row">
+            <div class="col-6">
+                <input type="text" th:field="*{phone}" class="form-control mb-2" placeholder="Telefono Fisso">
+                <label th:for="phone" class="sr-only">Phone</label>
+                <input type="text" th:field="*{fax}" class="form-control mb-2" placeholder="Fax">
+                <label th:for="fax" class="sr-only">Fax</label>
+            </div>
+            <div class="col-6">
+                <input type="text" th:field="*{mobilePhone}" class="form-control mb-2" placeholder="Telefono">
+                <label th:for="mobilePhone" class="sr-only">Mobile Phone</label>
+            </div>
+        </div>
+        <h6 class="text-primary mb-2">Indirizzo</h6>
+        <div class="form-row mb-3">
+            <div class="col-6">
+                <input type="text" th:field="*{address.street}" class="form-control mb-2" placeholder="Via">
+                <label th:for="address.street" class="sr-only">Street</label>
+            </div>
+            <div class="col-3">
+                <input type="text" th:field="*{address.streetNumber}" class="form-control mb-2" placeholder="Civico">
+                <label th:for="address.streetNumber" class="sr-only">StreetNumber</label>
+            </div>
+            <div class="col-3">
+                <input type="text" th:field="*{address.zipCode}" class="form-control mb-2" placeholder="CAP">
+                <label th:for="address.zipCode" class="sr-only">Zip Phone</label>
+            </div>
+        </div>
+        <h6 class="text-primary">Note</h6>
+        <div class="form-row justify-content-center align-items-center">
+            <div class="col-9">
+                <label th:for="withholding" class="sr-only">Note</label>
+                <input th:type="checkbox" th:checked="*{withholding}" class="mb-2">
+            </div>
+            <div class="col-3 text-center">
+                <button type="submit" class="btn btn-primary text-uppercase" id="add-is-btn">salva</button>
+            </div>
+        </div>
+    </form>
+</body>
+</html>

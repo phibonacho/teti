@@ -1,0 +1,35 @@
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+<link rel="stylesheet" th:href="@{/css/login.css}"/>
+<head>
+    <title>TOD | Login</title>
+</head>
+<body class="bg-primary">
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-xl-10 col-lg-12 col-md-9">
+            <div th:if="${param.error}" th:each="error : ${param.error}">
+                <span class="alert alert-danger" th:text="${error}"></span>
+            </div>
+            <span class="alert alert-info" th:if="${param.logout}">You have been logged out.</span>
+            <div class="card my-5">
+                <div class="card-body text-center">
+                    <div class="row">
+                        <div class="col-md-6 d-md-block d-none">
+                        </div>
+                        <div class="col-md-6">
+                            <form th:action="@{/login}" method="post" th:object="${user}">
+                                <label th:for="${#ids.next('username')}" class="sr-only">Username</label>
+                                <input type="text" th:field="*{username}" id="username" class="form-control mb-2" placeholder="Username"/>
+                                <label th:for="${#ids.next('password')}" class="sr-only">Password</label>
+                                <input type="password" th:field="*{password}" class="form-control mb-2" placeholder="Password"/>
+                                <button type="submit" class="btn btn-primary text-uppercase">login</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

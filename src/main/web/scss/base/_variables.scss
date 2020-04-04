@@ -1,0 +1,31 @@
+@import "~bootstrap/scss/functions";
+@import "~bootstrap/scss/mixins";
+
+$black: #231f20;
+$pink: #d1599f;
+$red: #e32526;
+$yellow: #ffce00;
+$lime: #c4d600;
+$green: #2f9a41;
+$teal: #2db49c;
+$purple-light: #3b3d95;
+$purple: #140f3a;
+$blue: #007BFF;
+
+$theme-colors : (
+        "otr" : $purple-light,
+        "lc" : $purple,
+        "wat" : $lime,
+        "ed" : $red,
+        "hh" : $yellow,
+        "primary" : $blue,
+        "secondary" : $teal,
+        "green" : $green
+);
+
+$primary : $blue;
+$secondary: $teal;
+$bar-width: 20rem;
+$border-radius:     .1rem;
+@import "~bootstrap/scss/variables";
+@import "typography";

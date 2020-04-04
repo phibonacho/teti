@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Common Fragments</title>
+</head>
+<body>
+<nav th:fragment="navbar(page_title)" class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="over-sidebar container-fluid">
+        <span class="page-name text-uppercase" th:text="${page_title}"></span>
+    </div>
+</nav>
+
+<nav th:fragment="sidebar(section,page)" sec:authorize="isAuthenticated()" class="d-none d-md-block bg-primary sidebar">
+    <div class="sidebar-brand d-flex align-items-center justify-context-center">
+        <a class="text-white mx-auto" th:href="@{/}">Idea Service srl</a>
+    </div>
+    <div class="sidebar-sticky">
+        <div id="accordion-menu" class="menu accordion">
+            <!--/*@thymesVar id="menuEntries" type="java.util.List<it.phibonachos.teti.pojo.MenuOption>"*/-->
+            <th:block th:each="entry : ${menuEntries}">
+                <button th:id="${entry.getName()} + '-btn'" class="option" th:data-target="'#' + ${entry.getName()} + '-menu'" data-toggle="collapse" th:text="#{${entry.getName()}}"></button>
+                <div th:id="${entry.getName()} + '-menu'" class="collapse" th:classappend="${#strings.equals(section, entry.getName())}? 'show'" data-parent="#accordion-menu">
+                    <div class="sub-option">
+                        <th:block th:each="option : ${entry.getOptions()}">
+                            <a class="sub-option-item" th:href="@{'/' + ${entry.getName()} + '/' + ${option}}" th:text="#{${entry.getName() + '.' + option}}"></a>
+                        </th:block>
+                    </div>
+                </div>
+            </th:block>
+        </div>
+        <hr>
+        <div class="menu">
+            <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" action="#" th:action="@{/exit}" method="post">
+                <button class="btn btn-primary my-2 my-sm-0" type="submit">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+</body>
+</html>
