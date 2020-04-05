@@ -1,7 +1,7 @@
 # build frontend first
 FROM node:latest
 WORKDIR /opt/teti/frontend
-COPY src/main/web/* .
+COPY src/main/web/* ./
 RUN yarn install && yarn build-prod
 
 # build executable jar
