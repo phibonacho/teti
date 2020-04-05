@@ -5,7 +5,6 @@ const path = require('path');
 
 module.exports = merge(common, {
     mode : 'production',
-    devtools: 'inline-sourcemap',
     output: {
         path: path.resolve(__dirname, './build'),
     },
