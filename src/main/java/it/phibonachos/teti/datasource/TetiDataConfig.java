@@ -23,6 +23,7 @@ import java.util.Properties;
         basePackages = "it.phibonachos.teti.datasource.repository"
 )
 public class TetiDataConfig {
+
     @Bean(name = "entityManager")
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(){
         JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
@@ -39,7 +40,7 @@ public class TetiDataConfig {
         Properties properties = new Properties();
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL5Dialect");
-        properties.setProperty("hibernate.show_sql", "false");
+        properties.setProperty("hibernate.show_sql", "true");
 
         return properties;
     }
@@ -65,5 +66,4 @@ public class TetiDataConfig {
     public DataSource secDataSource() {
         return DataSourceBuilder.create().build();
     }
-
 }

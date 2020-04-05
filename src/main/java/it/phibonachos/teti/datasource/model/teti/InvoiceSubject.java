@@ -5,8 +5,10 @@ import javax.persistence.*;
 @Entity
 @Table(name = "InvoiceSubject", schema = "teti")
 public class InvoiceSubject {
-    @Id @Column(name = "InvoiceSubjectID")
-    private long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "InvoiceSubjectID")
+    private Long id;
 
     @Column(name = "BusinessName")
     private String businessName;
@@ -38,11 +40,11 @@ public class InvoiceSubject {
     @Column(name = "Note")
     private String note;
 
-    public long getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

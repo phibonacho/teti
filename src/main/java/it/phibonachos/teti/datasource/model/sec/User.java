@@ -1,17 +1,40 @@
 package it.phibonachos.teti.datasource.model.sec;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "User", catalog = "sec")
 public class User {
     @Id
-    @Column(name = "UserID", nullable = false) private long id;
-    @Column(name = "Username") private String username;
-    @Column(name = "Password") private String password;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "UserID", nullable = false)
+    private long id;
+
+    @Column(name = "Username", unique = true)
+    private String username;
+
+    @Column(name = "Password")
+    private String password;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumns({
+            @JoinColumn(name = "RoleID", referencedColumnName = "RoleID")
+    })
+    private Role role;
+
+    @Column(name = "Active")
+    private boolean active;
+
+    public User() {}
+
+    public User(String username, String password, Role role, boolean active) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
+        this.active = active;
+    }
+
+    @Transient
     private String passwordConfirm;
 
     public long getId() {
@@ -46,4 +69,11 @@ public class User {
         this.passwordConfirm = passwordConfirm;
     }
 
+    public boolean isActive() {
+        return active;
+    }
+
+    public void setActive(boolean active) {
+        this.active = active;
+    }
 }

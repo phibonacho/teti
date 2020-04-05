@@ -26,7 +26,7 @@ public class TetiSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/", "/index", "/css/*", "/js/*").permitAll()
+            .antMatchers("/", "/index", "/register", "/signup", "/css/*", "/js/*").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()
@@ -55,6 +55,6 @@ public class TetiSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication()
                 .dataSource(dataSource).usersByUsernameQuery("select Username, Password, Active from sec.User where Username = ?")
-                .authoritiesByUsernameQuery("select Username, RoleName from sec.User u inner join sec.Role r on u.Role = r.RoleID where Username = ?");
+                .authoritiesByUsernameQuery("select Username, RoleName from sec.User u inner join sec.Role r on u.RoleID = r.RoleID where Username = ?");
     }
 }
