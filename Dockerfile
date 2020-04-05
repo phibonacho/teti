@@ -6,6 +6,7 @@ RUN yarn install && yarn build-prod
 
 # build executable jar
 FROM maven:3.6.3-jdk-11
+WORKDIR /opt/teti/frontend
 COPY . .
 COPY --from=0 /opt/teti/frontend/build/ ./src/main/resources/static
 RUN mvn package -Pprod -Dmaven.test.skip=true -f pom.xml
