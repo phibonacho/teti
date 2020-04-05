@@ -3,7 +3,8 @@
   "version": "0.0.1-ultra-alpha",
   "description": "Water Meters Management frontend",
   "scripts": {
-    "build": "webpack"
+    "build": "webpack --config webpack.devs.js",
+    "build-prod": "webpack --config webpack.prod.js"
   },
   "main": "index.js",
   "author": "phibonachos",
@@ -44,12 +45,14 @@
     "remote": "^0.2.6",
     "sass-loader": "^7.1.0",
     "system": "^2.0.1",
+    "terser-webpack-plugin": "^2.3.5",
     "ts-loader": "^6.2.2",
     "typescript": "^3.8.3",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
-    "@types/jquery": "^3.3.34"
+    "@types/jquery": "^3.3.34",
+    "webpack-merge": "^4.2.2"
   }
 }

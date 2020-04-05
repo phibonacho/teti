@@ -23,7 +23,6 @@ module.exports = {
         // Add `.ts` and `.tsx` as a resolvable extension.
         extensions: [".ts", ".tsx", ".js"]
     },
-    mode: "development",
     module: {
         rules: [
             {
@@ -106,19 +105,6 @@ module.exports = {
         ]
     },
     plugins: [
-        /*new HtmlWebpackPlugin({
-            title: "Truth Or Drink",
-            template: "assets/index.html",
-            chunks:  ['index'],
-            inject: 'head'
-        }),
-        new HtmlWebpackPlugin({
-            title: "MAGMAMEMORIA",
-            template: "assets/magmamemoria.html",
-            filename: "magmamemoria.html",
-            chunks:  ['magma'],
-            inject: 'head'
-        }),*/
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
@@ -147,9 +133,6 @@ module.exports = {
                 to: 'fonts',
             }
         ]),
-/*        new CopyPkgJsonPlugin({
-            remove: ['devDependencies'],
-        })*/
     ],
     stats : true,
     optimization: {
