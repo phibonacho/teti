@@ -11,4 +11,4 @@ COPY . .
 COPY --from=0 /opt/teti/frontend/build/ ./src/main/resources/static
 RUN mvn package -Pprod -Dmaven.test.skip=true -f pom.xml
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","/target/teti-0.0.1-ultra-alpha.jar"]
+ENTRYPOINT ["java","-jar","./target/teti-0.0.1-ultra-alpha.jar"]
