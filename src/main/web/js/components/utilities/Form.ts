@@ -26,10 +26,24 @@ export class Form {
         });
     }
 
+    validate() {
+        return this._fields
+            .map(field => {
+                let valid = field.validate();
+                if(!valid)
+                   field.selector().addClass('is-invalid');
+                return valid;
+            })
+            .reduce((acc, curr) => acc && curr, true);
+    }
+
     toObject() {
         let result = {};
         this._fields.forEach(field => {
-            result[field.name()] = field.value();
+            if(!result.hasOwnProperty(field.name()))
+                result[field.name()] = field.value();
+            else
+                result[field.name()] = $.extend(result[field.name()], field.value());
         });
 
         return result;

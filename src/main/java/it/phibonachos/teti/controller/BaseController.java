@@ -1,5 +1,7 @@
 package it.phibonachos.teti.controller;
 
+import it.phibonachos.teti.datasource.model.teti.Administrator;
+import it.phibonachos.teti.datasource.model.teti.InvoiceSubject;
 import it.phibonachos.teti.pojo.MenuOption;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -20,5 +22,15 @@ public class BaseController {
                 new MenuOption("utility", "1"),
                 new MenuOption("info", "1")
         );
+    }
+
+    @ModelAttribute("admin")
+    public Administrator administrator() {
+        return new Administrator();
+    }
+
+    @ModelAttribute("invoice_subject")
+    public InvoiceSubject invoiceSubject() {
+        return new InvoiceSubject();
     }
 }

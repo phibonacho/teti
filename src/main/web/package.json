@@ -27,7 +27,6 @@
     "bootstrap-table": "^1.13.4",
     "canvas": "^2.3.1",
     "clean-webpack-plugin": "^2.0.1",
-    "copy-pkg-json-webpack-plugin": "^0.0.38",
     "copy-webpack-plugin": "^5.0.3",
     "css-loader": "^2.1.1",
     "datatables.net-dt": "^1.10.20",

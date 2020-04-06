@@ -34,7 +34,7 @@ export class Field {
     }
 
     validate() {
-        return this._validate.apply(this._value);
+        return !this._required || this._validate.apply(this._value);
     }
 
     protected reducer(acc, curr) {
@@ -45,6 +45,10 @@ export class Field {
 
     type() {
         return this._type;
+    }
+
+    selector() {
+        return this._selector;
     }
 }
 
