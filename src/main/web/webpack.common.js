@@ -2,10 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const MakeDirWebpackPlugin = require('make-dir-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CopyPkgJsonPlugin = require("copy-pkg-json-webpack-plugin");
 
 module.exports = {
     context: path.resolve(__dirname, '.'),
@@ -105,6 +102,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new CleanWebpackPlugin(),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',

@@ -16,13 +16,11 @@ export class Form {
     }
 
     submit() {
-        $.ajax({
+        return $.ajax({
             url : this._url,
             data : JSON.stringify(this.toObject()),
             method : this._method,
             contentType : 'application/json'
-        }).done(response => {
-        }).fail(error => {
         });
     }
 
@@ -47,5 +45,11 @@ export class Form {
         });
 
         return result;
+    }
+
+    clear() {
+        this._fields.forEach(field => {
+            field.clear();
+        });
     }
 }

@@ -1,15 +1,35 @@
+// SCSS
 import "../scss/index.scss";
+
+// JS
+import "bootstrap/js/dist/modal";
+import "./components/fontawesome";
 import "./components/navbar";
 import "./components/sidebar";
-import "./components/form";
-import {init_form} from "./components/form";
+import {Form} from "./components/utilities/Form";
 
 let $add_admin_form;
-
+let $add_admin_modal;
 $(()=>{
-    console.log("calling on ready (maybe?)");
-    console.log("boh qualcosa???");
     $add_admin_form = $('#add-admin-form');
-    console.log('calling init_form');
-    init_form($add_admin_form);
+    $add_admin_modal = $('#add-admin-modal');
+    init_admin_form();
 });
+
+function init_admin_form() {
+    $add_admin_form.on('submit', function (e) {
+        e.preventDefault();
+        let form = new Form($add_admin_form);
+        if(form.validate()) {
+            $add_admin_modal.modal('show');
+            form.submit()
+                .done(response => {
+                    $add_admin_modal.modal('hide');
+
+                })
+                .fail(response => {
+
+                });
+        }
+    });
+}

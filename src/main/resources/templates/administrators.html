@@ -25,5 +25,15 @@
         </main>
     </div>
 </div>
+<div th:replace="components/modals :: basic_modal('add-admin-modal', ~{ :: #add-admin-content})">
+    <div id="add-admin-content">
+        <div class="row justify-content-center">
+            <span th:text="#{info.administrator.add}"></span>
+        </div>
+        <div class="row justify-content-center">
+            <i class="fas fa-circle-notch fa-spin"></i>
+        </div>
+    </div>
+</div>
 </body>
 </html>

@@ -50,6 +50,11 @@ export class Field {
     selector() {
         return this._selector;
     }
+
+    clear() {
+        this._selector.val('');
+        this._value = null;
+    }
 }
 
 enum FieldType {
