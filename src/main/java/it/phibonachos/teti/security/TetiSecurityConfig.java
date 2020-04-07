@@ -26,7 +26,7 @@ public class TetiSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-            .antMatchers("/", "/index", "/register", "/signup", "/css/*", "/js/*").permitAll()
+            .antMatchers("/register", "/signup", "/css/*", "/js/*").permitAll()
             .anyRequest().authenticated()
             .and()
             .formLogin()
