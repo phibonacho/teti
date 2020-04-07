@@ -48,4 +48,9 @@ public class AdministratorServiceImpl implements AdministratorService {
         }
     }
 
+    @Override
+    public long count() {
+        return adminRepository.count();
+    }
+
 }

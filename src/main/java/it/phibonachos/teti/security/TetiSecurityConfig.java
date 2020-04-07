@@ -35,7 +35,7 @@ public class TetiSecurityConfig extends WebSecurityConfigurerAdapter {
             .and()
             .logout()
             .logoutUrl("/exit")
-            .logoutSuccessUrl("/")
+            .logoutSuccessUrl("/login")
             .invalidateHttpSession(true)
             .deleteCookies("SESSION")
             .permitAll()

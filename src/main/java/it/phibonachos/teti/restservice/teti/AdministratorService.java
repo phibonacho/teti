@@ -16,4 +16,6 @@ public interface AdministratorService {
     boolean remove(Administrator administrator);
 
     boolean remove(Long id);
+
+    long count();
 }

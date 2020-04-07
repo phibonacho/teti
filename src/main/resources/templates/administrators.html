@@ -10,10 +10,16 @@
     <div class="row">
         <nav th:replace="components/bars :: sidebar('registries', 'admin')"></nav>
         <main role="main" class="over-sidebar col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <div class="card">
+            <div class="card mt-3">
                 <div class="card-body">
-                    <h5 class="text-primary mb-3">Aggiungi Amministratore</h5>
+                    <h5 class="text-primary mb-3" th:text="#{administrators.add-administrator}"></h5>
                     <form action="#" th:replace="components/forms :: add-admin"></form>
+                </div>
+            </div>
+            <div class="card mt-3">
+                <div class="card-body">
+                    <h5 class="text-primary mb-3" th:text="#{administrators.list-administrator}"></h5>
+                    <table th:replace="components/dataTables :: administrators-table"></table>
                 </div>
             </div>
             <div class="row">
