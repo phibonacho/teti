@@ -9,7 +9,7 @@ public interface AdministratorService {
 
     List<Administrator> findAll();
 
-    Administrator add(Administrator administrator);
+    Administrator save(Administrator administrator);
 
     Administrator find(Long id) throws Exception;
 

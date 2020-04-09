@@ -19,6 +19,10 @@ export class Field {
         return this._name.split('.')[0];
     }
 
+    fullNamePath() {
+        return this._name;
+    }
+
     value() {
         if(this._name.includes('.'))
             return this._name
@@ -27,6 +31,11 @@ export class Field {
                 .reverse()
                 .reduce(this.reducer, this._value);
         return this._value;
+    }
+
+    setValue(val) {
+        this._value = val;
+        this._selector.val(val);
     }
 
     required() {

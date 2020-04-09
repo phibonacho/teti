@@ -7,7 +7,7 @@
 <body>
     <!-- Admin add form -->
     <!--/*@thymesVar id="admin" type="it.phibonachos.teti.datasource.model.teti.Administrator"*/-->
-    <form action="#" th:action="@{/adm-api/save}" th:method="post" th:object="${admin}" th:fragment="add-admin" th:id="add-admin-form">
+    <form th:fragment="admin-form(prefix, action, method)" action="#" th:action="@{${action}}" th:method="${method}" th:object="${admin}" th:id="${prefix} + '-admin-form'">
         <div class="form-group">
             <div class="form-row">
                 <div class="col-6">
@@ -20,23 +20,23 @@
             <div class="form-row">
                 <div class="col-3">
                     <label th:for="businessName" class="sr-only">Business Name</label>
-                    <input type="text" th:field="*{businessName}" class="form-control mb-2" placeholder="Ragione Sociale">
+                    <input type="text" th:id="${prefix} + '-businessName'" th:name="businessName" class="form-control mb-2" placeholder="Ragione Sociale">
                 </div>
                 <div class="col-3">
                     <label th:for="fiscalCode" class="sr-only">Fiscal Code</label>
-                    <input type="text" th:field="*{fiscalCode}" class="form-control mb-2" placeholder="Codice Fiscale">
+                    <input type="text" th:id="${prefix} + '-fiscalCode'" th:name="fiscalCode" class="form-control mb-2" placeholder="Codice Fiscale">
                 </div>
                 <div class="col-2">
                     <label th:for="phone" class="sr-only">Phone</label>
-                    <input type="text" th:field="*{phone}" class="form-control mb-2" placeholder="Telefono Fisso">
+                    <input type="text" th:id="${prefix} + '-phone'" th:name="phone" class="form-control mb-2" placeholder="Telefono Fisso">
                 </div>
                 <div class="col-2">
                     <label th:for="fax" class="sr-only">Fax</label>
-                    <input type="text" th:field="*{fax}" class="form-control mb-2" placeholder="Fax">
+                    <input type="text" th:id="${prefix} + '-fax'" th:name="fax" class="form-control mb-2" placeholder="Fax">
                 </div>
                 <div class="col-2">
                     <label th:for="mobilePhone" class="sr-only">Mobile Phone</label>
-                    <input type="text" th:field="*{mobilePhone}" class="form-control mb-2" placeholder="Telefono">
+                    <input type="text" th:id="${prefix} + '-mobilePhone'" th:name="mobilePhone" class="form-control mb-2" placeholder="Telefono">
                 </div>
             </div>
         </div>
@@ -53,23 +53,23 @@
                 <div class="col-6">
                     <div class="form-row">
                         <div class="col">
-                            <input type="text" th:field="*{address.street}" class="form-control mb-2" placeholder="Via">
+                            <input type="text" th:id="${prefix} + '-address.street'" th:name="address.street" class="form-control mb-2" placeholder="Via">
                             <label th:for="address.street" class="sr-only">Street</label>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-6">
-                            <input type="text" th:field="*{address.streetNumber}" class="form-control mb-2" placeholder="Civico">
+                            <input type="text" th:id="${prefix} + '-address.streetNumber'" th:name="address.streetNumber" class="form-control mb-2" placeholder="Civico">
                             <label th:for="address.streetNumber" class="sr-only">StreetNumber</label>
                         </div>
                         <div class="col-6">
-                            <input type="text" th:field="*{address.zipCode}" class="form-control mb-2" placeholder="CAP">
+                            <input type="text" th:id="${prefix} + '-address.zipCode'" th:name="address.zipCode" class="form-control mb-2" placeholder="CAP">
                             <label th:for="address.zipCode" class="sr-only">Zip Phone</label>
                         </div>
                     </div>
                 </div>
                 <div class="col-6 pb-2">
-                    <textarea th:field="*{note}" class="form-control mb-2 h-100"></textarea>
+                    <textarea th:id="${prefix} + '-note'" th:name="note" class="form-control mb-2 h-100"></textarea>
                     <label th:for="note" class="sr-only">Note</label>
                 </div>
             </div>

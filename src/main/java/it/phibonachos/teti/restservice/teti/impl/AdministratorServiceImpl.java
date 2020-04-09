@@ -21,7 +21,7 @@ public class AdministratorServiceImpl implements AdministratorService {
         return adminRepository.findAll();
     }
 
-    public Administrator add(Administrator administrator) {
+    public Administrator save(Administrator administrator) {
         return adminRepository.save(administrator);
     }
 

@@ -13,7 +13,7 @@
             <div class="card mt-3">
                 <div class="card-body">
                     <h5 class="text-primary mb-3" th:text="#{administrators.add-administrator}"></h5>
-                    <form action="#" th:replace="components/forms :: add-admin"></form>
+                    <form action="#" th:replace="components/forms :: admin-form('add', '/adm-api/save', post)"></form>
                 </div>
             </div>
             <div class="card mt-3">
@@ -41,5 +41,6 @@
         </div>
     </div>
 </div>
+<div th:replace="components/modals :: simple_modal('edit-admin-modal', #{administrators.edit-administrator}, ~{components/forms :: admin-form('edit', '/adm-api/:id/edit', 'put')})"></div>
 </body>
 </html>
