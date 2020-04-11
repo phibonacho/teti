@@ -1,6 +1,6 @@
 export class Field {
     _name : string;
-    _value : any;
+    _value : () => any;
     _required : boolean;
     _type : FieldType;
     _selector : JQuery;
@@ -11,7 +11,7 @@ export class Field {
         this._validate = validate;
         this._name = this._selector.attr('name');
         this._type = FieldType[this._selector.attr('type')];
-        this._value = this._selector.val();
+        this._value = () => this._selector.val();
         this._required = !!this._selector.attr('required');
     }
 
@@ -29,12 +29,11 @@ export class Field {
                 .split('.')
                 .slice(1)
                 .reverse()
-                .reduce(this.reducer, this._value);
-        return this._value;
+                .reduce(this.reducer, this._value());
+        return this._value();
     }
 
     setValue(val) {
-        this._value = val;
         this._selector.val(val);
     }
 
@@ -43,7 +42,7 @@ export class Field {
     }
 
     validate() {
-        return !this._required || this._validate.apply(this._value);
+        return !this._required || this._validate(this._value());
     }
 
     protected reducer(acc, curr) {
@@ -61,8 +60,7 @@ export class Field {
     }
 
     clear() {
-        this._selector.val('');
-        this._value = null;
+        this._selector.val(null);
     }
 }
 

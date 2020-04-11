@@ -46,6 +46,7 @@ public class AdministratorRESTController {
     public ResponseEntity<Object> editAdministrator(@PathVariable("id") Long id, @RequestBody Administrator edited) {
         try {
             Administrator source = administratorService.find(id);
+            edited.setId(id);
             BeanUtils.copyProperties(edited, source);
             return new ResponseEntity<>(administratorService.save(source), HttpStatus.CREATED);
 

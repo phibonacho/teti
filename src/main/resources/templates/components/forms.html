@@ -10,33 +10,35 @@
     <form th:fragment="admin-form(prefix, action, method)" action="#" th:action="@{${action}}" th:method="${method}" th:object="${admin}" th:id="${prefix} + '-admin-form'">
         <div class="form-group">
             <div class="form-row">
-                <div class="col-6">
+                <div class="col-md-6">
                     <h6 class="text-primary">Anagrafica</h6>
+                    <div class="form-row">
+                        <div class="col-6">
+                            <label th:for="businessName" class="sr-only">Business Name</label>
+                            <input type="text" th:id="${prefix} + '-businessName'" th:name="businessName" class="form-control mb-2" placeholder="Ragione Sociale">
+                        </div>
+                        <div class="col-6">
+                            <label th:for="fiscalCode" class="sr-only">Fiscal Code</label>
+                            <input type="text" th:id="${prefix} + '-fiscalCode'" th:name="fiscalCode" class="form-control mb-2" placeholder="Codice Fiscale">
+                        </div>
+                    </div>
                 </div>
-                <div class="col-6">
+                <div class="col-md-6">
                     <h6 class="text-primary">Contatti</h6>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-3">
-                    <label th:for="businessName" class="sr-only">Business Name</label>
-                    <input type="text" th:id="${prefix} + '-businessName'" th:name="businessName" class="form-control mb-2" placeholder="Ragione Sociale">
-                </div>
-                <div class="col-3">
-                    <label th:for="fiscalCode" class="sr-only">Fiscal Code</label>
-                    <input type="text" th:id="${prefix} + '-fiscalCode'" th:name="fiscalCode" class="form-control mb-2" placeholder="Codice Fiscale">
-                </div>
-                <div class="col-2">
-                    <label th:for="phone" class="sr-only">Phone</label>
-                    <input type="text" th:id="${prefix} + '-phone'" th:name="phone" class="form-control mb-2" placeholder="Telefono Fisso">
-                </div>
-                <div class="col-2">
-                    <label th:for="fax" class="sr-only">Fax</label>
-                    <input type="text" th:id="${prefix} + '-fax'" th:name="fax" class="form-control mb-2" placeholder="Fax">
-                </div>
-                <div class="col-2">
-                    <label th:for="mobilePhone" class="sr-only">Mobile Phone</label>
-                    <input type="text" th:id="${prefix} + '-mobilePhone'" th:name="mobilePhone" class="form-control mb-2" placeholder="Telefono">
+                    <div class="form-row">
+                        <div class="col-4">
+                            <label th:for="phone" class="sr-only">Phone</label>
+                            <input type="text" th:id="${prefix} + '-phone'" th:name="phone" class="form-control mb-2" placeholder="Telefono Fisso">
+                        </div>
+                        <div class="col-4">
+                            <label th:for="fax" class="sr-only">Fax</label>
+                            <input type="text" th:id="${prefix} + '-fax'" th:name="fax" class="form-control mb-2" placeholder="Fax">
+                        </div>
+                        <div class="col-4">
+                            <label th:for="mobilePhone" class="sr-only">Mobile Phone</label>
+                            <input type="text" th:id="${prefix} + '-mobilePhone'" th:name="mobilePhone" class="form-control mb-2" placeholder="Telefono">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -44,13 +46,6 @@
             <div class="form-row">
                 <div class="col-6">
                     <h6 class="text-primary">Indirizzo</h6>
-                </div>
-                <div class="col-6">
-                    <h6 class="text-primary">Note</h6>
-                </div>
-            </div>
-            <div class="form-row">
-                <div class="col-6">
                     <div class="form-row">
                         <div class="col">
                             <input type="text" th:id="${prefix} + '-address.street'" th:name="address.street" class="form-control mb-2" placeholder="Via">
@@ -69,6 +64,7 @@
                     </div>
                 </div>
                 <div class="col-6 pb-2">
+                    <h6 class="text-primary">Note</h6>
                     <textarea th:id="${prefix} + '-note'" th:name="note" class="form-control mb-2 h-100"></textarea>
                     <label th:for="note" class="sr-only">Note</label>
                 </div>

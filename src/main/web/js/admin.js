@@ -14,42 +14,55 @@ let $edit_admin_form;
 
 let $info_admin_modal;
 let $edit_admin_modal;
-
+let editForm;
 let $adminTable;
 let adminTable;
 $(()=>{
     $add_admin_form = $('#add-admin-form');
     $edit_admin_form = $('#edit-admin-form');
 
-    $info_admin_modal = $('#add-admin-modal');
+    $info_admin_modal = $('#info-modal');
     $edit_admin_modal = $('#edit-admin-modal');
 
     $adminTable = $('#administrators-table');
 
-    init_form($add_admin_form);
-    init_form($edit_admin_form);
+    init_form($add_admin_form, {
+        clearOnSubmitSuccess : true,
+        onSuccess : response => {
+            adminTable.ajax.reload();
+            $info_admin_modal.modal('hide');
+        },
+        onFail : response => {
+            // shows message error
+            $info_admin_modal.modal('hide');
+        }
+    });
+    editForm = init_form($edit_admin_form, {
+        clearOnSubmitSuccess: true,
+        onSuccess : response => {
+            adminTable.ajax.reload();
+            $edit_admin_modal.modal('hide');
+            $info_admin_modal.modal('hide');
+        },
+        onFail : response => {
+
+        }
+    });
     init_admin_table();
 });
 
-function init_form($selector) {
+function init_form($selector, option = {}) {
+    let form = new Form($selector, option);
     $selector.on('submit', function (e) {
-        let $this = $(this);
-        e.preventDefault();
-        let form = new Form($this);
+            e.preventDefault();
 
-        if(form.validate()) {
-            $info_admin_modal.modal('show');
-            form.submit()
-                .done(response => {
-                    form.clear();
-                    adminTable.ajax.reload();
-                    $info_admin_modal.modal('hide');
-                })
-                .fail(response => {
-
-                });
-        }
+            if (form.validate()) {
+                $info_admin_modal.modal('show');
+                form.submit();
+            }
     });
+
+    return form;
 }
 
 function init_admin_table() {
@@ -103,11 +116,9 @@ function init_admin_table() {
             url : `/adm-api/${id}`,
             type : 'GET'
         }).done(response => {
-
             //populate edit form fields:
-            let form = new Form($edit_admin_form);
-            form.setUrl(form.url().replace(":id", id));
-            populateForm(form, response);
+            editForm.setUrl(u => u.replace(':id', id));
+            populateForm(editForm, response);
         });
 
         //show modal

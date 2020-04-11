@@ -31,16 +31,17 @@
         </main>
     </div>
 </div>
-<div th:replace="components/modals :: basic_modal('add-admin-modal', ~{ :: #add-admin-content})">
-    <div id="add-admin-content">
+
+<div th:replace="components/modals :: t_simple_modal('edit-admin-modal', 'modal-lg modal-dialog-centered', #{administrators.edit-administrator}, ~{components/forms :: admin-form('edit', '/adm-api/:id/edit', 'put')})"></div>
+<div th:replace="components/modals :: t_basic_modal('info-modal', 'modal-dialog-centered', ~{ :: info-content})">
+    <th:block th:fragment="info-content" >
         <div class="row justify-content-center">
             <span th:text="#{info.administrator.add}"></span>
         </div>
         <div class="row justify-content-center">
             <i class="fas fa-circle-notch fa-spin"></i>
         </div>
-    </div>
+    </th:block>
 </div>
-<div th:replace="components/modals :: simple_modal('edit-admin-modal', #{administrators.edit-administrator}, ~{components/forms :: admin-form('edit', '/adm-api/:id/edit', 'put')})"></div>
 </body>
 </html>

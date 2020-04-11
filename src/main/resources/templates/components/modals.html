@@ -5,39 +5,33 @@
     <title>Forms Fragment</title>
 </head>
 <body>
-<div class="modal" tabindex="-1" role="dialog" th:fragment="complete_modal(modal_id, modalTitle, modalBody, modalFooter)" th:id="${modal_id}">
-    <div class="modal-dialog" role="document">
+<!-- Complete Parametric Modal -->
+<div class="modal" tabindex="-1" role="dialog"
+     th:fragment="t_complete_modal(modal_id, dialog_classes, modalTitle, modalBody, modalFooter)"
+     th:id="${modal_id}">
+    <div class="modal-dialog" th:classappend="${dialog_classes}" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header" th:if="${!#strings.isEmpty(modalTitle)}">
                 <h5 class="modal-title" th:text="${modalTitle}"></h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
             <div class="modal-body" th:insert="${modalBody}"></div>
-            <div class="modal-footer" th:insert="${modalFooter}"></div>
+            <th:block th:if="${!#strings.isEmpty(modalFooter)}">
+                <div class="modal-footer" th:insert="${modalFooter}"></div>
+            </th:block>
         </div>
     </div>
 </div>
-<div class="modal" tabindex="-1" role="dialog" th:fragment="simple_modal(modal_id, modalTitle, modalBody)" th:id="${modal_id}">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" th:text="${modalTitle}"></h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body" th:insert="${modalBody}"></div>
-        </div>
-    </div>
-</div>
-<div class="modal" tabindex="-1" role="dialog" th:fragment="basic_modal(modal_id, modalBody)" th:id="${modal_id}">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-body" th:insert="${modalBody}"></div>
-        </div>
-    </div>
-</div>
+
+<!-- Modal with header only   -->
+<div th:fragment="t_simple_modal(modal_id, dialog_classes, modalTitle, modalBody)"
+     th:replace="~{ :: t_complete_modal(${modal_id}, ${dialog_classes}, ${modalTitle}, ${modalBody}, '')}"></div>
+
+<!-- Modal with body only -->
+<div th:fragment="t_basic_modal(modal_id, dialog_classes, modalBody)"
+     th:replace="~{ :: t_complete_modal(${modal_id}, ${dialog_classes}, '', ${modalBody}, '')}"></div>
+
 </body>
 </html>

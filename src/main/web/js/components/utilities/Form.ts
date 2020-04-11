@@ -1,27 +1,39 @@
 import {Field} from "./Field";
 
 export class Form {
+    _prefix : string;
     _fields : Field[];
     _selector : JQuery;
     _url : string;
-    _prefix : string;
+    urlFormatter : (url : string) => string = (u) => u;
+    _clearOnSubmit : boolean = false;
+    _success : (response : JQueryXHR) => any = () => {};
+    _fail : (response : JQueryXHR) => any = () => {};
 
-    constructor(selector : JQuery) {
+    constructor(selector : JQuery, option : Object = {}) {
         this._selector = selector;
         this._prefix = this._selector.data('prefix');
         this._url = this._selector.attr('action');
         this._fields = this._selector
             .find(':input:not(:button)')
             .map((i, elem) => new Field($(elem), (a) => true)).toArray();
+
+        // optionals:
+        if(option.hasOwnProperty('url'))
+            this.urlFormatter = option['url'];
+
+        if(option.hasOwnProperty('clearOnSubmitSuccess'))
+            this._clearOnSubmit = option['clearOnSubmitSuccess'];
+
+        if(option.hasOwnProperty('onSuccess'))
+            this._success = option['onSuccess'];
+
+        if(option.hasOwnProperty('onFail'))
+            this._fail = option['onFail'];
     }
 
-    url() {
-        return this._url;
-    }
-
-    setUrl(url) {
-        this._url = url;
-        this._selector.attr('action', url);
+    setUrl(url : (u : string) => string) {
+        this.urlFormatter = url;
     }
 
     protected method() {
@@ -40,11 +52,19 @@ export class Form {
 
 
     submit() {
+        console.log('submitting using method: ' + this.method());
+        console.log('to url: ' + this.urlFormatter(this._url));
         return $.ajax({
-            url : this._url,
+            url : this.urlFormatter(this._url),
             data : JSON.stringify(this.toObject()),
             method : this.method(),
             contentType : 'application/json'
+        }).done(response => {
+            if(this._clearOnSubmit)
+                this.clear();
+            this._success.apply(response);
+        }).fail(response => {
+            this._fail.apply(response)
         });
     }
 
@@ -73,7 +93,8 @@ export class Form {
 
     clear() {
         this._fields.forEach(field => {
-            field.clear();
+            if(field.fullNamePath() !== '_method')
+                field.clear();
         });
     }
 }
