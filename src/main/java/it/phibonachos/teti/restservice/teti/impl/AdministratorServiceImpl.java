@@ -6,6 +6,7 @@ import it.phibonachos.teti.datasource.repository.teti.AdministratorRepository;
 import it.phibonachos.teti.restservice.teti.AdministratorService;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,16 @@ public class AdministratorServiceImpl implements AdministratorService {
 
     public List<Administrator> findAll(){
         return adminRepository.findAll();
+    }
+
+
+    public List<Administrator> findFiltered(Administrator filters) {
+        return adminRepository.findAll(SpecsInterface.havingProperties(filters));
+    }
+
+    @Override
+    public Page<Administrator> findFiltered(Administrator filter, int page, int size) {
+        return adminRepository.findAll(SpecsInterface.havingProperties(filter), PageRequest.of(page, size));
     }
 
     public Administrator save(Administrator administrator) {
@@ -48,10 +59,6 @@ public class AdministratorServiceImpl implements AdministratorService {
         } catch (Exception e) {
             return false;
         }
-    }
-
-    public List<Administrator> findFiltered(Administrator administrator) {
-        return adminRepository.findAll(SpecsInterface.havingProperties(administrator));
     }
 
     @Override

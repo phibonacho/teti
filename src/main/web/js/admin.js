@@ -11,15 +11,18 @@ import {initDataTable} from "./components/dataTables";
 
 let $add_admin_form;
 let $edit_admin_form;
+let $search_admin_form;
 
 let $info_admin_modal;
 let $edit_admin_modal;
 let editForm;
 let $adminTable;
 let adminTable;
+
 $(()=>{
     $add_admin_form = $('#add-admin-form');
     $edit_admin_form = $('#edit-admin-form');
+    $search_admin_form = $('#search-admin-form');
 
     $info_admin_modal = $('#info-modal');
     $edit_admin_modal = $('#edit-admin-modal');
@@ -37,6 +40,7 @@ $(()=>{
             $info_admin_modal.modal('hide');
         }
     });
+
     editForm = init_form($edit_admin_form, {
         clearOnSubmitSuccess: true,
         onSuccess : response => {
@@ -48,7 +52,14 @@ $(()=>{
 
         }
     });
+
     init_admin_table();
+
+    $search_admin_form.on('submit', function(e) {
+        e.preventDefault();
+        adminTable.ajax.reload();
+    });
+
 });
 
 function init_form($selector, option = {}) {
@@ -68,8 +79,10 @@ function init_form($selector, option = {}) {
 function init_admin_table() {
     adminTable = initDataTable($adminTable, {
         "ajax": {
-            "url": "/adm-api/all",
-            "type": "GET"
+            "url": "/adm-api/",
+            "type": "POST",
+            "contentType" : "application/json",
+            "data" : () => JSON.stringify(new Form($search_admin_form).toObject())
         },
         "columns": [
             {
@@ -113,7 +126,7 @@ function init_admin_table() {
 
         // retrieve admin data:
         $.ajax({
-            url : `/adm-api/${id}`,
+            url : `/adm-api/id/${id}`,
             type : 'GET'
         }).done(response => {
             //populate edit form fields:

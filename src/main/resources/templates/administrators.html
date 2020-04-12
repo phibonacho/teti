@@ -6,33 +6,35 @@
 </head>
 <body>
 <nav th:replace="components/bars :: navbar(#{title.manage_admin})"></nav>
-<div class="container-fluid" sec:authorize="isAuthenticated()">
-    <div class="row">
-        <nav th:replace="components/bars :: sidebar('registries', 'admin')"></nav>
-        <main role="main" class="over-sidebar col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5 class="text-primary mb-3" th:text="#{administrators.add-administrator}"></h5>
-                    <form action="#" th:replace="components/forms :: admin-form('add', '/adm-api/save', post)"></form>
-                </div>
-            </div>
-            <div class="card mt-3">
-                <div class="card-body">
-                    <h5 class="text-primary mb-3" th:text="#{administrators.list-administrator}"></h5>
-                    <table th:replace="components/dataTables :: administrators-table"></table>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6">
-                </div>
-                <div class="col-6">
-                </div>
-            </div>
-        </main>
+<nav th:replace="components/bars :: sidebar('registries', 'admin')"></nav>
+<main class="over-sidebar col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="text-primary mb-3" th:text="#{administrators.add-administrator}"></h5>
+            <form action="#" th:replace="components/forms :: admin-form(add, '/adm-api/save', post, #{btn.save})"></form>
+        </div>
     </div>
-</div>
-
-<div th:replace="components/modals :: t_simple_modal('edit-admin-modal', 'modal-lg modal-dialog-centered', #{administrators.edit-administrator}, ~{components/forms :: admin-form('edit', '/adm-api/:id/edit', 'put')})"></div>
+    <div class="card mt-3">
+        <div class="card-body">
+            <div class="d-flex justify-content-start">
+                <h5 class="text-primary mb-3" th:text="#{administrators.list-administrator}"></h5>
+                <a class="py-1 px-2" data-toggle="collapse" href="#admin-filters" role="button">
+                    <i class="fas fa-sliders-h text-primary"></i>
+                </a>
+            </div>
+            <div id="admin-filters" class="collapse">
+                <div class="card">
+                    <div class="card-body">
+                        <h6 class="text-primary mb-2">Filtra Amministratori</h6>
+                        <form action="#" th:replace="components/forms :: admin-form(search, '/adm-api/', post, #{btn.search})"></form>
+                    </div>
+                </div>
+            </div>
+            <table th:replace="components/dataTables :: administrators-table"></table>
+        </div>
+    </div>
+</main>
+<div th:replace="components/modals :: t_simple_modal('edit-admin-modal', 'modal-lg modal-dialog-centered', #{administrators.edit-administrator}, ~{components/forms :: admin-form(edit, '/adm-api/:id/edit', put, #{btn.update})})"></div>
 <div th:replace="components/modals :: t_basic_modal('info-modal', 'modal-dialog-centered', ~{ :: info-content})">
     <th:block th:fragment="info-content" >
         <div class="row justify-content-center">

@@ -22,6 +22,9 @@ public class SpecsInterface {
 
     public static <T> Specification<T> havingProperties(T target) {
         return (Specification<T>) (root, criteriaQuery, criteriaBuilder) -> {
+            if(target == null)
+                return criteriaBuilder.and();
+
             Map<String,String> filters = Arrays.stream(target.getClass().getDeclaredFields())
                     .filter(field -> field.getType().equals(String.class))
                     .map(ThrowingInterface.tryCatch(field -> new PropertyDescriptor(field.getName(), target.getClass())))

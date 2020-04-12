@@ -3,11 +3,13 @@ package it.phibonachos.teti.controller;
 import it.phibonachos.teti.datasource.model.teti.Administrator;
 import it.phibonachos.teti.restservice.teti.AdministratorService;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/adm-api")
@@ -19,17 +21,13 @@ public class AdministratorRESTController {
         this.administratorService = administratorService;
     }
 
-    @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllAdministrator(@RequestBody(required = false) Administrator filters) {
-        if(filters != null) {
-            System.out.println("filtering using : " + filters.getBusinessName());
-            return new ResponseEntity<>(Map.of("recordsTotal", administratorService.count(), "data", administratorService.findFiltered(filters)), HttpStatus.OK);
-        }
-        System.out.println("using default implementation: no specification");
-        return new ResponseEntity<>(Map.of("recordsTotal", administratorService.count(), "data", administratorService.findAll()), HttpStatus.OK);
+    @RequestMapping(value = {"/", "/{page}", "/{page}/{size}"}, method = RequestMethod.POST)
+    public ResponseEntity<Object> getAllAdministrator(@PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "size") Optional<Integer> size, @RequestBody(required = false) Administrator filters) {
+        Page<Administrator> matching = administratorService.findFiltered(filters, page.orElse(0), size.orElse(20));
+        return new ResponseEntity<>(Map.of("recordsTotal", matching.getTotalElements(), "data", matching.getContent()), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "id/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> getAdministrator(@PathVariable("id") Long id) {
         try {
             return new ResponseEntity<>(administratorService.find(id), HttpStatus.OK);

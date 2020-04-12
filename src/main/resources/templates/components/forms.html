@@ -6,8 +6,7 @@
 </head>
 <body>
     <!-- Admin add form -->
-    <!--/*@thymesVar id="admin" type="it.phibonachos.teti.datasource.model.teti.Administrator"*/-->
-    <form th:fragment="admin-form(prefix, action, method)" action="#" th:action="@{${action}}" th:method="${method}" th:object="${admin}" th:id="${prefix} + '-admin-form'">
+    <form th:fragment="admin-form(prefix, action, method, btnCaption)" action="#" th:action="@{${action}}" th:method="${method}" th:id="${prefix} + '-admin-form'">
         <div class="form-group">
             <div class="form-row">
                 <div class="col-md-6">
@@ -65,12 +64,12 @@
                 </div>
                 <div class="col-6 pb-2">
                     <h6 class="text-primary">Note</h6>
-                    <textarea th:id="${prefix} + '-note'" th:name="note" class="form-control mb-2 h-100"></textarea>
+                    <textarea th:id="${prefix} + '-note'" th:name="note" class="form-control" style="height: 83px"></textarea>
                     <label th:for="note" class="sr-only">Note</label>
                 </div>
             </div>
             <div class="form-row justify-content-end mt-4">
-                <button type="submit" class="btn btn-primary px-4 mx-1 text-uppercase" th:text="#{btn.save}"></button>
+                <button type="submit" class="btn btn-primary px-4 mx-1 text-uppercase" th:text="${btnCaption}"></button>
             </div>
         </div>
     </form>
