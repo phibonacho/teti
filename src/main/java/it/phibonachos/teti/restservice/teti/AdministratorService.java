@@ -9,6 +9,8 @@ public interface AdministratorService {
 
     List<Administrator> findAll();
 
+    List<Administrator> findFiltered(Administrator filter);
+
     Administrator save(Administrator administrator);
 
     Administrator find(Long id) throws Exception;

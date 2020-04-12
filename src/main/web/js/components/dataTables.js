@@ -6,7 +6,7 @@ let defOptions = {
     "searching" : false,
     "serverSide": true,
     "ordering": false,
-    "pageLength": 20,
+    "pageLength": 10,
     "pagingType": "simple_numbers",
     "lengthChange": false
 };

@@ -1,9 +1,11 @@
 package it.phibonachos.teti.restservice.teti.impl;
 
 import it.phibonachos.teti.datasource.model.teti.Administrator;
+import it.phibonachos.teti.datasource.repository.specification.SpecsInterface;
 import it.phibonachos.teti.datasource.repository.teti.AdministratorRepository;
 import it.phibonachos.teti.restservice.teti.AdministratorService;
 import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,6 +48,10 @@ public class AdministratorServiceImpl implements AdministratorService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    public List<Administrator> findFiltered(Administrator administrator) {
+        return adminRepository.findAll(SpecsInterface.havingProperties(administrator));
     }
 
     @Override

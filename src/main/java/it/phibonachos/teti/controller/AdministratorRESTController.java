@@ -20,8 +20,12 @@ public class AdministratorRESTController {
     }
 
     @RequestMapping(value = "/all", method = RequestMethod.GET)
-    public ResponseEntity<Object> getAllAdministrator() {
-
+    public ResponseEntity<Object> getAllAdministrator(@RequestBody(required = false) Administrator filters) {
+        if(filters != null) {
+            System.out.println("filtering using : " + filters.getBusinessName());
+            return new ResponseEntity<>(Map.of("recordsTotal", administratorService.count(), "data", administratorService.findFiltered(filters)), HttpStatus.OK);
+        }
+        System.out.println("using default implementation: no specification");
         return new ResponseEntity<>(Map.of("recordsTotal", administratorService.count(), "data", administratorService.findAll()), HttpStatus.OK);
     }
 
@@ -55,6 +59,7 @@ public class AdministratorRESTController {
         }
     }
 
+    // TODO: use response entity.
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE)
     public Administrator deleteAdministrator(@PathVariable("id") Long id) {
         Administrator administrator = null;
