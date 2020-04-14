@@ -19,7 +19,13 @@
         <div id="accordion-menu" class="menu accordion">
             <!--/*@thymesVar id="menuEntries" type="java.util.List<it.phibonachos.teti.pojo.MenuOption>"*/-->
             <th:block th:each="entry : ${menuEntries}">
-                <button th:id="${entry.getName()} + '-btn'" class="option" th:data-target="'#' + ${entry.getName()} + '-menu'" data-toggle="collapse" th:text="#{${entry.getName()}}"></button>
+                <button th:text="#{${entry.getName()}}"
+                        class="option"
+                        th:id="${entry.getName()} + '-btn'"
+                        th:data-target="'#' + ${entry.getName()} + '-menu'" data-toggle="collapse"
+                        th:with="_disabled=${entry.getStatus().displayValue == 'status.development'}"
+                        th:disabled="${_disabled}">
+                </button>
                 <div th:id="${entry.getName()} + '-menu'" class="collapse" th:classappend="${#strings.equals(section, entry.getName())}? 'show'" data-parent="#accordion-menu">
                     <div class="sub-option">
                         <th:block th:each="option : ${entry.getOptions()}">
@@ -37,6 +43,5 @@
         </div>
     </div>
 </nav>
-
 </body>
 </html>

@@ -23,7 +23,7 @@ public class AdministratorRESTController {
 
     @RequestMapping(value = {"/", "/{page}", "/{page}/{size}"}, method = RequestMethod.POST)
     public ResponseEntity<Object> getAllAdministrator(@PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "size") Optional<Integer> size, @RequestBody(required = false) Administrator filters) {
-        Page<Administrator> matching = administratorService.findFiltered(filters, page.orElse(0), size.orElse(20));
+        Page<Administrator> matching = administratorService.findFiltered(filters, page.map(i -> i-1).orElse(0), size.orElse(10));
         return new ResponseEntity<>(Map.of("recordsTotal", matching.getTotalElements(), "data", matching.getContent()), HttpStatus.OK);
     }
 

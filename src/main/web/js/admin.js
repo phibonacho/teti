@@ -93,7 +93,7 @@ function init_admin_table() {
             },
             {
                 "data" : "address",
-                "render" : data => [data.street, data.streetNumber, data.zipCode].filter(item => !!item).join(", ")
+                "render" : data => [data.street, data.streetNumber, data.zipCode, data.city].filter(item => !!item).join(", ")
             },
             {
               "data" : "phone",
@@ -101,8 +101,11 @@ function init_admin_table() {
             },
             {
                 "data" : "id",
-                "render" : data => `<button class="btn btn-ed text-uppercase remove-administrator" data-id="${data}">delete</button>
-                                    <button class="btn btn-red text-uppercase edit-administrator" data-id="${data}">edit</button>`
+                "render" : data => `<div class="row justify-content-around">
+                                        <a class="py-1 px-2 remove-administrator" href="#" data-id="${data}"><i class="fas fa-trash-alt text-ed"></i></a>
+                                        <a class="py-1 px-2 edit-administrator" href="#" data-id="${data}"><i class="fas fa-pen text-primary"></i></a>
+                                        <a class="py-1 px-2" href="/registries/administrators/detail/${data}"><i class="fas fa-portrait text-dark"></i></a>
+                                    </div>`
             }
         ]
     });

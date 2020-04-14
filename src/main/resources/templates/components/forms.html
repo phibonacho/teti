@@ -14,11 +14,11 @@
                     <div class="form-row">
                         <div class="col-6">
                             <label th:for="businessName" class="sr-only">Business Name</label>
-                            <input type="text" th:id="${prefix} + '-businessName'" th:name="businessName" class="form-control mb-2" placeholder="Ragione Sociale">
+                            <input type="text" th:id="${prefix} + '-businessName'" th:name="businessName" class="form-control mb-2" th:placeholder="#{administrator.businessName}">
                         </div>
                         <div class="col-6">
                             <label th:for="fiscalCode" class="sr-only">Fiscal Code</label>
-                            <input type="text" th:id="${prefix} + '-fiscalCode'" th:name="fiscalCode" class="form-control mb-2" placeholder="Codice Fiscale">
+                            <input type="text" th:id="${prefix} + '-fiscalCode'" th:name="fiscalCode" class="form-control mb-2" th:placeholder="#{administrator.fiscalCode}">
                         </div>
                     </div>
                 </div>
@@ -27,15 +27,15 @@
                     <div class="form-row">
                         <div class="col-4">
                             <label th:for="phone" class="sr-only">Phone</label>
-                            <input type="text" th:id="${prefix} + '-phone'" th:name="phone" class="form-control mb-2" placeholder="Telefono Fisso">
+                            <input type="text" th:id="${prefix} + '-phone'" th:name="phone" class="form-control mb-2" th:placeholder="#{administrator.landphone}">
                         </div>
                         <div class="col-4">
                             <label th:for="fax" class="sr-only">Fax</label>
-                            <input type="text" th:id="${prefix} + '-fax'" th:name="fax" class="form-control mb-2" placeholder="Fax">
+                            <input type="text" th:id="${prefix} + '-fax'" th:name="fax" class="form-control mb-2" th:placeholder="#{administrator.fax}">
                         </div>
                         <div class="col-4">
                             <label th:for="mobilePhone" class="sr-only">Mobile Phone</label>
-                            <input type="text" th:id="${prefix} + '-mobilePhone'" th:name="mobilePhone" class="form-control mb-2" placeholder="Telefono">
+                            <input type="text" th:id="${prefix} + '-mobilePhone'" th:name="mobilePhone" class="form-control mb-2" th:placeholder="#{administrator.mobilePhone}">
                         </div>
                     </div>
                 </div>
@@ -44,21 +44,25 @@
         <div class="form-group">
             <div class="form-row">
                 <div class="col-6">
-                    <h6 class="text-primary">Indirizzo</h6>
+                    <h6 class="text-primary" th:text="#{administrators.address}"></h6>
                     <div class="form-row">
                         <div class="col">
-                            <input type="text" th:id="${prefix} + '-address.street'" th:name="address.street" class="form-control mb-2" placeholder="Via">
+                            <input type="text" th:id="${prefix} + '-address.street'" th:name="address.street" class="form-control mb-2" th:placeholder="#{address.street}">
                             <label th:for="address.street" class="sr-only">Street</label>
                         </div>
                     </div>
                     <div class="form-row">
-                        <div class="col-6">
-                            <input type="text" th:id="${prefix} + '-address.streetNumber'" th:name="address.streetNumber" class="form-control mb-2" placeholder="Civico">
+                        <div class="col-4">
+                            <input type="text" th:id="${prefix} + '-address.streetNumber'" th:name="address.streetNumber" class="form-control mb-2" th:placeholder="#{address.streetNumber}">
                             <label th:for="address.streetNumber" class="sr-only">StreetNumber</label>
                         </div>
-                        <div class="col-6">
-                            <input type="text" th:id="${prefix} + '-address.zipCode'" th:name="address.zipCode" class="form-control mb-2" placeholder="CAP">
-                            <label th:for="address.zipCode" class="sr-only">Zip Phone</label>
+                        <div class="col-4">
+                            <input type="text" th:id="${prefix} + '-address.zipCode'" th:name="address.zipCode" class="form-control mb-2" th:placeholder="#{address.zipCode}">
+                            <label th:for="address.zipCode" class="sr-only">Zip Code</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" th:id="${prefix} + '-address.city'" th:name="address.city" class="form-control mb-2" th:placeholder="#{address.city}">
+                            <label th:for="address.zipCode" class="sr-only">City</label>
                         </div>
                     </div>
                 </div>

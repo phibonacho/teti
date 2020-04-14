@@ -11,7 +11,7 @@ $teal: #2db49c;
 $purple-light: #3b3d95;
 $purple: #140f3a;
 $blue: #007BFF;
-
+$darker-blue: #003874;
 $theme-colors : (
         "otr" : $purple-light,
         "lc" : $purple,
@@ -25,8 +25,13 @@ $theme-colors : (
 
 $primary : $blue;
 $secondary: $teal;
-$bar-width: 20rem;
-$border-radius:     .1rem;
-$border-radius-lg:     .1rem;
+$bar-width:             20rem;
+$border-radius:         .1rem;
+$border-radius-lg:      .1rem;
+/*$modal-fade-transform:  scale(.4);
+$modal-show-transform:  scale(.8);*/
+$modal-backdrop-bg:     $darker-blue;
+$modal-backdrop-opacity:.7;
+
 @import "~bootstrap/scss/variables";
 @import "typography";

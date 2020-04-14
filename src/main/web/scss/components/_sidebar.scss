@@ -3,9 +3,11 @@
 @import "~bootstrap/scss/mixins/gradients";
 @import "../base/variables";
 
+@import "~bootstrap/scss/tooltip";
+
 .sidebar {
   $enable-gradients: true;
-  @include gradient-y($secondary, $primary);
+  background: $primary;
   $enable-gradients: false;
   @include media-breakpoint-up(md) {
     width: $bar-width;
@@ -49,9 +51,24 @@
       border-left: 3px solid transparent;
       background-color: transparent;
       text-decoration: none;
-      &:hover {
-        background-color: transparentize($secondary, .8);
-        border-left: 3px solid $primary;
+      &:hover:not(:disabled) {
+        background-color: transparentize($secondary, .6);
+        border-left: 3px solid $yellow;
+      }
+      &:disabled {
+        background: transparentize($dark, .7);
+        color: $dark;
+        &::after {
+          content: "wip";
+          font-weight: 100;
+          padding: .2rem .5rem;
+          font-size: 0.6rem;
+          text-transform: uppercase;
+          color: white;
+          background: $secondary;
+          margin: 0 1rem;
+          border-radius: 1rem;
+        }
       }
       &.collapsed {
       }

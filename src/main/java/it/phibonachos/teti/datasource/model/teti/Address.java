@@ -16,6 +16,9 @@ public class Address {
     @Column(name = "ZipCode")
     private String zipCode;
 
+    @Column(name = "City")
+    private String city;
+
     public long getId() {
         return id;
     }
@@ -46,5 +49,13 @@ public class Address {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public void setCity(String city) {
+        this.city = city;
     }
 }

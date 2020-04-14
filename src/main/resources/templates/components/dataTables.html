@@ -5,13 +5,13 @@
     <title>Tables Fragment</title>
 </head>
 <body>
-<table id="administrators-table" class="table table-bordered table-striped w-100 mt-2" th:fragment="administrators-table">
+<table id="administrators-table" class="table w-100 mt-2" th:fragment="administrators-table">
     <thead class="thead-primary">
     <tr>
         <th>ID</th>
-        <th th:text="#{administrators.table.businessName}"></th>
-        <th th:text="#{administrators.table.address}"></th>
-        <th th:text="#{administrators.table.phone}"></th>
+        <th th:text="#{administrator.businessName}"></th>
+        <th th:text="#{administrators.address}"></th>
+        <th th:text="#{administrator.landphone}"></th>
         <th></th>
     </tr>
     </thead>
