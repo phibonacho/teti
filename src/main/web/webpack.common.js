@@ -9,7 +9,8 @@ module.exports = {
     entry : {
         index : './js/index.js',
         login : './js/login.js',
-        admin : './js/admin.js'
+        admin : './js/admin.js',
+        admin_detail : './js/admin_detail.js'
     },
     output: {
         path: path.resolve(__dirname, '../resources/static'),

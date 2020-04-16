@@ -104,7 +104,7 @@ function init_admin_table() {
                 "render" : data => `<div class="row justify-content-around">
                                         <a class="py-1 px-2 remove-administrator" href="#" data-id="${data}"><i class="fas fa-trash-alt text-ed"></i></a>
                                         <a class="py-1 px-2 edit-administrator" href="#" data-id="${data}"><i class="fas fa-pen text-primary"></i></a>
-                                        <a class="py-1 px-2" href="/registries/administrators/detail/${data}"><i class="fas fa-portrait text-dark"></i></a>
+                                        <a class="py-1 px-2" href="/registries/administrators/${data}/detail"><i class="fas fa-portrait text-dark"></i></a>
                                     </div>`
             }
         ]
