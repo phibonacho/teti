@@ -120,7 +120,7 @@ module.exports = {
             Scrollspy: "exports-loader?Scrollspy!bootstrap/js/diost/scrollspy",
             Tab: "exports-loader?Tab!bootstrap/js/dist/tab",
             Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
-            // common: "common"
+            Util: "exports-loader?Tooltip!bootstrap/js/dist/util",
         }),
         new MiniCssExtractPlugin({
             filename : 'css/[name].css'
@@ -141,13 +141,13 @@ module.exports = {
                     test: /\.js$/,
                     name: "common",
                     chunks: "all",
-                    minChunks: 3,
+                    minChunks: 2,
                 },
                 css: {
                     test: /\.s?css$/,
                     name: "common",
                     chunks: "all",
-                    minChunks: 3,
+                    minChunks: 2,
                 },
             }
         }
