@@ -54,7 +54,6 @@
   },
   "dependencies": {
     "@types/jquery": "^3.3.34",
-    "datatables.net-bs4": "^1.10.20",
     "webpack-merge": "^4.2.2"
   }
 }
