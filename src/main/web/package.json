@@ -24,7 +24,7 @@
     "autoprefixer": "^9.5.1",
     "babel-loader": "^8.0.2",
     "babel-polyfill": "^6.26.0",
-    "bootstrap": "4.4.1",
+    "bootstrap": "^4.4.1",
     "bootstrap-table": "1.16.0",
     "canvas": "^2.3.1",
     "clean-webpack-plugin": "^2.0.1",
