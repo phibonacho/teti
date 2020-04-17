@@ -1,6 +1,6 @@
 {
   "name": "teti",
-  "version": "0.0.1-ultra-alpha",
+  "version": "0.0.1-alpha",
   "description": "Water Meters Management frontend",
   "scripts": {
     "build": "webpack --config webpack.devs.js",
