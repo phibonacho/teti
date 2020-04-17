@@ -11,5 +11,7 @@ let defOptions = {
 };
 
 export function initDataTable(selector, opt) {
-    return $(selector).DataTable($.extend(defOptions, opt));
+    let params = $.extend(defOptions, opt);
+    let $selector = $(selector);
+    return $selector.DataTable(params);
 }
