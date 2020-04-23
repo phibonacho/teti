@@ -3,6 +3,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
+const {VueLoaderPlugin} = require("vue-loader");
 
 module.exports = {
     context: path.resolve(__dirname, '.'),
@@ -18,8 +19,10 @@ module.exports = {
         filename: "js/[name].js"
     },
     resolve: {
-        // Add `.ts` and `.tsx` as a resolvable extension.
-        extensions: [".ts", ".tsx", ".js"]
+        extensions: [".ts", ".tsx", ".js", ".vue"],
+        alias: {
+            vue: 'vue/dist/vue.js'
+        }
     },
     module: {
         rules: [
@@ -100,13 +103,19 @@ module.exports = {
                     }
                 }
             },
+            { // VUE-LOADER: new rule in module section for VUE module
+                test: /\.vue$/,
+                loader: 'vue-loader'
+            }
         ]
     },
     plugins: [
         new CleanWebpackPlugin(),
+        new VueLoaderPlugin(),
         new webpack.ProvidePlugin({
             $: 'jquery',
             jQuery: 'jquery',
+            Vue : 'vue',
             'window.jQuery': 'jquery',
             Popper: ['popper.js', 'default'],
             // In case you imported plugins individually, you must also require them here:
