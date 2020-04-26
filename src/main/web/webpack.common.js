@@ -137,8 +137,12 @@ module.exports = {
         }),
         new CopyWebpackPlugin([
             {
-                from: 'fonts',
-                to: 'fonts',
+                from: 'img',
+                to: 'img',
+            },
+            {
+                from : 'img/teti_favicon.png',
+                to : 'favicon.ico'
             }
         ]),
     ],

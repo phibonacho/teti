@@ -4,44 +4,60 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.web.authentication.www.BasicAuthenticationEntryPoint;
 
 import javax.sql.DataSource;
 
-@Configuration
 @EnableWebSecurity
-public class TetiSecurityConfig extends WebSecurityConfigurerAdapter {
-
+public class TetiSecurityConfig {
 
     public TetiSecurityConfig(DataSource dataSource) {
         this.dataSource = dataSource;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception {
-        http
-            .authorizeRequests()
-            .antMatchers("/register", "/signup", "/css/*", "/js/*").permitAll()
-            .anyRequest().authenticated()
-            .and()
-            .formLogin()
-            .loginPage("/login")
-            .permitAll()
-            .and()
-            .logout()
-            .logoutUrl("/exit")
-            .logoutSuccessUrl("/login")
-            .invalidateHttpSession(true)
-            .deleteCookies("SESSION")
-            .permitAll()
-            .and()
-            .csrf().disable();
+    @Configuration
+    @Order(1)
+    public static class FormLoginConfiguration extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http
+                .csrf().disable()
+                .authorizeRequests()
+                .antMatchers("/register", "/signup", "/css/*", "/js/*").permitAll()
+                .anyRequest().authenticated()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .permitAll()
+                .and()
+                .logout()
+                .logoutUrl("/exit")
+                .logoutSuccessUrl("/login")
+                .invalidateHttpSession(true)
+                .deleteCookies("SESSION")
+                .permitAll()
+                .and()
+                .httpBasic();
+        }
     }
+
+/*    @Configuration
+    @Order(1)
+    public static class APIConfiguration extends WebSecurityConfigurerAdapter {
+        @Override
+        protected void configure(HttpSecurity http) throws Exception {
+            http.antMatcher("*-api/**").authorizeRequests().anyRequest().authenticated().and().httpBasic();
+        }
+    }*/
 
     @Bean("passwordEncoder")
     public PasswordEncoder passwordEncoder() {

@@ -6,6 +6,6 @@
     Vue.use(CollapsePlugin);
 
     export default {
-
+        name : 'side-bar'
     }
 </script>

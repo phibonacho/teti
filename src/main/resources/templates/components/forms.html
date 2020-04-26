@@ -78,5 +78,76 @@
         </div>
     </form>
     <!-- IS add form -->
+    <form th:fragment="admin-form-vue(prefix, action, method, btnCaption, submitAction, resetAction)" th:@submit="${submitAction}" th:id="${prefix} + '-admin-form'">
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <h6 class="text-primary">Anagrafica</h6>
+                    <div class="form-row">
+                        <div class="col-6">
+                            <label th:for="businessName" class="sr-only">Business Name</label>
+                            <input type="text" th:id="${prefix} + '-businessName'" th:v-model="search.businessName" class="form-control mb-2" th:placeholder="#{administrator.businessName}">
+                        </div>
+                        <div class="col-6">
+                            <label th:for="fiscalCode" class="sr-only">Fiscal Code</label>
+                            <input type="text" th:id="${prefix} + '-fiscalCode'" th:v-model="search.fiscalCode" class="form-control mb-2" th:placeholder="#{administrator.fiscalCode}">
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <h6 class="text-primary">Contatti</h6>
+                    <div class="form-row">
+                        <div class="col-4">
+                            <label th:for="phone" class="sr-only">Phone</label>
+                            <input type="text" th:id="${prefix} + '-phone'" th:v-model="search.phone" class="form-control mb-2" th:placeholder="#{administrator.landphone}">
+                        </div>
+                        <div class="col-4">
+                            <label th:for="fax" class="sr-only">Fax</label>
+                            <input type="text" th:id="${prefix} + '-fax'" th:v-model="search.fax" class="form-control mb-2" th:placeholder="#{administrator.fax}">
+                        </div>
+                        <div class="col-4">
+                            <label th:for="mobilePhone" class="sr-only">Mobile Phone</label>
+                            <input type="text" th:id="${prefix} + '-mobilePhone'" th:v-model="search.mobilePhone" class="form-control mb-2" th:placeholder="#{administrator.mobilePhone}">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-6">
+                    <h6 class="text-primary" th:text="#{administrators.address}"></h6>
+                    <div class="form-row">
+                        <div class="col">
+                            <input type="text" th:id="${prefix} + '-address.street'" th:v-model="search.address.street" class="form-control mb-2" th:placeholder="#{address.street}">
+                            <label th:for="address.street" class="sr-only">Street</label>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-4">
+                            <input type="text" th:id="${prefix} + '-address.streetNumber'" th:v-model="search.address.streetNumber" class="form-control mb-2" th:placeholder="#{address.streetNumber}">
+                            <label th:for="address.streetNumber" class="sr-only">StreetNumber</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" th:id="${prefix} + '-address.zipCode'" th:v-model="search.address.zipCode" class="form-control mb-2" th:placeholder="#{address.zipCode}">
+                            <label th:for="address.zipCode" class="sr-only">Zip Code</label>
+                        </div>
+                        <div class="col-4">
+                            <input type="text" th:id="${prefix} + '-address.city'" th:v-model="search.address.city" class="form-control mb-2" th:placeholder="#{address.city}">
+                            <label th:for="address.zipCode" class="sr-only">City</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6 pb-2">
+                    <h6 class="text-primary">Note</h6>
+                    <textarea th:id="${prefix} + '-note'" th:v-model="search.note" class="form-control" style="height: 83px"></textarea>
+                    <label th:for="note" class="sr-only">Note</label>
+                </div>
+            </div>
+            <div class="form-row justify-content-end mt-4">
+                <button type="submit" class="btn btn-primary px-4 mx-1 text-uppercase" th:text="${btnCaption}"></button>
+            </div>
+        </div>
+    </form>
 </body>
 </html>
