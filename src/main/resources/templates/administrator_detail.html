@@ -98,21 +98,35 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-8 col-lg-9">
+                <b-overlay :show="saveOverlay"
+                           variant="transparent"
+                           blur="1rem"
+                           spinner-variant="primary">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                                <form th:replace="components/forms :: admin-form-vue(save, 'save', post, #{btn.save}, 'saveData', 'resetSearch')"></form>
+                        </div>
+                    </div>
+                </b-overlay>
+            </div>
         </div>
         <div class="card mt-3">
             <div class="card-body">
                 <div class="d-flex justify-content-start">
                     <h5 class="text-primary mb-3" th:text="#{administrators.list-administrator}"></h5>
-                    <a class="py-1 px-2" data-toggle="collapse" href="#admin-filters" role="button">
+                    <a class="py-1 px-2"  href="#" v-b-toggle.admin-filters role="button">
                         <i class="fas fa-sliders-h text-primary"></i>
                     </a>
                 </div>
-                <div class="card">
-                    <div class="card-body">
-                        <h6 class="text-primary mb-2">Filtra Amministratori</h6>
-                        <form th:replace="components/forms :: admin-form-vue(search, '/adm-api/', post, #{btn.search}, 'reloadData', 'resetSearch')"></form>
+                <b-collapse id="admin-filters">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="text-primary mb-2">Filtra Amministratori</h6>
+                            <form th:replace="components/forms :: admin-form-vue(search, 'search', post, #{btn.search}, 'reloadData', 'resetSearch')"></form>
+                        </div>
                     </div>
-                </div>
+                </b-collapse>
                 <async-table fetch-path="/adm-api"></async-table>
             </div>
         </div>
