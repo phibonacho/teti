@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
 <head>
     <link rel="shortcut icon" href="/favicon.ico" />
     <title th:text="'Teti | ' + #{title.admin.detail}"></title>
@@ -127,10 +127,33 @@
                         </div>
                     </div>
                 </b-collapse>
-                <async-table fetch-path="/adm-api"></async-table>
+                <b-table hover
+                         :items="provider"
+                         :fields="fields"
+                         :current-page="1"
+                         :per-page="10"
+                         :api-url="adm_url"
+                         id="adm-table">
+                    <template v-slot:cell(id)="data">
+                        <div class="row justify-content-around">
+                            <a class="py-1 px-2 remove-administrator" href="#" @click="deleteData(data.value)"><i class="fas fa-trash-alt text-ed"></i></a>
+                            <a class="py-1 px-2 edit-administrator" href="#" @click="editModal(data.value)"><i class="fas fa-pen text-primary"></i></a>
+                            <a class="py-1 px-2" :href="'/registries/administrators/' + data.value + '/detail'"><i class="fas fa-portrait text-dark"></i></a>
+                        </div>
+                    </template>
+                    <template v-slot:table-busy>
+                        <div class="text-center text-primary my-2">
+                            <b-spinner class="align-middle"></b-spinner>
+                            <strong>Loading...</strong>
+                        </div>
+                    </template>
+                </b-table>
             </div>
         </div>
     </main>
+    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{administrators.edit-administrator}">
+        <form action="#" th:replace="components/forms :: admin-form-vue(edit, 'edit', put, #{btn.update}, 'editData', 'resetEdit')"></form>
+    </b-modal>
 </div>
 <script th:src="@{/js/admin_detail.js}"></script>
 </body>

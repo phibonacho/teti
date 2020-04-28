@@ -1,6 +1,6 @@
 @import "base/variables";
 @import "~bootstrap/scss/bootstrap";
-
+@import "~bootstrap-vue/src/components/modal/modal";
 .info-wrapper {
   @extend .text-muted;
   @extend .border-bottom;

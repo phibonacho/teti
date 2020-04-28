@@ -27,7 +27,7 @@ public class AdministratorRESTController {
         return new ResponseEntity<>(Map.of("recordsTotal", matching.getTotalElements(), "data", matching.getContent()), HttpStatus.OK);
     }
 
-    @RequestMapping(value = "id/{id}", method = RequestMethod.GET)
+    @RequestMapping(value = "/id/{id}", method = RequestMethod.GET)
     public ResponseEntity<Object> getAdministrator(@PathVariable("id") Long id) {
         try {
             return new ResponseEntity<>(administratorService.find(id), HttpStatus.OK);
@@ -44,7 +44,7 @@ public class AdministratorRESTController {
         return new ResponseEntity<>("cannot pass empty object", HttpStatus.BAD_REQUEST);
     }
 
-    @RequestMapping(value = "{id}/edit", method = RequestMethod.PUT)
+    @RequestMapping(value = "/{id}/edit", method = RequestMethod.PUT)
     public ResponseEntity<Object> editAdministrator(@PathVariable("id") Long id, @RequestBody Administrator edited) {
         try {
             Administrator source = administratorService.find(id);
