@@ -1,10 +1,10 @@
 @import "~bootstrap/scss/functions";
 @import "~bootstrap/scss/mixins";
-@import "~bootstrap/scss/mixins/gradients";
 @import "../base/variables";
+@import "~bootstrap-vue/src/variables";
+@import "~bootstrap-vue/src/components/sidebar/sidebar";
 
-@import "~bootstrap/scss/tooltip";
-
+/*
 .sidebar {
   $enable-gradients: true;
   background: $primary;
@@ -38,67 +38,72 @@
     z-index: 1;
   }
 
-  .menu {
-    .option {
-      text-align: left;
-      color: $white;
-      width: 100%;
-      display: inline-block;
-      font-weight: 400;
-      outline: none;
-      padding: .5rem .75rem;
-      border: 1px solid transparent;
-      border-left: 3px solid transparent;
-      background-color: transparent;
-      text-decoration: none;
-      &:hover:not(:disabled) {
-        background-color: transparentize($secondary, .6);
-        border-left: 3px solid $yellow;
-      }
-      &:disabled {
-        background: transparentize($dark, .7);
-        color: $dark;
-        &::after {
-          content: "wip";
-          font-weight: 100;
-          padding: .2rem .5rem;
-          font-size: 0.6rem;
-          text-transform: uppercase;
-          color: white;
-          background: $secondary;
-          margin: 0 1rem;
-          border-radius: 1rem;
-        }
-      }
-      &.collapsed {
-      }
-      animation: ease-in;
-    }
-    .sub-option {
-      display: flex;
-      flex-direction: column;
-      color: $white;
-      background-color: transparentize($black, .8);
-      border: none;
-      width: 100%;
-      &-item {
-        padding: 0.75rem 2rem;
-        &:hover {
-          background-color: transparentize($black, .8);
-        }
-      }
-      a {
-        color: $white;
-        text-decoration: none;
-      }
-    }
-    .list-group {
-      color: $white;
-      margin-left: 1rem;
-    }
-  }
-
   & + * {
     margin-left: $bar-width !important;
+  }
+}
+*/
+
+.b-sidebar-backdrop {
+  background-color: $primary;
+}
+
+.menu {
+  .option {
+    text-align: left;
+    color: $white;
+    width: 100%;
+    display: inline-block;
+    font-weight: 400;
+    outline: none;
+    padding: .5rem .75rem;
+    border: 1px solid transparent;
+    border-left: 3px solid transparent;
+    background-color: transparent;
+    text-decoration: none;
+    &:hover:not(:disabled) {
+      background-color: transparentize($secondary, .6);
+      border-left: 3px solid $yellow;
+    }
+    &:disabled {
+      background: transparentize($dark, .7);
+      color: $dark;
+      &::after {
+        content: "wip";
+        font-weight: 100;
+        padding: .2rem .5rem;
+        font-size: 0.6rem;
+        text-transform: uppercase;
+        color: white;
+        background: $secondary;
+        margin: 0 1rem;
+        border-radius: 1rem;
+      }
+    }
+    &.collapsed {
+    }
+    animation: ease-in;
+  }
+  .sub-option {
+    display: flex;
+    flex-direction: column;
+    color: $white;
+    background-color: transparentize($black, .8);
+    border: none;
+    width: 100%;
+    &-item {
+      padding: 0.75rem 2rem;
+      &:hover {
+        background-color: transparentize($black, .8);
+      }
+    }
+    a {
+      color: $white;
+      text-decoration: none;
+    }
+  }
+  .list-group {
+    color: $white;
+    margin-left: 1rem;
   }
 }

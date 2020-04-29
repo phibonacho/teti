@@ -10,7 +10,8 @@ $green: #2f9a41;
 $teal: #2db49c;
 $purple-light: #3b3d95;
 $purple: #140f3a;
-$blue: #007BFF;
+$blue: #3A53A4;
+$boh : #82C0D4;
 $darker-blue: #003874;
 $theme-colors : (
         "otr" : $purple-light,
@@ -20,17 +21,19 @@ $theme-colors : (
         "hh" : $yellow,
         "primary" : $blue,
         "secondary" : $teal,
-        "green" : $green
+        "green" : $green,
+        "blue" : $blue,
+        "boh" : $boh
 );
 
 $primary : $blue;
-$secondary: $teal;
+$secondary: $boh;
 $bar-width:             20rem;
 $border-radius:         .1rem;
 $border-radius-lg:      .1rem;
 /*$modal-fade-transform:  scale(.4);
 $modal-show-transform:  scale(.8);*/
-$modal-backdrop-bg:     $darker-blue;
+$modal-backdrop-bg:     $primary;
 $modal-backdrop-opacity:.7;
 
 @import "~bootstrap/scss/variables";

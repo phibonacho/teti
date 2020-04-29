@@ -2,7 +2,8 @@
 import "../scss/admin_detail.scss";
 
 // JS
-import "./components/fontawesome"
+import "./components/fontawesome";
+import "./components/navbar";
 
 // VUE
 import "./vue/side-bar";
@@ -100,7 +101,7 @@ new Vue({
         },
         editData (event) {
             event.preventDefault();
-            let promise = axios.post(`/adm-api/${this.edit.id}`, this.edit)
+            let promise = axios.put(`/adm-api/${this.edit.id}/edit`, this.edit)
             promise.then(response => {
                 // clean form...
                 this.$root.$emit('bv::refresh::table', 'adm-table');
@@ -140,29 +141,14 @@ new Vue({
             let promise = axios.get(`/adm-api/id/${id}`);
             promise.then(response => {
                 // load data and show modal
-                this.edit = response;
-                console.log('showing modal: ');
+                console.log(response.data);
+                this.edit = response.data;
                 this.$root.$emit('bv::show::modal', 'edit-modal');
             }).catch(response => {
                 // show error message
             }).then(response => {
 
             })
-
         },
-        execute() {
-            let promise = axios.delete(`/adm-api/${this.processing.target}/delete`);
-            promise.then(response => {
-                console.log("done!");
-            }).catch(response => {
-                console.log(response);
-            }).then(response => {
-                this.dismiss();
-            });
-        },
-        dismiss() {
-            this.processing.target = undefined;
-            this.processing.status = false;
-        }
     }
 });

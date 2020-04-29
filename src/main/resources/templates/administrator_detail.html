@@ -4,13 +4,12 @@
     <title th:text="'Teti | ' + #{title.admin.detail}"></title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/admin_detail.css}">
-    <script th:src="@{/js/common.js}"></script>
 </head>
 <body>
 <div id="app">
-    <nav th:replace="components/bars :: navbar(#{title.admin.detail} + ' ' + ${admin.id})"></nav>
+    <nav th:replace="components/bars :: navbar_vue(#{title.admin.detail} + ' ' + ${admin.id})"></nav>
     <nav th:replace="components/bars :: vue_sidebar('registries', 'admin')"></nav>
-    <main class="over-sidebar col-md-9 col-lg-10 pt-3 px-4">
+    <main class="mx-auto col-md-9 col-lg-10 pt-3 px-4">
         <div class="row">
             <div class="col-md-4 col-lg-3">
                 <div class="card mt-3">
@@ -155,6 +154,7 @@
         <form action="#" th:replace="components/forms :: admin-form-vue(edit, 'edit', put, #{btn.update}, 'editData', 'resetEdit')"></form>
     </b-modal>
 </div>
+<script th:src="@{/js/common.js}"></script>
 <script th:src="@{/js/admin_detail.js}"></script>
 </body>
 </html>

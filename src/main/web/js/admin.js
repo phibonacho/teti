@@ -2,165 +2,153 @@
 import "../scss/admin.scss";
 
 // JS
-import "bootstrap/js/dist/modal";
 import "./components/fontawesome";
 import "./components/navbar";
-import "./components/sidebar";
-import {Form} from "./components/utilities/Form";
-import {initDataTable} from "./components/dataTables";
 
-let $add_admin_form;
-let $edit_admin_form;
-let $search_admin_form;
+// VUE
+import "./vue/side-bar";
+import Vue from "vue";
+import axios from 'axios';
+import {FormPlugin, FormInputPlugin, OverlayPlugin, ModalPlugin, TablePlugin, SpinnerPlugin} from "bootstrap-vue";
 
-let $info_admin_modal;
-let $edit_admin_modal;
-let editForm;
-let $adminTable;
-let adminTable;
+Vue.use(FormPlugin);
+Vue.use(FormInputPlugin);
+Vue.use(OverlayPlugin);
+Vue.use(ModalPlugin);
+Vue.use(TablePlugin);
+Vue.use(SpinnerPlugin);
+Vue.use(OverlayPlugin);
 
-$(()=>{
-    $add_admin_form = $('#add-admin-form');
-    $edit_admin_form = $('#edit-admin-form');
-    $search_admin_form = $('#search-admin-form');
+let emptyAdmin =  {
+    businessName : '',
+    fiscalCode : '',
+    phone : '',
+    mobilePhone : '',
+    fax : '',
+    note : '',
+    address : {
+        street : '',
+        streetNumber : '',
+        zipCode : '',
+        city : ''
+    }
+}
 
-    $info_admin_modal = $('#info-modal');
-    $edit_admin_modal = $('#edit-admin-modal');
-
-    $adminTable = $('#administrators-table');
-
-    init_form($add_admin_form, {
-        clearOnSubmitSuccess : true,
-        onSuccess : response => {
-            adminTable.ajax.reload();
-            $info_admin_modal.modal('hide');
+new Vue({
+    el : '#app',
+    data : {
+        adm_url : '/adm-api',
+        search : {
+            businessName : '',
+            fiscalCode : '',
+            phone : '',
+            mobilePhone : '',
+            fax : '',
+            note : '',
+            address : {
+                street : '',
+                streetNumber : '',
+                zipCode : '',
+                city : ''
+            }
         },
-        onFail : response => {
-            // shows message error
-            $info_admin_modal.modal('hide');
-        }
-    });
-
-    editForm = init_form($edit_admin_form, {
-        clearOnSubmitSuccess: true,
-        onSuccess : response => {
-            adminTable.ajax.reload();
-            $edit_admin_modal.modal('hide');
-            $info_admin_modal.modal('hide');
+        saveOverlay: false,
+        save : emptyAdmin,
+        edit : emptyAdmin,
+        fields: [
+            {
+                key: 'businessName',
+                label: 'Ragione Sociale'
+            },
+            {
+                key: 'contacts',
+                label: 'Contatti',
+                formatter : (value, key, item) => [item.phone, item.mobilePhone, item.fax]
+                    .filter(elem => !!elem)
+                    .join(" - ")
+            },
+            {
+                key: 'address',
+                label: 'Indirizzo',
+                formatter : (value) => [value.street, value.streetNumber, value.zipCode, value.city]
+                    .filter(elem => !!elem)
+                    .join(', ')
+            },
+            {
+                key : 'id',
+                label : ''
+            }
+        ],
+        isBusy: true,
+        items : [],
+    },
+    methods : {
+        reloadData () {
+            this.$root.$emit('bv::refresh::table', 'adm-table');
         },
-        onFail : response => {
+        saveData (event) {
+            event.preventDefault();
+            this.saveOverlay = true;
+            let promise = axios.post('/adm-api/save', this.save)
+            promise.then(response => {
+                // clean form...
+                this.$root.$emit('bv::refresh::table', 'adm-table');
+            }).catch(response => {
+                console.log(response);
+            }).then(response => {
+                this.saveOverlay = false;
+            });
+        },
+        editData (event) {
+            event.preventDefault();
+            let promise = axios.put(`/adm-api/${this.edit.id}/edit`, this.edit)
+            promise.then(response => {
+                // clean form...
+                this.$root.$emit('bv::refresh::table', 'adm-table');
+                this.$root.$emit('bv::hide::modal', 'edit-modal');
+            }).catch(response => {
+                console.log(response);
 
-        }
-    });
+            }).then(response => {
+                this.saveOverlay = false;
+            });
+        },
+        deleteData(id) {
+            let promise = axios.delete(`/adm-api/${id}/delete`);
 
-    init_admin_table();
+            promise.then(response =>{
 
-    $search_admin_form.on('submit', function(e) {
-        e.preventDefault();
-        adminTable.ajax.reload();
-    });
+            }).catch(response=> {
 
+            }).then(()=>{
+                this.reloadData();
+            })
+        },
+        provider (ctx) {
+            let promise = axios.post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search);
+            return promise.then(response => {
+                this.toggleBusy();
+                return response.data.data;
+            });
+        },
+        toggleBusy(state = undefined) {
+            if(state === undefined)
+                this.isBusy = !this.isBusy;
+            else
+                this.isBusy = state;
+        },
+        editModal(id) {
+            let promise = axios.get(`/adm-api/id/${id}`);
+            promise.then(response => {
+                // load data and show modal
+                console.log(response.data);
+                this.edit = response.data;
+                this.$root.$emit('bv::show::modal', 'edit-modal');
+            }).catch(response => {
+                // show error message
+            }).then(response => {
+
+            })
+        },
+    }
 });
-
-function init_form($selector, option = {}) {
-    let form = new Form($selector, option);
-    $selector.on('submit', function (e) {
-            e.preventDefault();
-
-            if (form.validate()) {
-                $info_admin_modal.modal('show');
-                form.submit();
-            }
-    });
-
-    return form;
-}
-
-function init_admin_table() {
-    adminTable = initDataTable($adminTable, {
-        "ajax": {
-            "url": "/adm-api/",
-            "type": "POST",
-            "contentType" : "application/json",
-            "data" : () => JSON.stringify(new Form($search_admin_form).toObject())
-        },
-        "columns": [
-            {
-                "data": "id"
-            },
-            {
-                "data": "businessName"
-            },
-            {
-                "data" : "address",
-                "render" : data => [data.street, data.streetNumber, data.zipCode, data.city].filter(item => !!item).join(", ")
-            },
-            {
-              "data" : "phone",
-              "render" : (data, type, row) => [row.phone, row.mobilePhone].filter(item => !!item).join(" - ")
-            },
-            {
-                "data" : "id",
-                "render" : data => `<div class="row justify-content-around">
-                                        <a class="py-1 px-2 remove-administrator" href="#" data-id="${data}"><i class="fas fa-trash-alt text-ed"></i></a>
-                                        <a class="py-1 px-2 edit-administrator" href="#" data-id="${data}"><i class="fas fa-pen text-primary"></i></a>
-                                        <a class="py-1 px-2" href="/registries/administrators/${data}/detail"><i class="fas fa-portrait text-dark"></i></a>
-                                    </div>`
-            }
-        ]
-    });
-
-    $adminTable.on('click', '.remove-administrator', function(e) {
-        e.stopPropagation();
-        let btn = $(this);
-        let id = btn.data('id');
-        $.ajax({
-            url : `/adm-api/${id}/delete`,
-            type : 'DELETE'
-        }).done(()=>{
-            adminTable.ajax.reload();
-        });
-    });
-
-    $adminTable.on('click', '.edit-administrator', function(e){
-        e.stopPropagation();
-        let btn = $(this);
-        let id = btn.data('id');
-
-        // retrieve admin data:
-        $.ajax({
-            url : `/adm-api/id/${id}`,
-            type : 'GET'
-        }).done(response => {
-            //populate edit form fields:
-            editForm.setUrl(u => u.replace(':id', id));
-            populateForm(editForm, response);
-        });
-
-        //show modal
-        $edit_admin_modal.modal('show');
-    });
-}
-
-function populateForm(form, source) {
-    for(const property in source) {
-        if(property !== 'id')
-            if(!(source[property] instanceof Object))
-                form.fieldByPath(property).setValue(source[property]);
-            else {
-                populateFormAux(property, form, source[property]);
-            }
-    }
-}
-
-function populateFormAux(prefix, form, source) {
-    for(const property in source) {
-        let path = `${prefix}.${property}`;
-        if(property !== 'id')
-            if(!(source[property] instanceof Object))
-                form.fieldByPath(path).setValue(source[property]);
-            else {
-                populateFormAux(path, form, source[property]);
-            }
-    }
-}
