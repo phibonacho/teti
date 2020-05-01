@@ -10,7 +10,7 @@
     </parent>
     <groupId>it.phibonachos</groupId>
     <artifactId>teti</artifactId>
-    <version>0.0.2-alpha</version>
+    <version>0.0.3-alpha</version>
     <name>teti</name>
     <description>A Spring Boot based Management Software</description>
 
