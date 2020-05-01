@@ -3,3 +3,48 @@
 @import "~bootstrap/scss/variables";
 @import "~bootstrap/scss/mixins";
 @import "~bootstrap/scss/forms";
+
+$switch_dim : 1rem;
+$switch_gap : calc(#{$switch_dim}/20);
+$pummel_dim : calc(#{$switch_dim} - #{$switch_gap} * 2);
+
+input[type=checkbox]{
+  height: 0;
+  width: 0;
+  visibility: hidden;
+
+  &:checked + label {
+    background: $primary; // #bada55
+    &:after {
+      left: calc(100% - #{$switch_gap});
+      transform: translateX(-100%);
+    }
+  }
+
+  & + label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: calc(#{$switch_dim} * 2);
+    height: $switch_dim;
+    background: $secondary;
+    display: block;
+    border-radius: $switch_dim;
+    position: relative;
+
+    &:after {
+      content: '';
+      position: absolute;
+      top: $switch_gap;
+      left: $switch_gap;
+      width: $pummel_dim;
+      height: $pummel_dim;
+      background: $white;
+      border-radius: $pummel_dim;
+      transition: 0.3s;
+    }
+
+    &:active:after {
+      width: calc(#{$switch_dim} * 0.667);
+    }
+  }
+}

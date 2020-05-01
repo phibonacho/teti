@@ -1,6 +1,7 @@
 package it.phibonachos.teti.restservice.teti.impl;
 
 import it.phibonachos.teti.datasource.model.teti.InvoiceSubject;
+import it.phibonachos.teti.datasource.repository.specification.ISSpecs;
 import it.phibonachos.teti.datasource.repository.specification.SpecsInterface;
 import it.phibonachos.teti.datasource.repository.teti.InvoiceSubjectRepository;
 import it.phibonachos.teti.restservice.teti.InvoiceSubjectService;
@@ -26,12 +27,12 @@ public class InvoiceSubjectServiceImpl implements InvoiceSubjectService {
 
 
     public List<InvoiceSubject> findFiltered(InvoiceSubject filters) {
-        return invoiceSubRepository.findAll(SpecsInterface.havingProperties(filters));
+        return invoiceSubRepository.findAll(ISSpecs.havingProperties(filters));
     }
 
     @Override
     public Page<InvoiceSubject> findFiltered(InvoiceSubject filter, int page, int size) {
-        return invoiceSubRepository.findAll(SpecsInterface.havingProperties(filter), PageRequest.of(page, size));
+        return invoiceSubRepository.findAll(ISSpecs.havingProperties(filter), PageRequest.of(page, size));
     }
 
     public InvoiceSubject save(InvoiceSubject InvoiceSubject) {

@@ -53,44 +53,48 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="col">
-                                    <div class="form-row">
-                                        <div class="col">
-                                            <div class="info-wrapper">
-                                                <span  th:text="${!#strings.isEmpty(admin.address.street)}? ${admin.address.street} : '---'"></span>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <div class="info-wrapper">
+                                                    <span  th:text="${!#strings.isEmpty(admin.address.street)}? ${admin.address.street} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{address.street}"></small>
                                             </div>
-                                            <small class="info-name" th:text="#{address.street}"></small>
                                         </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="col-4">
-                                            <div class="info-wrapper">
-                                                <span  th:text="${!#strings.isEmpty(admin.address.streetNumber)}? ${admin.address.streetNumber} : '---'"></span>
+                                        <div class="form-row">
+                                            <div class="col-4">
+                                                <div class="info-wrapper">
+                                                    <span  th:text="${!#strings.isEmpty(admin.address.streetNumber)}? ${admin.address.streetNumber} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{address.streetNumber}"></small>
                                             </div>
-                                            <small class="info-name" th:text="#{address.streetNumber}"></small>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="info-wrapper">
-                                                <span  th:text="${!#strings.isEmpty(admin.address.zipCode)}? ${admin.address.zipCode} : '---'"></span>
+                                            <div class="col-4">
+                                                <div class="info-wrapper">
+                                                    <span  th:text="${!#strings.isEmpty(admin.address.zipCode)}? ${admin.address.zipCode} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{address.zipCode}"></small>
                                             </div>
-                                            <small class="info-name" th:text="#{address.zipCode}"></small>
-                                        </div>
-                                        <div class="col-4">
-                                            <div class="info-wrapper">
-                                                <span  th:text="${!#strings.isEmpty(admin.address.city)}? ${admin.address.city} : '---'"></span>
+                                            <div class="col-4">
+                                                <div class="info-wrapper">
+                                                    <span  th:text="${!#strings.isEmpty(admin.address.city)}? ${admin.address.city} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{address.city}"></small>
                                             </div>
-                                            <small class="info-name" th:text="#{address.city}"></small>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="col">
-                                    <div class="info-wrapper">
-                                        <span th:text="${!#strings.isEmpty(admin.note)}?${admin.note} : '---'"></span>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="info-wrapper">
+                                            <span th:text="${!#strings.isEmpty(admin.note)}?${admin.note} : '---'"></span>
+                                        </div>
+                                        <small class="info-name" th:text="#{administrator.note}"></small>
                                     </div>
-                                    <small class="info-name" th:text="#{administrator.note}"></small>
                                 </div>
                             </div>
                         </div>
@@ -104,7 +108,8 @@
                            spinner-variant="primary">
                     <div class="card mt-3">
                         <div class="card-body">
-                                <form th:replace="components/forms :: admin-form-vue(save, 'save', post, #{btn.save}, 'saveData', 'resetSearch')"></form>
+                            <h5 class="text-primary" th:text="#{invoice_subject.add}"></h5>
+                            <form th:replace="components/forms :: is-form-vue(save, #{btn.save}, 'saveData')"></form>
                         </div>
                     </div>
                 </b-overlay>
@@ -113,7 +118,7 @@
         <div class="card mt-3">
             <div class="card-body">
                 <div class="d-flex justify-content-start">
-                    <h5 class="text-primary mb-3" th:text="#{administrators.list-administrator}"></h5>
+                    <h5 class="text-primary mb-3" th:text="#{invoice_subject.list}"></h5>
                     <a class="py-1 px-2"  href="#" v-b-toggle.admin-filters role="button">
                         <i class="fas fa-sliders-h text-primary"></i>
                     </a>
@@ -121,8 +126,8 @@
                 <b-collapse id="admin-filters">
                     <div class="card">
                         <div class="card-body">
-                            <h6 class="text-primary mb-2">Filtra Amministratori</h6>
-                            <form th:replace="components/forms :: admin-form-vue(search, 'search', post, #{btn.search}, 'reloadData', 'resetSearch')"></form>
+                            <h6 class="text-primary mb-2">Filtra Soggeti di fatturazione</h6>
+                            <form th:replace="components/forms :: is-form-vue(search, #{btn.search}, 'reloadData')"></form>
                         </div>
                     </div>
                 </b-collapse>
@@ -131,7 +136,7 @@
                          :fields="fields"
                          :current-page="1"
                          :per-page="10"
-                         :api-url="adm_url"
+                         :api-url="is_url"
                          id="adm-table">
                     <template v-slot:cell(id)="data">
                         <div class="row justify-content-around">
@@ -150,8 +155,8 @@
             </div>
         </div>
     </main>
-    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{administrators.edit-administrator}">
-        <form action="#" th:replace="components/forms :: admin-form-vue(edit, 'edit', put, #{btn.update}, 'editData', 'resetEdit')"></form>
+    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{invoice_subject.edit}">
+        <form action="#" th:replace="components/forms :: is-form-vue(edit, #{btn.update}, 'editData')"></form>
     </b-modal>
 </div>
 <script th:src="@{/js/common.js}"></script>

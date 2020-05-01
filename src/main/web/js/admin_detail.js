@@ -20,7 +20,7 @@ Vue.use(SpinnerPlugin);
 Vue.use(OverlayPlugin);
 
 let emptyAdmin =  {
-    businessName : '',
+        businessName : '',
         fiscalCode : '',
         phone : '',
         mobilePhone : '',
@@ -34,27 +34,18 @@ let emptyAdmin =  {
     }
 }
 
+function deepCopy(that) {
+    return JSON.parse(JSON.stringify(that));
+}
+
 new Vue({
     el : '#app',
     data : {
-        adm_url : '/adm-api',
-        search : {
-            businessName : '',
-            fiscalCode : '',
-            phone : '',
-            mobilePhone : '',
-            fax : '',
-            note : '',
-            address : {
-                street : '',
-                streetNumber : '',
-                zipCode : '',
-                city : ''
-            }
-        },
+        is_url : '/is-api',
         saveOverlay: false,
-        save : emptyAdmin,
-        edit : emptyAdmin,
+        search_is : deepCopy(emptyAdmin),
+        save_is :  deepCopy(emptyAdmin),
+        edit_is :  deepCopy(emptyAdmin),
         fields: [
             {
                 key: 'businessName',
@@ -83,15 +74,17 @@ new Vue({
         items : [],
     },
     methods : {
-        reloadData () {
+        reloadData (event) {
+            event.preventDefault();
             this.$root.$emit('bv::refresh::table', 'adm-table');
         },
         saveData (event) {
             event.preventDefault();
             this.saveOverlay = true;
-            let promise = axios.post('/adm-api/save', this.save)
+            let promise = axios.post('/is-api/save', this.save_is)
             promise.then(response => {
                 // clean form...
+                this.save_is = Object.assign({}, emptyAdmin);
                 this.$root.$emit('bv::refresh::table', 'adm-table');
             }).catch(response => {
                 console.log(response);
@@ -101,20 +94,21 @@ new Vue({
         },
         editData (event) {
             event.preventDefault();
-            let promise = axios.put(`/adm-api/${this.edit.id}/edit`, this.edit)
+            let promise = axios.put(`/is-api/${this.edit_is.id}/edit`, this.edit_is)
             promise.then(response => {
                 // clean form...
                 this.$root.$emit('bv::refresh::table', 'adm-table');
                 this.$root.$emit('bv::hide::modal', 'edit-modal');
+                this.save_is = Object.assign({}, emptyAdmin);
             }).catch(response => {
                 console.log(response);
 
             }).then(response => {
-                this.saveOverlay = false;
+
             });
         },
         deleteData(id) {
-            let promise = axios.delete(`/adm-api/${id}/delete`);
+            let promise = axios.delete(`/is-api/${id}/delete`);
 
             promise.then(response =>{
 
@@ -125,7 +119,7 @@ new Vue({
             })
         },
         provider (ctx) {
-            let promise = axios.post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search);
+            let promise = axios.post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search_is);
             return promise.then(response => {
                 this.toggleBusy();
                 return response.data.data;
@@ -138,11 +132,11 @@ new Vue({
                 this.isBusy = state;
         },
         editModal(id) {
-            let promise = axios.get(`/adm-api/id/${id}`);
+            let promise = axios.get(`/is-api/id/${id}`);
             promise.then(response => {
                 // load data and show modal
                 console.log(response.data);
-                this.edit = response.data;
+                this.edit_is = response.data;
                 this.$root.$emit('bv::show::modal', 'edit-modal');
             }).catch(response => {
                 // show error message

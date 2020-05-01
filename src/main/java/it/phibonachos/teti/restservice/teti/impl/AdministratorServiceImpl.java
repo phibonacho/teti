@@ -1,6 +1,7 @@
 package it.phibonachos.teti.restservice.teti.impl;
 
 import it.phibonachos.teti.datasource.model.teti.Administrator;
+import it.phibonachos.teti.datasource.repository.specification.AdminSpecs;
 import it.phibonachos.teti.datasource.repository.specification.SpecsInterface;
 import it.phibonachos.teti.datasource.repository.teti.AdministratorRepository;
 import it.phibonachos.teti.restservice.teti.AdministratorService;
@@ -26,12 +27,12 @@ public class AdministratorServiceImpl implements AdministratorService {
 
 
     public List<Administrator> findFiltered(Administrator filters) {
-        return adminRepository.findAll(SpecsInterface.havingProperties(filters));
+        return adminRepository.findAll(AdminSpecs.havingProperties(filters));
     }
 
     @Override
     public Page<Administrator> findFiltered(Administrator filter, int page, int size) {
-        return adminRepository.findAll(SpecsInterface.havingProperties(filter), PageRequest.of(page, size));
+        return adminRepository.findAll(AdminSpecs.havingProperties(filter), PageRequest.of(page, size));
     }
 
     public Administrator save(Administrator administrator) {

@@ -3,7 +3,7 @@ package it.phibonachos.teti.datasource.repository.specification;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.jpa.domain.Specification;
 
-import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.*;
 import java.beans.FeatureDescriptor;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
@@ -25,22 +25,27 @@ public class SpecsInterface {
             if(target == null)
                 return criteriaBuilder.and();
 
-            Map<String,String> filters = Arrays.stream(target.getClass().getDeclaredFields())
-                    .filter(field -> field.getType().equals(String.class))
-                    .map(ThrowingInterface.tryCatch(field -> new PropertyDescriptor(field.getName(), target.getClass())))
-                    .filter(pd -> {
-                        try {
-                            return pd.getReadMethod().invoke(target) != null;
-                        } catch (Exception e) {
-                            return false;
-                        }
-                    }).collect(Collectors.toMap(FeatureDescriptor::getName, ThrowingInterface.tryCatch(f -> (String) f.getReadMethod().invoke(target), () -> "")));
-
-            return criteriaBuilder.and(filters.entrySet().stream()
-                    .filter(entry -> !StringUtils.isBlank(entry.getValue()))
-                    .map(entry -> criteriaBuilder.like(root.get(entry.getKey()), "%" + entry.getValue() + "%")).toArray(Predicate[]::new)); // che schifo
+            return likePropertiesPredicate(root, criteriaQuery, criteriaBuilder, target);
         };
     }
+
+    public static <X,Z,T> Predicate likePropertiesPredicate(From<X,Z> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder, T target) {
+        Map<String,String> filters = Arrays.stream(target.getClass().getDeclaredFields())
+                .filter(field -> field.getType().equals(String.class))
+                .map(ThrowingInterface.tryCatch(field -> new PropertyDescriptor(field.getName(), target.getClass())))
+                .filter(pd -> {
+                    try {
+                        return pd.getReadMethod().invoke(target) != null;
+                    } catch (Exception e) {
+                        return false;
+                    }
+                }).collect(Collectors.toMap(FeatureDescriptor::getName, ThrowingInterface.tryCatch(f -> (String) f.getReadMethod().invoke(target), () -> "")));
+
+        return criteriaBuilder.and(filters.entrySet().stream()
+                .filter(entry -> !StringUtils.isBlank(entry.getValue()))
+                .map(entry -> criteriaBuilder.like(root.get(entry.getKey()), "%" + entry.getValue() + "%")).toArray(Predicate[]::new)); // che schifo
+    }
+
 
     @FunctionalInterface
     private interface ThrowingInterface<I,R,E extends Exception> {

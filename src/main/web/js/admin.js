@@ -38,23 +38,10 @@ new Vue({
     el : '#app',
     data : {
         adm_url : '/adm-api',
-        search : {
-            businessName : '',
-            fiscalCode : '',
-            phone : '',
-            mobilePhone : '',
-            fax : '',
-            note : '',
-            address : {
-                street : '',
-                streetNumber : '',
-                zipCode : '',
-                city : ''
-            }
-        },
         saveOverlay: false,
-        save : emptyAdmin,
-        edit : emptyAdmin,
+        search_admin : deepCopy(emptyAdmin),
+        save_admin : deepCopy(emptyAdmin),
+        edit_admin : deepCopy(emptyAdmin),
         fields: [
             {
                 key: 'businessName',
@@ -83,13 +70,14 @@ new Vue({
         items : [],
     },
     methods : {
-        reloadData () {
+        reloadData (event) {
+            event.preventDefault();
             this.$root.$emit('bv::refresh::table', 'adm-table');
         },
         saveData (event) {
             event.preventDefault();
             this.saveOverlay = true;
-            let promise = axios.post('/adm-api/save', this.save)
+            let promise = axios.post('/adm-api/save', this.save_admin)
             promise.then(response => {
                 // clean form...
                 this.$root.$emit('bv::refresh::table', 'adm-table');
@@ -101,7 +89,7 @@ new Vue({
         },
         editData (event) {
             event.preventDefault();
-            let promise = axios.put(`/adm-api/${this.edit.id}/edit`, this.edit)
+            let promise = axios.put(`/adm-api/${this.edit_admin.id}/edit`, this.edit_admin)
             promise.then(response => {
                 // clean form...
                 this.$root.$emit('bv::refresh::table', 'adm-table');
@@ -125,7 +113,7 @@ new Vue({
             })
         },
         provider (ctx) {
-            let promise = axios.post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search);
+            let promise = axios.post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search_admin);
             return promise.then(response => {
                 this.toggleBusy();
                 return response.data.data;
@@ -142,7 +130,7 @@ new Vue({
             promise.then(response => {
                 // load data and show modal
                 console.log(response.data);
-                this.edit = response.data;
+                this.edit_admin = response.data;
                 this.$root.$emit('bv::show::modal', 'edit-modal');
             }).catch(response => {
                 // show error message
@@ -152,3 +140,7 @@ new Vue({
         },
     }
 });
+
+function deepCopy(that) {
+    return JSON.parse(JSON.stringify(that));
+}

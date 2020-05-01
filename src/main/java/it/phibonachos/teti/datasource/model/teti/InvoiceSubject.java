@@ -16,7 +16,8 @@ public class InvoiceSubject {
     @Column(name = "BusinessName2")
     private String businessName2;
 
-    @OneToOne @JoinColumn(name = "AddressID", nullable = false)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "AddressID", nullable = false)
     private Address address;
 
     @Column(name = "Phone")

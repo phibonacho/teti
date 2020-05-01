@@ -1,4 +1,4 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <title th:text="'Teti | ' + #{title.admin.manage}"></title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
@@ -17,7 +17,8 @@
                            spinner-variant="primary">
                     <div class="card mt-3">
                         <div class="card-body">
-                            <form th:replace="components/forms :: admin-form-vue(save, 'save', post, #{btn.save}, 'saveData', 'resetSearch')"></form>
+                            <h5 class="text-primary" th:text="#{administrators.add}"></h5>
+                            <form th:replace="components/forms :: admin-form-vue(save, #{btn.save}, 'saveData')"></form>
                         </div>
                     </div>
                 </b-overlay>
@@ -26,7 +27,7 @@
         <div class="card mt-3">
             <div class="card-body">
                 <div class="d-flex justify-content-start">
-                    <h5 class="text-primary mb-3" th:text="#{administrators.list-administrator}"></h5>
+                    <h5 class="text-primary mb-3" th:text="#{administrators.list}"></h5>
                     <a class="py-1 px-2"  href="#" v-b-toggle.admin-filters role="button">
                         <i class="fas fa-sliders-h text-primary"></i>
                     </a>
@@ -35,7 +36,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h6 class="text-primary mb-2">Filtra Amministratori</h6>
-                            <form th:replace="components/forms :: admin-form-vue(search, 'search', post, #{btn.search}, 'reloadData', 'resetSearch')"></form>
+                            <form th:replace="components/forms :: admin-form-vue(search, #{btn.search}, 'reloadData')"></form>
                         </div>
                     </div>
                 </b-collapse>
@@ -63,8 +64,8 @@
             </div>
         </div>
     </main>
-    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{administrators.edit-administrator}">
-        <form action="#" th:replace="components/forms :: admin-form-vue(edit, 'edit', put, #{btn.update}, 'editData', 'resetEdit')"></form>
+    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{administrators.edit}">
+        <form action="#" th:replace="components/forms :: admin-form-vue(edit, #{btn.update}, 'editData')"></form>
     </b-modal>
 </div>
 <script th:src="@{/js/common.js}"></script>
