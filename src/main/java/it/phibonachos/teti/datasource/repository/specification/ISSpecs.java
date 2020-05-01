@@ -23,15 +23,15 @@ public class ISSpecs {
         if(target.getAddress() == null)
             return propertiesLike(target);
         return propertiesLike(target)
-                .and(withAddressLike(target))
-                .and(isWithHolding(target));
+                .and(isWithHolding(target))
+                .and(withAddressLike(target));
     }
 
     public static Specification<InvoiceSubject> isWithHolding(InvoiceSubject target) {
         return (Specification<InvoiceSubject>) (root, query, cb) -> {
             if(!target.isWithholding())
                 return cb.and();
-            return cb.equal(root.get("withHolding"), true);
+            return cb.equal(root.get("withholding"), true);
         };
     }
 }

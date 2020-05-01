@@ -162,8 +162,8 @@
                         </div>
                         <div class="col-4">
                             <th:block th:replace="~{ :: text_input_l(${prefix}, fax, #{administrator.fax})}"/>
-                            <input type="checkbox" th:id="${prefix} + '-withHolding'" th:v-model="${prefix} + '.withHolding'">
-                            <label th:for="${prefix} + '-withHolding'" class="sr-only">Note</label>
+                            <input type="checkbox" th:id="${prefix} + '-withholding'" th:v-model="${prefix} + '.withholding'">
+                            <label th:for="${prefix} + '-withholding'" class="sr-only">Note</label>
                         </div>
                         <div class="col-4">
                             <th:block th:replace="~{ :: text_input_l(${prefix}, mobilePhone, #{administrator.mobilePhone})}"/>
