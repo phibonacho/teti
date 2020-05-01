@@ -5,16 +5,11 @@
     <title>Common Fragments</title>
 </head>
 <body>
-<nav th:fragment="navbar(page_title)" class="navbar navbar-expand-lg navbar-light bg-light">
-    <div class="over-sidebar container-fluid">
-        <span class="page-name text-uppercase" th:text="${page_title}"></span>
-    </div>
-</nav>
 
 <div th:fragment="navbar_vue(page_title)">
     <b-navbar toggable="lg" type="light" variant="light">
         <b-navbar-brand v-b-toggle.teti_sidebar>
-            <img src="/img/teti_logo.png" alt="logo" style="height: 100%">
+            <img :src="'/img/teti_logo.png'" alt="logo" style="height: 100%">
         </b-navbar-brand>
         <b-collapse id="nav-text-collapse" is-nav>
             <b-navbar-nav>
@@ -24,42 +19,10 @@
     </b-navbar>
 </div>
 
-<nav th:fragment="sidebar(section,page)" sec:authorize="isAuthenticated()" class="d-none d-md-block bg-primary sidebar">
-    <div class="sidebar-brand d-flex align-items-center justify-context-center">
-        <a class="text-white mx-auto text-decoration-none" th:href="@{/}">Teti</a>
-    </div>
-    <div class="sidebar-sticky">
-        <div id="accordion-menu" class="menu accordion">
-            <!--/*@thymesVar id="menuEntries" type="java.util.List<it.phibonachos.teti.pojo.MenuOption>"*/-->
-            <th:block th:each="entry : ${menuEntries}">
-                <button th:text="#{${entry.getName()}}"
-                        class="option"
-                        th:id="${entry.getName()} + '-btn'"
-                        th:data-target="'#' + ${entry.getName()} + '-menu'" data-toggle="collapse"
-                        th:with="_disabled=${entry.getStatus().displayValue == 'status.development'}"
-                        th:disabled="${_disabled}">
-                </button>
-                <div th:id="${entry.getName()} + '-menu'" class="collapse" th:classappend="${#strings.equals(section, entry.getName())}? 'show'" data-parent="#accordion-menu">
-                    <div class="sub-option">
-                        <th:block th:each="option : ${entry.getOptions()}">
-                            <a class="sub-option-item" th:href="@{'/' + ${entry.getName()} + '/' + ${option}}" th:text="#{${entry.getName() + '.' + option}}"></a>
-                        </th:block>
-                    </div>
-                </div>
-            </th:block>
-        </div>
-        <hr>
-        <div class="menu">
-            <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" action="#" th:action="@{/exit}" method="post">
-                <button class="option text-center">Logout</button>
-            </form>
-        </div>
-    </div>
-</nav>
-
 <b-sidebar th:fragment="vue_sidebar(section,page)" shadow id="teti_sidebar" bg-variant="primary" backdrop>
     <div id="sidebar-menu" class="menu" role="tablist">
         <!--/*@thymesVar id="menuEntries" type="java.util.List<it.phibonachos.teti.pojo.MenuOption>"*/-->
+        <a th:href="@{/}" class="option">Dashboard</a>
         <th:block th:each="entry : ${menuEntries}">
             <button th:text="#{${entry.getName()}}"
                     block

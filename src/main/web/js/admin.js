@@ -17,7 +17,6 @@ Vue.use(OverlayPlugin);
 Vue.use(ModalPlugin);
 Vue.use(TablePlugin);
 Vue.use(SpinnerPlugin);
-Vue.use(OverlayPlugin);
 
 let emptyAdmin =  {
     businessName : '',

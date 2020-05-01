@@ -113,24 +113,9 @@ module.exports = {
         new CleanWebpackPlugin(),
         new VueLoaderPlugin(),
         new webpack.ProvidePlugin({
-            $: 'jquery',
-            jQuery: 'jquery',
             Vue : 'vue',
-            'window.jQuery': 'jquery',
             Popper: ['popper.js', 'default'],
             // In case you imported plugins individually, you must also require them here:
-            Alert: "exports-loader?Alert!bootstrap/js/dist/alert",
-            Toast: "exports-loader?Toast!bootstrap/js/dist/toast",
-            Button: "exports-loader?Button!bootstrap/js/dist/button",
-            Carousel: "exports-loader?Carousel!bootstrap/js/dist/carousel",
-            Collapse: "exports-loader?Collapse!bootstrap/js/dist/collapse",
-            Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
-            Modal: "exports-loader?Modal!bootstrap/js/dist/modal",
-            Popover: "exports-loader?Popover!bootstrap/js/dist/popover",
-            Scrollspy: "exports-loader?Scrollspy!bootstrap/js/diost/scrollspy",
-            Tab: "exports-loader?Tab!bootstrap/js/dist/tab",
-            Tooltip: "exports-loader?Tooltip!bootstrap/js/dist/tooltip",
-            Util: "exports-loader?Tooltip!bootstrap/js/dist/util",
         }),
         new MiniCssExtractPlugin({
             filename : 'css/[name].css'
@@ -141,7 +126,7 @@ module.exports = {
                 to: 'img',
             },
             {
-                from : 'img/teti_favicon.png',
+                from : 'img/teti_favicon.ico',
                 to : 'favicon.ico'
             }
         ]),
