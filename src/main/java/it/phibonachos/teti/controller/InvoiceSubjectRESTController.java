@@ -23,8 +23,13 @@ public class InvoiceSubjectRESTController {
 
     @RequestMapping(value = {"/", "/{page}", "/{page}/{size}"}, method = RequestMethod.POST)
     public ResponseEntity<Object> getAllInvoiceSubject(@PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "size") Optional<Integer> size, @RequestBody(required = false) InvoiceSubject filters) {
-        Page<InvoiceSubject> matching = InvoiceSubjectService.findFiltered(filters, page.map(i -> i-1).orElse(0), size.orElse(10));
-        return new ResponseEntity<>(Map.of("recordsTotal", matching.getTotalElements(), "data", matching.getContent()), HttpStatus.OK);
+        try {
+            Page<InvoiceSubject> matching = InvoiceSubjectService.findFiltered(filters, page.map(i -> i - 1).orElse(0), size.orElse(10));
+            return new ResponseEntity<>(Map.of("recordsTotal", matching.getTotalElements(), "data", matching.getContent()), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>(Map.of("error", e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 
     @RequestMapping(value = "id/{id}", method = RequestMethod.GET)
@@ -49,10 +54,11 @@ public class InvoiceSubjectRESTController {
         try {
             InvoiceSubject source = InvoiceSubjectService.find(id);
             edited.setId(id);
-            BeanUtils.copyProperties(edited, source);
+            BeanUtils.copyProperties(edited, source, "administrator");
             return new ResponseEntity<>(InvoiceSubjectService.save(source), HttpStatus.CREATED);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return new ResponseEntity<>("no InvoiceSubject matching id.", HttpStatus.NOT_FOUND);
         }
     }

@@ -1,6 +1,7 @@
 package it.phibonachos.teti.datasource.model.teti;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 @Table(name = "Administrator", schema = "teti")
@@ -28,6 +29,11 @@ public class Administrator {
 
     @Column(name = "FiscalCode")
     private String fiscalCode;
+
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+    @OrderBy("id desc")
+    @JoinColumn(name = "AdminID")
+    private Set<InvoiceSubject> relatedInvoiceSubjects;
 
     @Column(name = "Note")
     private String note;
@@ -94,5 +100,13 @@ public class Administrator {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public Set<InvoiceSubject> getRelatedInvoiceSubjects() {
+        return relatedInvoiceSubjects;
+    }
+
+    public void setRelatedInvoiceSubjects(Set<InvoiceSubject> realtedInvoiceSubjects) {
+        this.relatedInvoiceSubjects = realtedInvoiceSubjects;
     }
 }

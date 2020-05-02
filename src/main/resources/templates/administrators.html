@@ -40,32 +40,20 @@
                         </div>
                     </div>
                 </b-collapse>
-                <b-table hover
-                         :items="provider"
-                         :fields="fields"
-                         :current-page="1"
-                         :per-page="10"
-                         :api-url="adm_url"
-                         id="adm-table">
-                    <template v-slot:cell(id)="data">
-                        <div class="row justify-content-around">
-                            <a class="py-1 px-2 remove-administrator" href="#" @click="deleteData(data.value)"><i class="fas fa-trash-alt text-ed"></i></a>
-                            <a class="py-1 px-2 edit-administrator" href="#" @click="editModal(data.value)"><i class="fas fa-pen text-primary"></i></a>
-                            <a class="py-1 px-2" :href="'/registries/administrators/' + data.value + '/detail'"><i class="fas fa-portrait text-dark"></i></a>
-                        </div>
-                    </template>
-                    <template v-slot:table-busy>
-                        <div class="text-center text-primary my-2">
-                            <b-spinner class="align-middle"></b-spinner>
-                            <strong>Loading...</strong>
-                        </div>
-                    </template>
-                </b-table>
+                <th:block th:insert="components/tables :: vue_table(provider,fields,1,10,adm_url,'adm-table', ~{components/tables :: adm-table-columns}, #{administrators.none}, #{administrators.none.filtered})"/>
             </div>
         </div>
     </main>
     <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{administrators.edit}">
         <form action="#" th:replace="components/forms :: admin-form-vue(edit, #{btn.update}, 'editData')"></form>
+    </b-modal>
+    <b-modal id="delete-modal" centered size="sm" hide-footer header-bg-variant="ed" header-text-variant="light" th:title="#{info.administrator.delete}">
+        <div class="row text-center">
+            <p>Sei sicuro di voler eliminare l'amministratore {{ delete_admin }} ?</p>
+            <form action="#" class="mx-auto">
+                <button type="submit" class="text-uppercase btn btn-ed" th:text="#{btn.delete}" @click="deleteData"></button>
+            </form>
+        </div>
     </b-modal>
 </div>
 <script th:src="@{/js/common.js}"></script>

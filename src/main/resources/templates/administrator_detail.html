@@ -4,6 +4,11 @@
     <title th:text="'Teti | ' + #{title.admin.detail}"></title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
     <link rel="stylesheet" th:href="@{/css/admin_detail.css}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var administratorID = /*[[${admin.id}]]*/ 'default';
+        /*]]>*/
+    </script>
 </head>
 <body>
 <div id="app">
@@ -131,27 +136,7 @@
                         </div>
                     </div>
                 </b-collapse>
-                <b-table hover
-                         :items="provider"
-                         :fields="fields"
-                         :current-page="1"
-                         :per-page="10"
-                         :api-url="is_url"
-                         id="adm-table">
-                    <template v-slot:cell(id)="data">
-                        <div class="row justify-content-around">
-                            <a class="py-1 px-2 remove-administrator" href="#" @click="deleteData(data.value)"><i class="fas fa-trash-alt text-ed"></i></a>
-                            <a class="py-1 px-2 edit-administrator" href="#" @click="editModal(data.value)"><i class="fas fa-pen text-primary"></i></a>
-                            <a class="py-1 px-2" :href="'/registries/administrators/' + data.value + '/detail'"><i class="fas fa-portrait text-dark"></i></a>
-                        </div>
-                    </template>
-                    <template v-slot:table-busy>
-                        <div class="text-center text-primary my-2">
-                            <b-spinner class="align-middle"></b-spinner>
-                            <strong>Loading...</strong>
-                        </div>
-                    </template>
-                </b-table>
+                <th:block th:insert="components/tables :: vue_table(provider,fields,1,10,is_url,'is-table', ~{components/tables :: adm-table-columns}, #{invoice_subject.none}, #{invoice_subject.none.filtered})"/>
             </div>
         </div>
     </main>

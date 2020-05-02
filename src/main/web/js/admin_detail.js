@@ -4,10 +4,9 @@ import "../scss/admin_detail.scss";
 // JS
 import "./components/fontawesome";
 import "./components/navbar";
+import "./components/sidebar";
 
 // VUE
-import "./vue/side-bar";
-import Vue from "vue";
 import axios from 'axios';
 import {FormPlugin, FormInputPlugin, OverlayPlugin, ModalPlugin, TablePlugin, SpinnerPlugin} from "bootstrap-vue";
 
@@ -18,18 +17,21 @@ Vue.use(ModalPlugin);
 Vue.use(TablePlugin);
 Vue.use(SpinnerPlugin);
 
-let emptyAdmin =  {
-        businessName : '',
-        fiscalCode : '',
-        phone : '',
-        mobilePhone : '',
-        fax : '',
-        note : '',
-        address : {
+let emptyIS =  {
+    businessName : '',
+    fiscalCode : '',
+    phone : '',
+    mobilePhone : '',
+    fax : '',
+    note : '',
+    address : {
         street : '',
             streetNumber : '',
             zipCode : '',
             city : ''
+    },
+    administrator : {
+        id : window.administratorID
     }
 }
 
@@ -42,9 +44,9 @@ new Vue({
     data : {
         is_url : '/is-api',
         saveOverlay: false,
-        search_is : deepCopy(emptyAdmin),
-        save_is :  deepCopy(emptyAdmin),
-        edit_is :  deepCopy(emptyAdmin),
+        search_is : deepCopy(emptyIS),
+        save_is :  deepCopy(emptyIS),
+        edit_is :  deepCopy(emptyIS),
         fields: [
             {
                 key: 'businessName',
@@ -74,17 +76,18 @@ new Vue({
     },
     methods : {
         reloadData (event) {
-            event.preventDefault();
-            this.$root.$emit('bv::refresh::table', 'adm-table');
+            if(event !== undefined)
+                event.preventDefault();
+            this.$root.$emit('bv::refresh::table', 'is-table');
         },
         saveData (event) {
             event.preventDefault();
             this.saveOverlay = true;
-            let promise = axios.post('/is-api/save', this.save_is)
+            let promise = axios.post(`/adm-api/${window.administratorID}/add-is`, this.save_is)
             promise.then(response => {
                 // clean form...
-                this.save_is = Object.assign({}, emptyAdmin);
-                this.$root.$emit('bv::refresh::table', 'adm-table');
+                this.save_is = Object.assign({}, emptyIS);
+                this.$root.$emit('bv::refresh::table', 'is-table');
             }).catch(response => {
                 console.log(response);
             }).then(response => {
@@ -96,9 +99,9 @@ new Vue({
             let promise = axios.put(`/is-api/${this.edit_is.id}/edit`, this.edit_is)
             promise.then(response => {
                 // clean form...
-                this.$root.$emit('bv::refresh::table', 'adm-table');
+                this.$root.$emit('bv::refresh::table', 'is-table');
                 this.$root.$emit('bv::hide::modal', 'edit-modal');
-                this.save_is = Object.assign({}, emptyAdmin);
+                this.save_is = Object.assign({}, emptyIS);
             }).catch(response => {
                 console.log(response);
 
@@ -134,8 +137,8 @@ new Vue({
             let promise = axios.get(`/is-api/id/${id}`);
             promise.then(response => {
                 // load data and show modal
-                console.log(response.data);
                 this.edit_is = response.data;
+                // set admin
                 this.$root.$emit('bv::show::modal', 'edit-modal');
             }).catch(response => {
                 // show error message

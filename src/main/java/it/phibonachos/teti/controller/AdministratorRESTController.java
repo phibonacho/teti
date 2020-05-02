@@ -1,7 +1,9 @@
 package it.phibonachos.teti.controller;
 
 import it.phibonachos.teti.datasource.model.teti.Administrator;
+import it.phibonachos.teti.datasource.model.teti.InvoiceSubject;
 import it.phibonachos.teti.restservice.teti.AdministratorService;
+import it.phibonachos.teti.restservice.teti.InvoiceSubjectService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
@@ -16,9 +18,11 @@ import java.util.Optional;
 public class AdministratorRESTController {
 
     private final AdministratorService administratorService;
+    private final InvoiceSubjectService invoiceSubjectService;
 
-    public AdministratorRESTController(AdministratorService administratorService) {
+    public AdministratorRESTController(AdministratorService administratorService, InvoiceSubjectService invoiceSubjectService) {
         this.administratorService = administratorService;
+        this.invoiceSubjectService = invoiceSubjectService;
     }
 
     @RequestMapping(value = {"/", "/{page}", "/{page}/{size}"}, method = RequestMethod.POST)
@@ -68,5 +72,18 @@ public class AdministratorRESTController {
             e.printStackTrace();
         }
         return administrator;
+    }
+
+    @RequestMapping(value = "/{id}/add-is", method = RequestMethod.POST)
+    public ResponseEntity<Object> associateInvoiceSubject(@PathVariable("id") Long id, @RequestBody InvoiceSubject toAssociate) {
+        try {
+            Administrator admin = administratorService.find(id);
+            toAssociate.setAdministrator(admin);
+            return new ResponseEntity<>(invoiceSubjectService.save(toAssociate), HttpStatus.ACCEPTED);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("no administrator matching id.", HttpStatus.NOT_FOUND);
+        }
     }
 }

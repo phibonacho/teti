@@ -1,5 +1,8 @@
 package it.phibonachos.teti.datasource.model.teti;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.*;
 
 @Entity
@@ -9,6 +12,10 @@ public class InvoiceSubject {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "InvoiceSubjectID")
     private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    @JoinColumn(name = "AdminID", nullable = false)
+    private Administrator administrator;
 
     @Column(name = "BusinessName")
     private String businessName;
@@ -127,5 +134,15 @@ public class InvoiceSubject {
 
     public void setWithholding(boolean withholding) {
         this.withholding = withholding;
+    }
+
+    @JsonIgnore
+    public Administrator getAdministrator() {
+        return administrator;
+    }
+
+    @JsonProperty
+    public void setAdministrator(Administrator administrator) {
+        this.administrator = administrator;
     }
 }
