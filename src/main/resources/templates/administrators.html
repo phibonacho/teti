@@ -40,7 +40,7 @@
                         </div>
                     </div>
                 </b-collapse>
-                <th:block th:insert="components/tables :: vue_table(provider,fields,1,10,adm_url,'adm-table', ~{components/tables :: adm-table-columns}, #{administrators.none}, #{administrators.none.filtered})"/>
+                <th:block th:insert="components/tables :: vue_table(provider,fields,adm_page,adm_size,adm_rows,adm_url,'adm-table', ~{components/tables :: adm-table-columns}, #{administrators.none}, #{administrators.none.filtered})"/>
             </div>
         </div>
     </main>

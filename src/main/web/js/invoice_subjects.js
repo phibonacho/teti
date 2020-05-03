@@ -8,11 +8,12 @@ import "./components/sidebar";
 
 // VUE
 import axios from 'axios';
-import {FormPlugin, FormInputPlugin, TablePlugin, SpinnerPlugin} from "bootstrap-vue";
+import {FormPlugin, FormInputPlugin, TablePlugin, PaginationPlugin, SpinnerPlugin} from "bootstrap-vue";
 
 Vue.use(FormPlugin);
 Vue.use(FormInputPlugin);
 Vue.use(TablePlugin);
+Vue.use(PaginationPlugin);
 Vue.use(SpinnerPlugin);
 
 let emptyIS =  {
@@ -41,6 +42,9 @@ new Vue({
         is_url : '/is-api',
         saveOverlay: false,
         search_is : deepCopy(emptyIS),
+        is_page : 1,
+        is_size : 10,
+        is_rows : 0,
         fields: [
             {
                 key: 'businessName',

@@ -9,7 +9,7 @@ import "./components/navbar";
 import "./vue/side-bar";
 import Vue from "vue";
 import axios from 'axios';
-import {FormPlugin, FormInputPlugin, OverlayPlugin, ModalPlugin, TablePlugin, SpinnerPlugin} from "bootstrap-vue";
+import {FormPlugin, FormInputPlugin, OverlayPlugin, ModalPlugin, TablePlugin, PaginationPlugin, SpinnerPlugin} from "bootstrap-vue";
 import Spinner from './vue/my-spinner';
 
 Vue.use(FormPlugin);
@@ -17,6 +17,7 @@ Vue.use(FormInputPlugin);
 Vue.use(OverlayPlugin);
 Vue.use(ModalPlugin);
 Vue.use(TablePlugin);
+Vue.use(PaginationPlugin);
 Vue.use(SpinnerPlugin);
 Vue.component('my-spinner', Spinner);
 
@@ -44,6 +45,9 @@ new Vue({
         save_admin : deepCopy(emptyAdmin),
         edit_admin : deepCopy(emptyAdmin),
         delete_admin : null,
+        adm_page : 1,
+        adm_size : 10,
+        adm_rows : 0,
         fields: [
             {
                 key: 'businessName',

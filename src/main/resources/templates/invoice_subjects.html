@@ -18,7 +18,7 @@
         <div class="card mt-3">
             <div class="card-body">
                 <h5 class="text-primary mb-3" th:text="#{invoice_subject.list}"></h5>
-                <th:block th:insert="components/tables :: vue_table(provider,fields,1,10,is_url,'is-table', ~{components/tables :: is-table-columns}, #{invoice_subject.none}, #{invoice_subject.none.filtered})"/>
+                <th:block th:insert="components/tables :: vue_table(provider,fields,is_page,is_size,is_rows,is_url,'is-table', ~{components/tables :: is-table-columns}, #{invoice_subject.none}, #{invoice_subject.none.filtered})"/>
             </div>
         </div>
     </main>
