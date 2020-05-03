@@ -127,10 +127,15 @@ new Vue({
             })
         },
         provider (ctx) {
+            this.toggleBusy(true);
             let promise = axios.post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search_is);
             return promise.then(response => {
-                this.toggleBusy();
+                this.toggleBusy(false);
                 return response.data.data;
+            }).catch(error => {
+                console.log(error)
+            }).then(response => {
+                this.toggleBusy(false);
             });
         },
         toggleBusy(state = undefined) {

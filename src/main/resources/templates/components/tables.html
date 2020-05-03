@@ -6,25 +6,30 @@
 </head>
 <body>
 <th:block th:fragment="vue_table(provider,fields,page,size,rows,url,id,content, no_result, no_result_filtered)">
-    <b-table hover
-             th::items="${provider}"
-             th::fields="${fields}"
-             th::current-page="${page}"
-             th::per-page="${size}"
-             th::api-url="${url}"
-             th:id="${id}"
-             th:insert="${content}"
-             th:empty-text="${no_result_filtered}"
-             th:empty-filtered-text="${no_result_filtered}"
-             show-empty>
-    </b-table>
-    <b-pagination
-            th:v-model="${page}"
-            th::total-rows="${rows}"
-            th::per-page="${size}"
-            th:aria-controls="${id}"
-            align="right"
-    ></b-pagination>
+    <b-overlay :show="isBusy"
+               variant="transparent"
+               spinner-variant="primary">
+        <b-table hover
+                 th::items="${provider}"
+                 th::fields="${fields}"
+                 th::current-page="${page}"
+                 th::per-page="${size}"
+                 th::api-url="${url}"
+                 th:id="${id}"
+                 th:insert="${content}"
+                 th:empty-text="${no_result_filtered}"
+                 th:empty-filtered-text="${no_result_filtered}"
+                 show-empty>
+        </b-table>
+        <b-pagination
+                th:v-model="${page}"
+                th::total-rows="${rows}"
+                th::per-page="${size}"
+                th:aria-controls="${id}"
+                align="right">
+
+        </b-pagination>
+    </b-overlay>
 </th:block>
 
 <template v-slot:cell(id)="data" th:fragment="adm-table-columns">

@@ -130,9 +130,9 @@ new Vue({
             })
         },
         provider (ctx) {
+            this.toggleBusy(true);
             let promise = axios.post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search_admin);
             return promise.then(response => {
-                this.toggleBusy();
                 let data = response.data.data;
                 data.forEach(item => {
                     let ris = item.relatedInvoiceSubjects.length;
@@ -142,6 +142,7 @@ new Vue({
                             ? 'ed'
                             : 'hh';
                 })
+                this.toggleBusy(false);
                 return data;
             });
         },
