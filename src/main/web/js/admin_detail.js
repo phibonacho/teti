@@ -87,7 +87,7 @@ new Vue({
             let promise = axios.post(`/adm-api/${window.administratorID}/add-is`, this.save_is)
             promise.then(response => {
                 // clean form...
-                this.save_is = Object.assign({}, emptyIS);
+                this.save_is = deepCopy(emptyIS);
                 this.$root.$emit('bv::refresh::table', 'is-table');
             }).catch(response => {
                 console.log(response);
@@ -102,7 +102,7 @@ new Vue({
                 // clean form...
                 this.$root.$emit('bv::refresh::table', 'is-table');
                 this.$root.$emit('bv::hide::modal', 'edit-modal');
-                this.save_is = Object.assign({}, emptyIS);
+                this.edit_is = deepCopy(emptyIS);
             }).catch(response => {
                 console.log(response);
             }).then(response => {

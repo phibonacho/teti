@@ -13,8 +13,8 @@ public class InvoiceSubject {
     @Column(name = "InvoiceSubjectID")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
-    @JoinColumn(name = "AdminID", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @JoinColumn(name = "AdminID")
     private Administrator administrator;
 
     @Column(name = "BusinessName")

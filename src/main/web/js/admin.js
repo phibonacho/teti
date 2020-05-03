@@ -89,6 +89,7 @@ new Vue({
             let promise = axios.post('/adm-api/save', this.save_admin)
             promise.then(response => {
                 // clean form...
+                this.save_admin = deepCopy(emptyAdmin);
                 this.$root.$emit('bv::refresh::table', 'adm-table');
             }).catch(response => {
                 console.log(response);
@@ -101,6 +102,7 @@ new Vue({
             let promise = axios.put(`/adm-api/${this.edit_admin.id}/edit`, this.edit_admin)
             promise.then(response => {
                 // clean form...
+                this.edit_admin = deepCopy(emptyAdmin);
                 this.$root.$emit('bv::refresh::table', 'adm-table');
                 this.$root.$emit('bv::hide::modal', 'edit-modal');
             }).catch(response => {

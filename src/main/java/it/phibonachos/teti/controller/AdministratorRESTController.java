@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -53,7 +54,7 @@ public class AdministratorRESTController {
         try {
             Administrator source = administratorService.find(id);
             edited.setId(id);
-            BeanUtils.copyProperties(edited, source);
+            BeanUtils.copyProperties(edited, source, "id", "relatedInvoiceSubjects");
             return new ResponseEntity<>(administratorService.save(source), HttpStatus.CREATED);
 
         } catch (Exception e) {
@@ -63,15 +64,15 @@ public class AdministratorRESTController {
 
     // TODO: use response entity.
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE)
-    public Administrator deleteAdministrator(@PathVariable("id") Long id) {
-        Administrator administrator = null;
+    public ResponseEntity<Object> deleteAdministrator(@PathVariable("id") Long id) {
         try {
-            administrator = administratorService.find(id);
-            administratorService.remove(id);
+            System.out.println("removing admin: ");
+            administratorService.remove(administratorService.find(id));
+            return new ResponseEntity<>(List.of(id), HttpStatus.ACCEPTED);
         } catch (Exception e) {
             e.printStackTrace();
+            return new ResponseEntity<>(List.of(id), HttpStatus.NOT_FOUND);
         }
-        return administrator;
     }
 
     @RequestMapping(value = "/{id}/add-is", method = RequestMethod.POST)
