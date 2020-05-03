@@ -8,12 +8,13 @@
     const Spinner = {
         name: "my-spinner"
     };
+
     export default Spinner;
 </script>
 
 <style scoped lang="scss">
     @import "../../scss/base/variables";
-    $spinner-empty: $green;
+    $spinner-empty: $primary;
     $spinner-full: $secondary;
     .path {
         animation: dash 3s ease infinite;

@@ -10,7 +10,6 @@ import "./vue/side-bar";
 import Vue from "vue";
 import axios from 'axios';
 import {FormPlugin, FormInputPlugin, OverlayPlugin, ModalPlugin, TablePlugin, PaginationPlugin, SpinnerPlugin} from "bootstrap-vue";
-import Spinner from './vue/my-spinner';
 
 Vue.use(FormPlugin);
 Vue.use(FormInputPlugin);
@@ -19,7 +18,6 @@ Vue.use(ModalPlugin);
 Vue.use(TablePlugin);
 Vue.use(PaginationPlugin);
 Vue.use(SpinnerPlugin);
-Vue.component('my-spinner', Spinner);
 
 let emptyAdmin =  {
     businessName : '',
