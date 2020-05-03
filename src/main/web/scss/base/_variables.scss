@@ -13,21 +13,32 @@ $purple: #140f3a;
 $blue: #3A53A4;
 $boh : #82C0D4;
 $darker-blue: #003874;
+$prussian-blue : #032b43;
+$blue-gray : #7796cb;
+$dark-blue-gray : #576490;
+$lavender-blue : #d1d2f9;
+$lavender-gray : #c9cad9;
+$rosso-corsa : #d00000;
+$beau-blue : #bdd4e7;
+$selective-yellow : #ffba08;
 $theme-colors : (
         "otr" : $purple-light,
         "lc" : $purple,
         "wat" : $lime,
         "ed" : $red,
         "hh" : $yellow,
-        "primary" : $blue,
-        "secondary" : $teal,
+        "primary" : $dark-blue-gray,
+        "secondary" : $blue-gray,
         "green" : $green,
         "blue" : $blue,
-        "boh" : $boh
+        "light" : $beau-blue,
+        "muted" : $lavender-gray,
+        "danger" : $rosso-corsa,
+        "warning" : $selective-yellow
 );
 
-$primary : $blue;
-$secondary: $boh;
+$primary : $dark-blue-gray;
+$secondary: $blue-gray;
 $bar-width:             20rem;
 $border-radius:         .1rem;
 $border-radius-lg:      .1rem;

@@ -47,6 +47,7 @@ new Vue({
         search_is : deepCopy(emptyIS),
         save_is :  deepCopy(emptyIS),
         edit_is :  deepCopy(emptyIS),
+        delete_is : undefined,
         fields: [
             {
                 key: 'businessName',
@@ -104,18 +105,19 @@ new Vue({
                 this.save_is = Object.assign({}, emptyIS);
             }).catch(response => {
                 console.log(response);
-
             }).then(response => {
 
             });
         },
-        deleteData(id) {
-            let promise = axios.delete(`/is-api/${id}/delete`);
+        deleteData(event) {
+            event.preventDefault();
+            let promise = axios.delete(`/is-api/${this.delete_is}/delete`);
 
             promise.then(response =>{
-
-            }).catch(response=> {
-
+                this.$root.$emit('bv::refresh::table', 'adm-table');
+                this.$root.$emit('bv::hide::modal', 'delete-modal');
+            }).catch(error=> {
+                console.log(error);
             }).then(()=>{
                 this.reloadData();
             })
@@ -145,6 +147,10 @@ new Vue({
             }).then(response => {
 
             })
+        },
+        deleteModal(id) {
+            this.delete_is = id;
+            this.$root.$emit('bv::show::modal', 'delete-modal');
         },
     }
 });

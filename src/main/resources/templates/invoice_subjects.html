@@ -1,17 +1,29 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-    <title th:text="'Teti | ' + #{title.manage_is}"></title>
-    <link rel="stylesheet" th:href="@{/css/admin.css}">
-    <script th:src="@{/js/admin.js}"></script>
+    <title th:text="'Teti | ' + #{title.is.view}"></title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/invoice_subjects.css}">
 </head>
 <body>
-<nav th:replace="components/bars :: navbar(#{title.manage_is})"></nav>
-<div class="container-fluid" sec:authorize="isAuthenticated()">
-    <div class="row">
-        <nav th:replace="components/bars :: sidebar('registries', 'invoice-subjects')"></nav>
-        <main role="main" class="over-sidebar col-md-9 ml-sm-auto col-lg-10 pt-3 px-4">
-        </main>
-    </div>
+<div id="app">
+    <nav th:replace="components/bars :: navbar_vue(#{title.is.view})"></nav>
+    <nav th:replace="components/bars :: vue_sidebar"></nav>
+    <main class="mx-auto col-md-9 col-lg-10 pt-3 px-4">
+        <div class="card mt-3">
+            <div class="card-body">
+                <h6 class="text-primary mb-2" th:text="#{invoice_subject.filter}"></h6>
+                <form th:replace="components/forms :: is-form-vue(search, #{btn.search}, 'reloadData')"></form>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <h5 class="text-primary mb-3" th:text="#{invoice_subject.list}"></h5>
+                <th:block th:insert="components/tables :: vue_table(provider,fields,1,10,is_url,'is-table', ~{components/tables :: is-table-columns}, #{invoice_subject.none}, #{invoice_subject.none.filtered})"/>
+            </div>
+        </div>
+    </main>
 </div>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/invoice_subjects.js}"></script>
 </body>
 </html>

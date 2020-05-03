@@ -7,7 +7,7 @@
 <body>
 <div id="app">
     <nav th:replace="components/bars :: navbar_vue(#{title.admin.manage})"></nav>
-    <nav th:replace="components/bars :: vue_sidebar('registries', 'admin')"></nav>
+    <nav th:replace="components/bars :: vue_sidebar"></nav>
     <main class="mx-auto col-md-9 col-lg-10 pt-3 px-4">
         <div class="row">
             <div class="col mx-auto">
@@ -35,7 +35,7 @@
                 <b-collapse id="admin-filters">
                     <div class="card">
                         <div class="card-body">
-                            <h6 class="text-primary mb-2">Filtra Amministratori</h6>
+                            <h6 class="text-primary mb-2" th:text="#{administrators.filter}"></h6>
                             <form th:replace="components/forms :: admin-form-vue(search, #{btn.search}, 'reloadData')"></form>
                         </div>
                     </div>
@@ -44,14 +44,14 @@
             </div>
         </div>
     </main>
-    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{administrators.edit}">
+    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{administrators.edit}" header-bg-variant="primary">
         <form action="#" th:replace="components/forms :: admin-form-vue(edit, #{btn.update}, 'editData')"></form>
     </b-modal>
-    <b-modal id="delete-modal" centered size="sm" hide-footer header-bg-variant="ed" header-text-variant="light" th:title="#{info.administrator.delete}">
+    <b-modal id="delete-modal" centered size="sm" hide-footer header-bg-variant="danger" header-text-variant="light" th:title="#{info.administrator.delete}">
         <div class="row text-center">
             <p>Sei sicuro di voler eliminare l'amministratore {{ delete_admin }} ?</p>
             <form action="#" class="mx-auto">
-                <button type="submit" class="text-uppercase btn btn-ed" th:text="#{btn.delete}" @click="deleteData"></button>
+                <button type="submit" class="text-uppercase btn btn-danger" th:text="#{btn.delete}" @click="deleteData"></button>
             </form>
         </div>
     </b-modal>

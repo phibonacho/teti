@@ -8,7 +8,7 @@
 <body>
 <div id="app">
     <nav th:replace="components/bars :: navbar_vue(#{title.dashboard})"></nav>
-    <nav th:replace="components/bars :: vue_sidebar('index', 'index')"></nav>
+    <nav th:replace="components/bars :: vue_sidebar"></nav>
     <main class="mx-auto col-md-9 col-lg-10 pt-3 px-4">
 </div>
 <script th:src="@{js/index.js}"></script>

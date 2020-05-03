@@ -14,6 +14,7 @@ import {faSpinner} from "@fortawesome/free-solid-svg-icons/faSpinner";
 import {faTrashAlt} from "@fortawesome/free-solid-svg-icons/faTrashAlt";
 import {faPen} from "@fortawesome/free-solid-svg-icons/faPen";
 import {faPortrait} from "@fortawesome/free-solid-svg-icons/faPortrait";
+import {faBars} from "@fortawesome/free-solid-svg-icons/faBars";
 
 library.add(
     // solid
@@ -23,6 +24,7 @@ library.add(
     faTrashAlt,
     faPen,
     faPortrait,
+    faBars,
 
     // regular
     faStarReg,

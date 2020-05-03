@@ -11,7 +11,8 @@ module.exports = {
         index : './js/index.js',
         login : './js/login.js',
         admin : './js/admin.js',
-        admin_detail : './js/admin_detail.js'
+        admin_detail : './js/admin_detail.js',
+        invoice_subjects : './js/invoice_subjects.js'
     },
     output: {
         path: path.resolve(__dirname, '../resources/static'),

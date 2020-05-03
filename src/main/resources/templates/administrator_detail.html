@@ -13,7 +13,7 @@
 <body>
 <div id="app">
     <nav th:replace="components/bars :: navbar_vue(#{title.admin.detail} + ' ' + ${admin.id})"></nav>
-    <nav th:replace="components/bars :: vue_sidebar('registries', 'admin')"></nav>
+    <nav th:replace="components/bars :: vue_sidebar"></nav>
     <main class="mx-auto col-md-9 col-lg-10 pt-3 px-4">
         <div class="row">
             <div class="col-md-4 col-lg-3">
@@ -131,17 +131,25 @@
                 <b-collapse id="admin-filters">
                     <div class="card">
                         <div class="card-body">
-                            <h6 class="text-primary mb-2">Filtra Soggeti di fatturazione</h6>
+                            <h6 class="text-primary mb-2" th:text="#{invoice_subject.filter}"></h6>
                             <form th:replace="components/forms :: is-form-vue(search, #{btn.search}, 'reloadData')"></form>
                         </div>
                     </div>
                 </b-collapse>
-                <th:block th:insert="components/tables :: vue_table(provider,fields,1,10,is_url,'is-table', ~{components/tables :: adm-table-columns}, #{invoice_subject.none}, #{invoice_subject.none.filtered})"/>
+                <th:block th:insert="components/tables :: vue_table(provider,fields,1,10,is_url,'is-table', ~{components/tables :: adm-detail-table-columns}, #{invoice_subject.none}, #{invoice_subject.none.filtered})"/>
             </div>
         </div>
     </main>
-    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{invoice_subject.edit}">
+    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{invoice_subject.edit}" header-bg-variant="primary">
         <form action="#" th:replace="components/forms :: is-form-vue(edit, #{btn.update}, 'editData')"></form>
+    </b-modal>
+    <b-modal id="delete-modal" centered size="sm" hide-footer header-bg-variant="danger" header-text-variant="light" th:title="#{info.invoice_subject.delete}">
+        <div class="row text-center">
+            <p>Sei sicuro di voler eliminare il soggetto di fatturazione {{ delete_is }} ?</p>
+            <form action="#" class="mx-auto">
+                <button type="submit" class="text-uppercase btn btn-danger" th:text="#{btn.delete}" @click="deleteData"></button>
+            </form>
+        </div>
     </b-modal>
 </div>
 <script th:src="@{/js/common.js}"></script>

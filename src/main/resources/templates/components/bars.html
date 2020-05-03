@@ -9,7 +9,7 @@
 <div th:fragment="navbar_vue(page_title)">
     <b-navbar toggable="lg" type="light" variant="light">
         <b-navbar-brand v-b-toggle.teti_sidebar>
-            <img :src="'/img/teti_logo.png'" alt="logo" style="height: 100%">
+            <i class="fas fa-bars text-primary"></i>
         </b-navbar-brand>
         <b-collapse id="nav-text-collapse" is-nav>
             <b-navbar-nav>
@@ -19,7 +19,7 @@
     </b-navbar>
 </div>
 
-<b-sidebar th:fragment="vue_sidebar(section,page)" shadow id="teti_sidebar" bg-variant="primary" backdrop>
+<b-sidebar th:fragment="vue_sidebar" shadow id="teti_sidebar" bg-variant="primary" backdrop>
     <div id="sidebar-menu" class="menu" role="tablist">
         <!--/*@thymesVar id="menuEntries" type="java.util.List<it.phibonachos.teti.pojo.MenuOption>"*/-->
         <a th:href="@{/}" class="option">Dashboard</a>

@@ -1,0 +1,42 @@
+@import "../base/variables";
+$spinner-empty: $green;
+$spinner-full: $secondary;
+.nsbmp-path {
+  animation: dash 3s ease infinite;
+}
+
+@keyframes dash {
+  0% {
+    stroke: $spinner-empty;
+    stroke-dashoffset: 160;
+  }
+  50% {
+    stroke-dashoffset: 0;
+    stroke: $spinner-full;
+  }
+  100% {
+    stroke: $spinner-empty;
+    stroke-dashoffset: -160;
+
+  }
+}
+
+.nsbmp-spinner {
+  height: 100%;
+  stroke:$spinner-empty;
+  stroke-width: 4;
+  stroke-dasharray : 160;
+  stroke-dashoffset:200;
+  stroke-linecap : round;
+  animation: rotating 1.5s linear infinite;
+}
+
+
+@keyframes rotating {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

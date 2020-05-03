@@ -10,6 +10,7 @@ import "./vue/side-bar";
 import Vue from "vue";
 import axios from 'axios';
 import {FormPlugin, FormInputPlugin, OverlayPlugin, ModalPlugin, TablePlugin, SpinnerPlugin} from "bootstrap-vue";
+import Spinner from './vue/my-spinner';
 
 Vue.use(FormPlugin);
 Vue.use(FormInputPlugin);
@@ -17,6 +18,7 @@ Vue.use(OverlayPlugin);
 Vue.use(ModalPlugin);
 Vue.use(TablePlugin);
 Vue.use(SpinnerPlugin);
+Vue.component('my-spinner', Spinner);
 
 let emptyAdmin =  {
     businessName : '',
@@ -157,15 +159,8 @@ new Vue({
             })
         },
         deleteModal(id) {
-            let promise = axios.get(`/adm-api/id/${id}`);
-            promise.then(response => {
-                this.delete_admin = id;
-                this.$root.$emit('bv::show::modal', 'delete-modal');
-            }).catch(response => {
-                // show error message
-            }).then(response => {
-
-            })
+            this.delete_admin = id;
+            this.$root.$emit('bv::show::modal', 'delete-modal');
         },
     }
 });
