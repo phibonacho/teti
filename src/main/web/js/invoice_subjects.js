@@ -8,13 +8,14 @@ import "./components/sidebar";
 
 // VUE
 import axios from 'axios';
-import {FormPlugin, FormInputPlugin, TablePlugin, PaginationPlugin, SpinnerPlugin} from "bootstrap-vue";
+import {FormPlugin, FormInputPlugin, TablePlugin, PaginationPlugin, SpinnerPlugin, OverlayPlugin} from "bootstrap-vue";
 
 Vue.use(FormPlugin);
 Vue.use(FormInputPlugin);
 Vue.use(TablePlugin);
 Vue.use(PaginationPlugin);
 Vue.use(SpinnerPlugin);
+Vue.use(OverlayPlugin);
 
 let emptyIS =  {
     businessName : '',
@@ -80,15 +81,17 @@ new Vue({
         },
         provider (ctx) {
             this.toggleBusy(true);
-            let promise = axios.post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search_is);
-            return promise.then(response => {
-                this.toggleBusy(false);
-                return response.data.data;
-            }).catch(error => {
-                console.log(error);
-            }).then(response => {
-                this.toggleBusy(false);
-            });
+            return axios
+                .post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search_is)
+                .then(response => {
+                    console.log(response.data);
+                    this.toggleBusy(false);
+                    this.is_rows = response.data.recordsTotal;
+                    return response.data.data;
+                }).catch(error => {
+                    this.toggleBusy(false);
+                    console.log(error);
+                });
         },
         toggleBusy(state = undefined) {
             if(state === undefined)

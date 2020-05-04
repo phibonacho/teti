@@ -141,7 +141,11 @@ new Vue({
                             : 'hh';
                 })
                 this.toggleBusy(false);
+                this.adm_rows = response.data.recordsTotal;
                 return data;
+            }).catch(error => {
+                this.toggleBusy(false);
+                console.log(error);
             });
         },
         toggleBusy(state = undefined) {

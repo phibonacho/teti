@@ -109,8 +109,6 @@ new Vue({
                 this.edit_is = deepCopy(emptyIS);
             }).catch(response => {
                 console.log(response);
-            }).then(response => {
-
             });
         },
         deleteData(event) {
@@ -128,15 +126,16 @@ new Vue({
         },
         provider (ctx) {
             this.toggleBusy(true);
-            let promise = axios.post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search_is);
-            return promise.then(response => {
-                this.toggleBusy(false);
-                return response.data.data;
-            }).catch(error => {
-                console.log(error)
-            }).then(response => {
-                this.toggleBusy(false);
-            });
+            return axios
+                .post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search_is)
+                .then(response => {
+                    this.toggleBusy(false);
+                    this.is_rows = response.data.recordsTotal;
+                    return response.data.data;
+                }).catch(error => {
+                    this.toggleBusy(false);
+                    console.log(error);
+                });
         },
         toggleBusy(state = undefined) {
             if(state === undefined)
