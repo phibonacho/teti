@@ -4,13 +4,16 @@ import "../scss/admin.scss";
 // JS
 import "./components/fontawesome";
 import "./components/navbar";
+import "./components/sidebar";
+import Spinner from "./vue/my-spinner";
 
 // VUE
-import "./vue/side-bar";
+
 import Vue from "vue";
 import axios from 'axios';
 import {FormPlugin, FormInputPlugin, OverlayPlugin, ModalPlugin, TablePlugin, PaginationPlugin, SpinnerPlugin} from "bootstrap-vue";
 
+Vue.use(Spinner);
 Vue.use(FormPlugin);
 Vue.use(FormInputPlugin);
 Vue.use(OverlayPlugin);

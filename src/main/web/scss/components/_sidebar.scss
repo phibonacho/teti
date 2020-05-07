@@ -63,7 +63,7 @@
     text-decoration: none;
     &:hover:not(:disabled) {
       background-color: transparentize($secondary, .6);
-      border-left: 3px solid $yellow;
+      border-left: 3px solid $secondary;
     }
     &:disabled {
       background: transparentize($dark, .7);

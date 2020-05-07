@@ -14,7 +14,7 @@ input[type=checkbox]{
   visibility: hidden;
 
   &:checked + label {
-    background: $primary; // #bada55
+    background: $secondary; // #bada55
     &:after {
       left: calc(100% - #{$switch_gap});
       transform: translateX(-100%);
@@ -26,7 +26,7 @@ input[type=checkbox]{
     text-indent: -9999px;
     width: calc(#{$switch_dim} * 2);
     height: $switch_dim;
-    background: $secondary;
+    background: $primary;
     display: block;
     border-radius: $switch_dim;
     position: relative;

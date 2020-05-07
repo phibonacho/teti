@@ -7,8 +7,12 @@
 <body>
 <th:block th:fragment="vue_table(provider,fields,page,size,rows,url,id,content, no_result, no_result_filtered)">
     <b-overlay :show="isBusy"
-               variant="transparent"
-               spinner-variant="light">
+               variant="transparent">
+        <template v-slot:overlay>
+            <div class="text-center">
+                <my-spinner></my-spinner>
+            </div>
+        </template>
         <b-table hover
                  th::items="${provider}"
                  th::fields="${fields}"

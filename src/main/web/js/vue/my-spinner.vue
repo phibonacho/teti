@@ -5,11 +5,10 @@
 </template>
 
 <script>
-    const Spinner = {
+    module.export = {
         name: "my-spinner"
     };
 
-    export default Spinner;
 </script>
 
 <style scoped lang="scss">

@@ -14,10 +14,10 @@ public class BaseController {
     @ModelAttribute("menuEntries")
     public List<MenuOption> menuConfig() {
         return List.of(
-                new MenuOption("registries", MenuOption.Status.ALPHA, "administrators", "invoice-subjects"),
+                new MenuOption("registries", MenuOption.Status.BETA, "administrators", "invoice-subjects"),
                 new MenuOption("readings", MenuOption.Status.NYI, "water", "electricity"),
                 new MenuOption("prints", MenuOption.Status.NYI, "1", "2"),
-                new MenuOption("contracts", MenuOption.Status.NYI, "1"),
+                new MenuOption("contracts", MenuOption.Status.ALPHA, "management", "rate-adjustment"),
                 new MenuOption("billing", MenuOption.Status.NYI, "month", "emitted"),
                 new MenuOption("utility", MenuOption.Status.NYI, "1"),
                 new MenuOption("info", MenuOption.Status.NYI, "1")

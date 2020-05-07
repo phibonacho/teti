@@ -1,0 +1,153 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:v-slot="http://www.w3.org/1999/XSL/Transform">
+<head>
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <title th:text="'Teti | ' + #{title.rate-adjustment}"></title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/rate_adjustment.css}">
+</head>
+<body>
+<div id="app">
+    <nav th:replace="components/bars :: navbar_vue(#{title.rate-adjustment} + ' ' + ${admin.id})"></nav>
+    <nav th:replace="components/bars :: vue_sidebar"></nav>
+    <main class="mx-auto col-md-9 col-lg-10 pt-3 px-4">
+        <div class="row">
+            <div class="col-md-4 col-lg-3">
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <div class="container-fluid">
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="info-wrapper">
+                                            <span th:text="${!#strings.isEmpty(admin.businessName)}? ${admin.businessName} : '---'"></span>
+                                        </div>
+                                        <small class="info-name" th:text="#{administrator.businessName}"></small>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="info-wrapper">
+                                            <span th:text="${!#strings.isEmpty(admin.fiscalCode)}? ${admin.fiscalCode} : '---'"></span>
+                                        </div>
+                                        <small class="info-name" th:text="#{administrator.fiscalCode}"></small>
+                                    </div>
+                                </div>
+                                <div class="form-row">
+                                    <div class="col-4">
+                                        <div class="info-wrapper">
+                                            <span th:text="${!#strings.isEmpty(admin.phone)}? ${admin.phone} : '---'"></span>
+                                        </div>
+                                        <small class="info-name" th:text="#{administrator.landphone}"></small>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="info-wrapper">
+                                            <span  th:text="${!#strings.isEmpty(admin.fax)}? ${admin.fax} : '---'"></span>
+                                        </div>
+                                        <small class="info-name" th:text="#{administrator.fax}"></small>
+                                    </div>
+                                    <div class="col-4">
+                                        <div class="info-wrapper">
+                                            <span  th:text="${!#strings.isEmpty(admin.mobilePhone)}? ${admin.mobilePhone} : '---'"></span>
+                                        </div>
+                                        <small class="info-name" th:text="#{administrator.mobilePhone}"></small>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <div class="info-wrapper">
+                                                    <span  th:text="${!#strings.isEmpty(admin.address.street)}? ${admin.address.street} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{address.street}"></small>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="col-4">
+                                                <div class="info-wrapper">
+                                                    <span  th:text="${!#strings.isEmpty(admin.address.streetNumber)}? ${admin.address.streetNumber} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{address.streetNumber}"></small>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="info-wrapper">
+                                                    <span  th:text="${!#strings.isEmpty(admin.address.zipCode)}? ${admin.address.zipCode} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{address.zipCode}"></small>
+                                            </div>
+                                            <div class="col-4">
+                                                <div class="info-wrapper">
+                                                    <span  th:text="${!#strings.isEmpty(admin.address.city)}? ${admin.address.city} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{address.city}"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="form-row">
+                                    <div class="col">
+                                        <div class="info-wrapper">
+                                            <span th:text="${!#strings.isEmpty(admin.note)}?${admin.note} : '---'"></span>
+                                        </div>
+                                        <small class="info-name" th:text="#{administrator.note}"></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-8 col-lg-9">
+                <b-overlay :show="saveOverlay"
+                           variant="transparent"
+                           blur="1rem"
+                           spinner-variant="primary">
+                    <div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="text-primary" th:text="#{invoice_subject.add}"></h5>
+                            <form th:replace="components/forms :: is-form-vue(save, #{btn.save}, 'saveData')"></form>
+                        </div>
+                    </div>
+                </b-overlay>
+            </div>
+        </div>
+        <div class="card mt-3">
+            <div class="card-body">
+                <div class="d-flex justify-content-start">
+                    <h5 class="text-primary mb-3" th:text="#{invoice_subject.list}"></h5>
+                    <a class="py-1 px-2"  href="#" v-b-toggle.admin-filters role="button">
+                        <i class="fas fa-sliders-h text-primary"></i>
+                    </a>
+                </div>
+                <b-collapse id="admin-filters">
+                    <div class="card">
+                        <div class="card-body">
+                            <h6 class="text-primary mb-2" th:text="#{invoice_subject.filter}"></h6>
+                            <form th:replace="components/forms :: is-form-vue(search, #{btn.search}, 'reloadData')"></form>
+                        </div>
+                    </div>
+                </b-collapse>
+                <th:block th:insert="components/tables :: vue_table(provider,fields,is_page,is_size,is_rows,is_url,'is-table', ~{components/tables :: adm-detail-table-columns}, #{invoice_subject.none}, #{invoice_subject.none.filtered})"/>
+            </div>
+        </div>
+    </main>
+    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{invoice_subject.edit}" header-bg-variant="primary">
+        <form action="#" th:replace="components/forms :: is-form-vue(edit, #{btn.update}, 'editData')"></form>
+    </b-modal>
+    <b-modal id="delete-modal" centered size="sm" hide-footer header-bg-variant="danger" header-text-variant="light" th:title="#{info.invoice_subject.delete}">
+        <div class="row text-center">
+            <p>Sei sicuro di voler eliminare il soggetto di fatturazione {{ delete_is }} ?</p>
+            <form action="#" class="mx-auto">
+                <button type="submit" class="text-uppercase btn btn-danger" th:text="#{btn.delete}" @click="deleteData"></button>
+            </form>
+        </div>
+    </b-modal>
+</div>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/rate_adjustment.js}"></script>
+</body>
+</html>

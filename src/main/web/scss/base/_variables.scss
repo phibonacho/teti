@@ -27,18 +27,19 @@ $theme-colors : (
         "wat" : $lime,
         "ed" : $red,
         "hh" : $yellow,
-        "primary" : $dark-blue-gray,
-        "secondary" : $blue-gray,
+        "primary" : #3452a0, //skobeloff
+        "success" : #20bf55 , // caribbean green
         "green" : $green,
         "blue" : $blue,
-        "light" : $beau-blue,
-        "muted" : $lavender-gray,
-        "danger" : $rosso-corsa,
-        "warning" : $selective-yellow
+        "secondary" : #f6ae2d, // eagle green
+        "light" : #F2F4F3, // cultured
+        "muted" : #9F9AA4, // manatee
+        "danger" : #EE2E31, // cg-red
+        "warning" : #F3C969 // maize
 );
 
-$primary : $dark-blue-gray;
-$secondary: $blue-gray;
+$primary : #464655;
+$secondary: #f6ae2d;
 $bar-width:             20rem;
 $border-radius:         .1rem;
 $border-radius-lg:      .1rem;
