@@ -8,9 +8,9 @@ import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Join;
 
-public class ISSpecs {
+public class ISSpecs extends SpecsInterface {
     public static Specification<InvoiceSubject> propertiesLike(InvoiceSubject target) {
-        return (Specification<InvoiceSubject>) (root, query, cb) -> SpecsInterface.likePropertiesPredicate(root, query, cb, target);
+        return (Specification<InvoiceSubject>) (root, query, cb) -> likePropertiesPredicate(root, query, cb, target);
     }
 
     public static Specification<InvoiceSubject> withAddressLike(InvoiceSubject target) {
@@ -18,7 +18,7 @@ public class ISSpecs {
             if(target.getAddress() == null)
                 return cb.and();
             Join<InvoiceSubject, Address> adminAddress = root.join("address");
-            return SpecsInterface.likePropertiesPredicate(adminAddress, query, cb, target.getAddress());
+            return likePropertiesPredicate(adminAddress, query, cb, target.getAddress());
         };
     }
 
@@ -31,10 +31,8 @@ public class ISSpecs {
 
     public static Specification<InvoiceSubject> belongingToAdmin(InvoiceSubject target) {
         return (Specification<InvoiceSubject>) (root, query, cb) -> {
-            if(target.getAdministrator() == null) {
-                System.out.println("no administrator id provided");
+            if(target.getAdministrator() == null)
                 return cb.and();
-            }
             Join<InvoiceSubject, Administrator> admin = root.join("administrator");
             return cb.equal(admin.get("id"), target.getAdministrator().getId());
         };

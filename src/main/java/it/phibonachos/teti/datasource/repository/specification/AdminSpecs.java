@@ -6,7 +6,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.Join;
 
-public class AdminSpecs {
+public class AdminSpecs extends SpecsInterface {
     public static Specification<Administrator> propertiesLike(Administrator target) {
         return (Specification<Administrator>) (root, query, cb) -> SpecsInterface.likePropertiesPredicate(root, query, cb, target);
     }

@@ -56,4 +56,12 @@ public class Service {
     public void setContract(Contract contract) {
         this.contract = contract;
     }
+
+    public Set<ServiceMemo> getServiceMemos() {
+        return serviceMemos;
+    }
+
+    public void setServiceMemos(Set<ServiceMemo> serviceMemos) {
+        this.serviceMemos = serviceMemos;
+    }
 }
