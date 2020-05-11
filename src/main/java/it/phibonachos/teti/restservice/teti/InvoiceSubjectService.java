@@ -1,5 +1,6 @@
 package it.phibonachos.teti.restservice.teti;
 
+import it.phibonachos.teti.datasource.model.teti.Contract;
 import it.phibonachos.teti.datasource.model.teti.InvoiceSubject;
 import org.springframework.data.domain.Page;
 
@@ -15,11 +16,13 @@ public interface InvoiceSubjectService {
 
     InvoiceSubject save(InvoiceSubject InvoiceSubject);
 
-    InvoiceSubject find(Long id) throws Exception;
+    InvoiceSubject find(Long id);
 
     boolean remove(InvoiceSubject InvoiceSubject);
 
     boolean remove(Long id);
 
     long count();
+
+    Contract bindContract(Long isId, Contract contract);
 }

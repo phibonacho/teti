@@ -140,7 +140,7 @@
             </div>
         </div>
     </main>
-    <b-modal id="edit-modal" centered size="lg" hide-footer header-text-variant="light" th:title="#{invoice_subject.edit}" header-bg-variant="primary">
+    <b-modal id="edit-modal" centered size="lg" hide-footer th:title="#{invoice_subject.edit}" header-bg-variant="primary">
         <form action="#" th:replace="components/forms :: is-form-vue(edit, #{btn.update}, 'editData')"></form>
     </b-modal>
     <b-modal id="delete-modal" centered size="sm" hide-footer header-bg-variant="danger" header-text-variant="light" th:title="#{info.invoice_subject.delete}">
@@ -150,9 +150,6 @@
                 <button type="submit" class="text-uppercase btn btn-danger" th:text="#{btn.delete}" @click="deleteData"></button>
             </form>
         </div>
-    </b-modal>
-    <b-modal id="add-contract-modal" centered hide-footer header-bg-variant="primary" header-text-variant="light" title="Associa Contratto">
-        <form action="#" th:replace="components/forms :: contract-form-vue(save, #{btn.save}, saveContract)"></form>
     </b-modal>
 </div>
 <script th:src="@{/js/common.js}"></script>

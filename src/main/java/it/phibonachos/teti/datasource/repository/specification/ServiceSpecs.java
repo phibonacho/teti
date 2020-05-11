@@ -11,14 +11,28 @@ public class ServiceSpecs extends SpecsInterface {
         return (Specification<Service>) (root, query, cb) -> SpecsInterface.likePropertiesPredicate(root, query, cb, target);
     }
 
-    public static Specification<Service> ofContract(Long contractId) {
+    public static Specification<Service> ofContract(Long id) {
         return (Specification<Service>) (root, query, cb) -> {
             Join<Contract, Service> contract = root.join("contract");
-            return cb.equal(contract.get("id"), contractId);
+            return cb.equal(contract.get("id"), id);
         };
     }
 
-    public static Specification<Service> havingProperties(Service target) {
-        return propertiesLike(target).and(ofContract(target.getId()));
+    public static Specification<Service> withDeadlinein(Service filter) {
+        return (Specification<Service>) (root, query, cb) -> {
+            if(filter.getServiceDeadLine() == null)
+                return cb.and();
+            return cb.equal(root.get("serviceDeadline"), filter.getServiceDeadLine());
+        };
     }
+
+
+    public static Specification<Service> havingProperties(Service target) {
+        return propertiesLike(target).and(withDeadlinein(target));
+    }
+
+    public static Specification<Service> havingProperties(Service target, Long contractId) {
+        return havingProperties(target).and(ofContract(contractId));
+    }
+
 }

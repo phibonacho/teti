@@ -1,5 +1,6 @@
 package it.phibonachos.teti.restservice.teti.impl;
 
+import it.phibonachos.teti.datasource.model.teti.Contract;
 import it.phibonachos.teti.datasource.model.teti.InvoiceSubject;
 import it.phibonachos.teti.datasource.repository.specification.ISSpecs;
 import it.phibonachos.teti.datasource.repository.specification.SpecsInterface;
@@ -13,7 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class InvoiceSubjectServiceImpl implements InvoiceSubjectService {
+public class InvoiceSubjectServiceImpl extends ServiceUtility implements InvoiceSubjectService {
 
     private final InvoiceSubjectRepository invoiceSubRepository;
 
@@ -40,8 +41,8 @@ public class InvoiceSubjectServiceImpl implements InvoiceSubjectService {
     }
 
     @Override
-    public InvoiceSubject find(Long id) throws Exception {
-        return invoiceSubRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+    public InvoiceSubject find(Long id) {
+        return find(invoiceSubRepository, id);
     }
 
     public boolean remove(InvoiceSubject InvoiceSubject) {
@@ -65,6 +66,14 @@ public class InvoiceSubjectServiceImpl implements InvoiceSubjectService {
     @Override
     public long count() {
         return invoiceSubRepository.count();
+    }
+
+    @Override
+    public Contract bindContract(Long id, Contract contract) {
+        InvoiceSubject is = find(id);
+        is.setContract(contract);
+        save(invoiceSubRepository, is);
+        return contract;
     }
 
 }

@@ -6,73 +6,19 @@
 </head>
 <body>
     <!--  former input text + label  -->
-    <th:block th:fragment="text_input_l(prefix, name, placeholder)" th:with="id=${prefix} + '-' + ${name}">
+    <th:block th:fragment="input_bundle(prefix, name, placeholder, type)" th:with="id=${prefix} + '-' + ${name}">
         <label th:for="${id}" class="sr-only" th:text="${placeholder}"></label>
-        <input type="text" th:id="${id}" th:v-model="${prefix} + '.' + ${name}" class="form-control mb-2" th:placeholder="${placeholder}">
+        <input th:type="${type}" th:id="${id}" th:v-model="${prefix} + '.' + ${name}" class="form-control mb-2" th:placeholder="${placeholder}" th:step="${#strings.equals(type, 'number')}? '0.01'">
     </th:block>
-    <!-- Admin add form -->
-    <form th:fragment="admin-form(prefix, action, method, btnCaption)" action="#" th:action="@{${action}}" th:method="${method}" th:id="${prefix} + '-admin-form'">
-        <div class="form-group">
-            <div class="form-row">
-                <div class="col-md-6">
-                    <h6 class="text-primary">Anagrafica</h6>
-                    <div class="form-row">
-                        <div class="col-6">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, businessName, #{administrator.businessName})}" />
-                        </div>
-                        <div class="col-6">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, fiscalCode, #{administrator.fiscalCode})}"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <h6 class="text-primary">Contatti</h6>
-                    <div class="form-row">
-                        <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, phone, #{administrator.landphone})}"/>
-                        </div>
-                        <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, fax, #{administrator.fax})}"/>
-                        </div>
-                        <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, mobilePhone, #{administrator.mobilePhone})}"/>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="form-row">
-                <div class="col-6">
-                    <h6 class="text-primary" th:text="#{administrators.address}"></h6>
-                    <div class="form-row">
-                        <div class="col">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.street', #{address.street})}"/>
-                        </div>
-                    </div>
-                    <div class="form-row">
-                        <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.streetNumber', #{address.streetNumber})}"/>
-                        </div>
-                        <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.zipCode', #{address.zipCode})}"/>
-                        </div>
-                        <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.city', #{address.city})}"/>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6 pb-2">
-                    <h6 class="text-primary">Note</h6>
-                    <textarea th:id="${prefix} + '-note'" th:name="note" class="form-control" style="height: 83px"></textarea>
-                    <label th:for="${prefix} + '-note'" class="sr-only">Note</label>
-                </div>
-            </div>
-            <div class="form-row justify-content-end mt-4">
-                <button type="submit" class="btn btn-primary px-4 mx-1 text-uppercase" th:text="${btnCaption}"></button>
-            </div>
-        </div>
-    </form>
+    <th:block th:fragment="select_bundle(prefix, name, label, option)" th:with="id=${prefix} + '-' + ${name}">
+        <label th:for="${id}" class="sr-only" th:text="${label}"></label>
+        <b-form-select th:id="${id}" th:v-model="${prefix} + '.' + ${name}" class="form-control mb-2" th::options="${option}"></b-form-select>
+    </th:block>
+    <th:block th:fragment="checkbox_bundle(prefix, name, label)" th:with="id=${prefix} + '-' + ${name}">
+        <input type="checkbox" th:id="${id}" th:v-model="${prefix} + '.' + ${name}">
+        <label th:for="${id}" class="sr-only" th:text="${label}"></label>
+    </th:block>
+
     <!-- vue add form -->
     <form th:fragment="admin-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_admin'" th:id="${prefix} + '_form'">
         <div class="form-group">
@@ -81,10 +27,10 @@
                     <h6 class="text-primary">Anagrafica</h6>
                     <div class="form-row">
                         <div class="col-6">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, businessName, #{administrator.businessName})}" />
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, businessName, #{administrator.businessName}, text)}" />
                         </div>
                         <div class="col-6">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, fiscalCode, #{administrator.fiscalCode})}" />
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, fiscalCode, #{administrator.fiscalCode}, text)}" />
                         </div>
                     </div>
                 </div>
@@ -92,13 +38,13 @@
                     <h6 class="text-primary">Contatti</h6>
                     <div class="form-row">
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, phone, #{administrator.landphone})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, phone, #{administrator.landphone}, text)}"/>
                         </div>
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, fax, #{administrator.fax})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, fax, #{administrator.fax}, text)}"/>
                         </div>
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, mobilePhone, #{administrator.mobilePhone})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, mobilePhone, #{administrator.mobilePhone}, text)}"/>
                         </div>
                     </div>
                 </div>
@@ -110,18 +56,18 @@
                     <h6 class="text-primary" th:text="#{administrators.address}"></h6>
                     <div class="form-row">
                         <div class="col">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.street', #{address.street})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, 'address.street', #{address.street}, text)}"/>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.streetNumber', #{address.streetNumber})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, 'address.streetNumber', #{address.streetNumber}, text)}"/>
                         </div>
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.zipCode', #{address.zipCode})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, 'address.zipCode', #{address.zipCode}, text)}"/>
                         </div>
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.city', #{address.city})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, 'address.city', #{address.city}, text)}"/>
                         </div>
                     </div>
                 </div>
@@ -144,12 +90,12 @@
                     <h6 class="text-primary">Anagrafica</h6>
                     <div class="form-row">
                         <div class="col-6">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, businessName, #{administrator.businessName})}" />
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, businessName2, #{administrator.businessName} + '2')}" />
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, businessName, #{administrator.businessName}, text)}" />
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, businessName2, #{administrator.businessName} + '2', text)}" />
                         </div>
                         <div class="col-6">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, fiscalCode, #{administrator.fiscalCode})}" />
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, vatCode, #{invoice_sub.vatCode})}" />
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, fiscalCode, #{administrator.fiscalCode}, text)}" />
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, vatCode, #{invoice_sub.vatCode}, text)}" />
                         </div>
                     </div>
                 </div>
@@ -157,16 +103,15 @@
                     <h6 class="text-primary">Contatti</h6>
                     <div class="form-row">
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, phone, #{administrator.landphone})}"/>
-                            <h6 class="text-primary">Soggetto a ritenuta</h6>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, phone, #{administrator.landphone}, text)}"/>
+                            <h6 class="text-primary" th:text="#{invoice_sub.withholding}"></h6>
                         </div>
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, fax, #{administrator.fax})}"/>
-                            <input type="checkbox" th:id="${prefix} + '-withholding'" th:v-model="${prefix} + '.withholding'">
-                            <label th:for="${prefix} + '-withholding'" class="sr-only">Note</label>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, fax, #{administrator.fax}, text)}"/>
+                            <th:block th:replace="~{ :: checkbox_bundle(${prefix}, withholding, #{invoice_sub.withholding})}"/>
                         </div>
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, mobilePhone, #{administrator.mobilePhone})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, mobilePhone, #{administrator.mobilePhone}, text)}"/>
                         </div>
                     </div>
                 </div>
@@ -178,18 +123,18 @@
                     <h6 class="text-primary" th:text="#{administrators.address}"></h6>
                     <div class="form-row">
                         <div class="col">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.street', #{address.street})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, 'address.street', #{address.street}, text)}"/>
                         </div>
                     </div>
                     <div class="form-row">
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.streetNumber', #{address.streetNumber})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, 'address.streetNumber', #{address.streetNumber}, text)}"/>
                         </div>
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.zipCode', #{address.zipCode})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, 'address.zipCode', #{address.zipCode}, text)}"/>
                         </div>
                         <div class="col-4">
-                            <th:block th:replace="~{ :: text_input_l(${prefix}, 'address.city', #{address.city})}"/>
+                            <th:block th:replace="~{ :: input_bundle(${prefix}, 'address.city', #{address.city}, text)}"/>
                         </div>
                     </div>
                 </div>
@@ -197,6 +142,37 @@
                     <h6 class="text-primary">Note</h6>
                     <textarea th:id="${prefix} + '-note'" th:v-model="${prefix} + '.note'" class="form-control" style="height: 83px"></textarea>
                     <label th:for="${prefix} + '-note'" class="sr-only">Note</label>
+                </div>
+            </div>
+            <div class="form-row justify-content-end mt-4">
+                <button type="submit" class="btn btn-secondary px-4 mx-1 text-uppercase" th:text="${btnCaption}"></button>
+            </div>
+        </div>
+    </form>
+    <!-- Contract -->
+    <form th:fragment="contract-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_contract'" th:id="${prefix} + '_form'">
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col-md-6">
+                    <th:block th:replace="~{ :: select_bundle(${prefix}, billingMonth, #{contract.billingMonth}, months)}"/>
+                </div>
+                <div class="col-md-6">
+                    <th:block th:replace="~{ :: input_bundle(${prefix}, 'billingAmount', #{contract.billingAmount}, number)}"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col-6">
+                    <h6 th:text="#{contract.toBill}" class="text-primary"></h6>
+                </div>
+                <div class="col-6">
+                    <th:block th:replace="~{ :: checkbox_bundle(${prefix}, toBill, #{contract.toBill})}"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <h6 class="text-primary">Note</h6>
+                    <textarea th:id="${prefix} + '-notes'" th:v-model="${prefix} + '.notes'" class="form-control" style="height: 83px"></textarea>
+                    <label th:for="${prefix} + '-notes'" class="sr-only">Note</label>
                 </div>
             </div>
             <div class="form-row justify-content-end mt-4">

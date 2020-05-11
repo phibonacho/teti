@@ -15,6 +15,8 @@ import {faTrashAlt} from "@fortawesome/free-solid-svg-icons/faTrashAlt";
 import {faPen} from "@fortawesome/free-solid-svg-icons/faPen";
 import {faPortrait} from "@fortawesome/free-solid-svg-icons/faPortrait";
 import {faBars} from "@fortawesome/free-solid-svg-icons/faBars";
+import {faAddressCard} from "@fortawesome/free-solid-svg-icons/faAddressCard";
+import {faPlusCircle} from "@fortawesome/free-solid-svg-icons/faPlusCircle";
 
 library.add(
     // solid
@@ -25,7 +27,8 @@ library.add(
     faPen,
     faPortrait,
     faBars,
-
+    faAddressCard,
+    faPlusCircle,
     // regular
     faStarReg,
     faHeartReg,

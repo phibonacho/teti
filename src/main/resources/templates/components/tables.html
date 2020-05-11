@@ -40,16 +40,22 @@
     <div class="row justify-content-around">
         <a class="py-1 px-2 remove-administrator" href="#" @click="deleteModal(data.value)"><i class="fas fa-trash-alt text-danger"></i></a>
         <a class="py-1 px-2 edit-administrator" href="#" @click="editModal(data.value)"><i class="fas fa-pen text-primary"></i></a>
-        <a class="py-1 px-2" :href="'/registries/administrators/' + data.value + '/detail'"><i class="fas fa-portrait text-dark"></i></a>
+        <a class="py-1 px-2" :href="'/registries/administrators/' + data.value + '/detail'"><i class="fas fa-address-card text-secondary"></i></a>
     </div>
 </template>
 
-<template v-slot:cell(id)="data" th:fragment="adm-detail-table-columns">
-    <div class="row justify-content-around">
-        <a class="py-1 px-2 remove-administrator" href="#" @click="deleteModal(data.value)"><i class="fas fa-trash-alt text-danger"></i></a>
-        <a class="py-1 px-2 edit-administrator" href="#" @click="editModal(data.value)"><i class="fas fa-pen text-primary"></i></a>
-    </div>
-</template>
+<th:block th:fragment="adm-detail-table-columns">
+    <template v-slot:cell(id)="data">
+        <div class="row justify-content-around">
+            <a class="py-1 px-2 remove-administrator" href="#" @click="deleteModal(data.value)"><i class="fas fa-trash-alt text-danger"></i></a>
+            <a class="py-1 px-2 edit-administrator" href="#" @click="editModal(data.value)"><i class="fas fa-pen text-primary"></i></a>
+        </div>
+    </template>
+    <template v-slot:cell(contract)="data">
+        <a v-if="!!data.value" class="py-1 px-2 " :href="'/contract/' + data.value.id + '/detail'"><b-badge pill variant="primary">{{ data.value.id }}</b-badge></a>
+        <a v-else class="py-1 px-2 " v-b-modal.add-contract-modal><i class="fas fa-plus-circle text-primary"></i></a>
+    </template>
+</th:block>
 
 <template v-slot:cell(id)="data" th:fragment="is-table-columns">
 </template>

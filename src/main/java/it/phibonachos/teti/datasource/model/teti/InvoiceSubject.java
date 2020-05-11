@@ -27,6 +27,11 @@ public class InvoiceSubject {
     @JoinColumn(name = "AddressID", nullable = false)
     private Address address;
 
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinColumn(name = "ContractID")
+    private Contract contract;
+
+
     @Column(name = "Phone")
     private String phone;
 
@@ -144,5 +149,13 @@ public class InvoiceSubject {
     @JsonProperty
     public void setAdministrator(Administrator administrator) {
         this.administrator = administrator;
+    }
+
+    public Contract getContract() {
+        return contract;
+    }
+
+    public void setContract(Contract contract) {
+        this.contract = contract;
     }
 }

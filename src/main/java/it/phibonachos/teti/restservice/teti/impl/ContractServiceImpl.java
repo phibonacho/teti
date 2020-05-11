@@ -48,6 +48,7 @@ public class ContractServiceImpl extends ServiceUtility implements ContractServi
         return find(contractRepository, id);
     }
 
+    @Deprecated
     public Contract save(Contract contract) {
         return save(contractRepository, contract);
     }
@@ -70,6 +71,16 @@ public class ContractServiceImpl extends ServiceUtility implements ContractServi
     @Override
     public List<Service> findServices(long id) {
         return serviceRepository.findByContractId(id, Pageable.unpaged()).getContent();
+    }
+
+    @Override
+    public List<Service> findRelatedServices(Service filter, long contractId) {
+        return find(serviceRepository, ServiceSpecs.havingProperties(filter, contractId));
+    }
+
+    @Override
+    public Page<Service> findRelatedServices(Service filter, long contractId, int page, int size) {
+        return find(serviceRepository, ServiceSpecs.havingProperties(filter, contractId), page, size);
     }
 
     @Override
@@ -132,7 +143,7 @@ public class ContractServiceImpl extends ServiceUtility implements ContractServi
     }
 
     @Override
-    public ServiceMemo addMemo(long id, ServiceMemo memo) {
+    public ServiceMemo addMemo(long serviceId, ServiceMemo memo) {
         return null;
     }
 

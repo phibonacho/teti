@@ -5,10 +5,11 @@ import "../scss/admin_detail.scss";
 import "./components/fontawesome";
 import "./components/navbar";
 import "./components/sidebar";
+import Spinner from "./vue/my-spinner";
 
 // VUE
 import axios from 'axios';
-import {FormPlugin, FormInputPlugin, OverlayPlugin, ModalPlugin, TablePlugin, PaginationPlugin, SpinnerPlugin} from "bootstrap-vue";
+import {FormPlugin, FormInputPlugin, OverlayPlugin, ModalPlugin, TablePlugin, PaginationPlugin, SpinnerPlugin, FormSelectPlugin} from "bootstrap-vue";
 
 Vue.use(FormPlugin);
 Vue.use(FormInputPlugin);
@@ -17,6 +18,8 @@ Vue.use(ModalPlugin);
 Vue.use(TablePlugin);
 Vue.use(PaginationPlugin);
 Vue.use(SpinnerPlugin);
+Vue.use(FormSelectPlugin);
+Vue.component("my-spinner", Spinner);
 
 let emptyIS =  {
     businessName : '',
@@ -34,7 +37,14 @@ let emptyIS =  {
     administrator : {
         id : window.administratorID
     }
-}
+};
+
+let emptyContract = {
+    billingMonth : null,
+    billingAmount : null,
+    toBill : false,
+    notes : ''
+};
 
 function deepCopy(that) {
     return JSON.parse(JSON.stringify(that));
@@ -49,6 +59,7 @@ new Vue({
         save_is :  deepCopy(emptyIS),
         edit_is :  deepCopy(emptyIS),
         delete_is : undefined,
+        save_contract : deepCopy(emptyContract),
         is_page : 1,
         is_size : 10,
         is_rows : 0,
@@ -72,12 +83,31 @@ new Vue({
                     .join(', ')
             },
             {
+                key : 'contract',
+                label : 'Contratto'
+            },
+            {
                 key : 'id',
                 label : ''
             }
         ],
         isBusy: true,
         items : [],
+        months : [
+            { value : null, text : 'Mese di fatturazione'},
+            { value : 1, text : 'Gennaio'},
+            { value : 2, text : 'Febbraio'},
+            { value : 3, text : 'Marzo'},
+            { value : 4, text : 'Aprile'},
+            { value : 5, text : 'Maggio'},
+            { value : 6, text : 'Giugno'},
+            { value : 7, text : 'Luglio'},
+            { value : 8, text : 'Agosto'},
+            { value : 9, text : 'Settembre'},
+            { value : 10, text : 'Ottobre'},
+            { value : 11, text : 'Novembre'},
+            { value : 12, text : 'Dicembre'}
+        ]
     },
     methods : {
         reloadData (event) {
@@ -124,6 +154,10 @@ new Vue({
                 this.reloadData();
             })
         },
+        saveContract(event) {
+            event.preventDefault();
+
+        },
         provider (ctx) {
             this.toggleBusy(true);
             return axios
@@ -159,6 +193,6 @@ new Vue({
         deleteModal(id) {
             this.delete_is = id;
             this.$root.$emit('bv::show::modal', 'delete-modal');
-        },
+        }
     }
 });

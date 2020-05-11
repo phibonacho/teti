@@ -27,13 +27,17 @@ public interface ContractService {
 
     long count();
 
-    /* Services */
+    /* Services */ // TODO: revise
 
     List<Service> findServices(long id);
 
+    List<Service> findServices(Service filter);
+
     Page<Service> findServices(Service filter, int page, int size);
 
-    List<Service> findServices(Service filter);
+    List<Service> findRelatedServices(Service filter, long contractId);
+
+    Page<Service> findRelatedServices(Service filter, long contractId, int page, int size);
 
     Service findService(Long id);
 
@@ -55,7 +59,7 @@ public interface ContractService {
 
     ServiceMemo findMemo(Long id);
 
-    ServiceMemo addMemo(long id, ServiceMemo memo);
+    ServiceMemo addMemo(long serviceId, ServiceMemo memo);
 
     boolean removeMemo(ServiceMemo memo);
 

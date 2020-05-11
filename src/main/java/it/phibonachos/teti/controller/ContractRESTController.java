@@ -76,7 +76,7 @@ public class ContractRESTController {
 
     /* Services */
 
-    @RequestMapping(value = "/{id}/add-service", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}/service/add", method = RequestMethod.POST)
     public ResponseEntity<Object> addService(@PathVariable("id") Long id, @RequestBody Service toAssociate) {
         try {
             return new ResponseEntity<>(contractService.addService(id, toAssociate), HttpStatus.ACCEPTED);
@@ -85,5 +85,11 @@ public class ContractRESTController {
             e.printStackTrace();
             return new ResponseEntity<>("no administrator matching id.", HttpStatus.NOT_FOUND);
         }
+    }
+
+    @RequestMapping(value = {"/{id}/service/", "/{id}/service/{page}", "/{id}/service/{page}/{size}"}, method = RequestMethod.POST)
+    public ResponseEntity<Object> getAllService(@PathVariable("id") Long id, @PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "size") Optional<Integer> size,@RequestBody Service filters) {
+        Page<Service> matching = contractService.findRelatedServices(filters, id, page.map(i -> i-1).orElse(0), size.orElse(10));
+        return new ResponseEntity<>(Map.of("recordsTotal", matching.getTotalElements(), "data", matching.getContent()), HttpStatus.OK);
     }
 }

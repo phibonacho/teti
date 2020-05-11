@@ -11,7 +11,7 @@ public class Contract {
     @Column(name = "ContractID")
     private long id;
 
-    @Enumerated @Column(name = "ClosingMonth")
+    @Enumerated @Column(name = "BillingMonth")
     private Month billingMonth;
 
     @Column(name = "BillingAmount")
