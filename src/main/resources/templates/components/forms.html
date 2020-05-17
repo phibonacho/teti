@@ -12,7 +12,11 @@
     </th:block>
     <th:block th:fragment="select_bundle(prefix, name, label, option)" th:with="id=${prefix} + '-' + ${name}">
         <label th:for="${id}" class="sr-only" th:text="${label}"></label>
-        <b-form-select th:id="${id}" th:v-model="${prefix} + '.' + ${name}" class="form-control mb-2" th::options="${option}"></b-form-select>
+        <b-form-select th:id="${id}" th:v-model="${prefix} + '.' + ${name}" class="form-control" th::options="${option}"></b-form-select>
+    </th:block>
+    <th:block th:fragment="select_aux_bundle(prefix, name, label, option)" th:with="id=${prefix} + '-' + ${name}">
+        <label th:for="${id}" class="sr-only" th:text="${label}"></label>
+        <b-form-select th:id="${id}" th:v-model="${prefix} + '_aux_' + ${name}" class="form-control" th::options="${option}"></b-form-select>
     </th:block>
     <th:block th:fragment="checkbox_bundle(prefix, name, label)" th:with="id=${prefix} + '-' + ${name}">
         <input type="checkbox" th:id="${id}" th:v-model="${prefix} + '.' + ${name}">
@@ -166,6 +170,29 @@
                 </div>
                 <div class="col-6">
                     <th:block th:replace="~{ :: checkbox_bundle(${prefix}, toBill, #{contract.toBill})}"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <b-card>
+                        <h6 th:text="#{contract.closingMonth}" class="text-primary"></h6>
+                        <div class="row">
+                            <div class="col">
+                                <b-input-group class="mb-3">
+                                    <th:block th:replace="~{ :: select_aux_bundle(${prefix}, closingMonth, #{contract.closingMonth}, months)}"/>
+                                    <b-input-group-append>
+                                        <button type="button" class="btn btn-primary" @click="save_contractPCM"><i class="fas fa-plus"></i></button>
+                                    </b-input-group-append>
+                                </b-input-group>
+                                <b-list-group>
+                                    <b-list-group-item class="d-flex justify-content-between align-items-center py-0" v-for="month in save_contract.closingMonths" :key="month.closingMonth">
+                                        {{ month.closingMonth }}
+                                        <button type="button" class="btn">&times;</button>
+                                    </b-list-group-item>
+                                </b-list-group>
+                            </div>
+                        </div>
+                    </b-card>
                 </div>
             </div>
             <div class="form-row">

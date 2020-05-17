@@ -9,7 +9,12 @@ import Spinner from "./vue/my-spinner";
 
 // VUE
 import axios from 'axios';
-import {FormPlugin, FormInputPlugin, OverlayPlugin, ModalPlugin, TablePlugin, PaginationPlugin, SpinnerPlugin, FormSelectPlugin} from "bootstrap-vue";
+import {
+    FormPlugin, FormInputPlugin, FormSelectPlugin,
+    OverlayPlugin, ModalPlugin, SpinnerPlugin,
+    TablePlugin, PaginationPlugin,
+    CardPlugin, InputGroupPlugin, ListGroupPlugin
+} from "bootstrap-vue";
 
 Vue.use(FormPlugin);
 Vue.use(FormInputPlugin);
@@ -19,6 +24,10 @@ Vue.use(TablePlugin);
 Vue.use(PaginationPlugin);
 Vue.use(SpinnerPlugin);
 Vue.use(FormSelectPlugin);
+Vue.use(CardPlugin);
+Vue.use(InputGroupPlugin);
+Vue.use(ListGroupPlugin);
+
 Vue.component("my-spinner", Spinner);
 
 let emptyIS =  {
@@ -41,9 +50,10 @@ let emptyIS =  {
 
 let emptyContract = {
     billingMonth : null,
+    closingMonths : [],
     billingAmount : null,
     toBill : false,
-    notes : ''
+    notes : '',
 };
 
 function deepCopy(that) {
@@ -60,6 +70,7 @@ new Vue({
         edit_is :  deepCopy(emptyIS),
         delete_is : undefined,
         save_contract : deepCopy(emptyContract),
+        save_contract_aux_closingMonth : null,
         is_page : 1,
         is_size : 10,
         is_rows : 0,
@@ -154,9 +165,15 @@ new Vue({
                 this.reloadData();
             })
         },
+        save_contractPCM(event) {
+            console.log('daje oh');
+            this.save_contract.closingMonths.push({
+                closingMonth : this.save_contract_aux_closingMonth
+            });
+            console.log("ho pushato stra forte zi");
+        },
         saveContract(event) {
             event.preventDefault();
-
         },
         provider (ctx) {
             this.toggleBusy(true);

@@ -17,6 +17,7 @@ import {faPortrait} from "@fortawesome/free-solid-svg-icons/faPortrait";
 import {faBars} from "@fortawesome/free-solid-svg-icons/faBars";
 import {faAddressCard} from "@fortawesome/free-solid-svg-icons/faAddressCard";
 import {faPlusCircle} from "@fortawesome/free-solid-svg-icons/faPlusCircle";
+import {faPlus} from "@fortawesome/free-solid-svg-icons/faPlus";
 
 library.add(
     // solid
@@ -29,6 +30,8 @@ library.add(
     faBars,
     faAddressCard,
     faPlusCircle,
+    faPlus,
+
     // regular
     faStarReg,
     faHeartReg,
