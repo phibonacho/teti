@@ -185,9 +185,9 @@
                                     </b-input-group-append>
                                 </b-input-group>
                                 <b-list-group>
-                                    <b-list-group-item class="d-flex justify-content-between align-items-center py-0" v-for="month in save_contract.closingMonths" :key="month.closingMonth">
-                                        {{ month.closingMonth }}
-                                        <button type="button" class="btn">&times;</button>
+                                    <b-list-group-item class="d-flex justify-content-between align-items-center py-0" v-for="(month, index) in save_contract.closingMonths" :key="month.closingMonth">
+                                        {{ monthName(month.closingMonth) }}
+                                        <button type="button" class="btn text-danger" @click="delete_contractPCM(index)">&times;</button>
                                     </b-list-group-item>
                                 </b-list-group>
                             </div>

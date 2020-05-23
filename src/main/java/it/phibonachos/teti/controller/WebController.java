@@ -11,13 +11,17 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.LocaleResolver;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 public class WebController extends BaseController{
     final PasswordEncoder passwordEncoder;
     final UserRepository usersRepository;
 
-    public WebController(PasswordEncoder passwordEncoder, UserRepository usersRepository) {
+    public WebController(HttpServletRequest context, LocaleResolver localeResolver, PasswordEncoder passwordEncoder, UserRepository usersRepository) {
+        super(context, localeResolver);
         this.passwordEncoder = passwordEncoder;
         this.usersRepository = usersRepository;
     }

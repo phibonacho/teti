@@ -1,0 +1,15 @@
+@import "base/variables";
+@import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-vue/src/components/modal/modal";
+@import "./components/forms";
+
+.info-wrapper {
+  @extend .text-muted;
+  @extend .border-bottom;
+  @extend .border-primary;
+  & + .info-name {
+    @extend .form-text;
+    @extend .text-primary;
+    margin-top: 0;
+  }
+}

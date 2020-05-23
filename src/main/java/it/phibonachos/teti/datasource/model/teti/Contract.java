@@ -1,5 +1,7 @@
 package it.phibonachos.teti.datasource.model.teti;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.Month;
 import java.util.Set;
@@ -26,7 +28,7 @@ public class Contract {
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ContractID")
     private Set<RELClosingMonth> closingMonths;
-    
+
     @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "ContractID")
     private Set<Service> services;
@@ -71,6 +73,7 @@ public class Contract {
         this.notes = notes;
     }
 
+    @JsonIgnore
     public Set<RELClosingMonth> getClosingMonths() {
         return closingMonths;
     }
@@ -79,6 +82,7 @@ public class Contract {
         this.closingMonths = closingMonths;
     }
 
+    @JsonIgnore
     public Set<Service> getServices() {
         return services;
     }

@@ -1,0 +1,28 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="'Teti | ' + #{title.contract.detail}"></title>
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/contract.css}">
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var contractId = /*[[${contract.id}]]*/ 'default';
+        /*]]>*/
+    </script>
+</head>
+<body>
+<div id="app">
+    <nav th:replace="components/bars :: navbar_vue(#{title.contract.detail} + contract.id)"></nav>
+    <nav th:replace="components/bars :: vue_sidebar"></nav>
+    <main class="mx-auto col-md-9 col-lg-10 pt-3 px-4">
+        <div class="card mt-3">
+            <div class="card-body">
+
+                <th:block th:insert="components/tables :: vue_table(provider,fields,srv_page,srv_size,srv_rows,srv_url,'srv-table', ~{components/tables :: contract-detail-table-columns}, #{administrators.none}, #{administrators.none.filtered})"/>
+            </div>
+        </div>
+    </main>
+</div>
+<script th:src="@{/js/common.js}"></script>
+<script th:src="@{/js/contract.js}"></script>
+</body>
+</html>

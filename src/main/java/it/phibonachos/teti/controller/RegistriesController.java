@@ -9,6 +9,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.LocaleResolver;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/registries")
@@ -17,7 +20,8 @@ public class RegistriesController extends BaseController{
     final AdministratorService administratorService;
     final InvoiceSubjectService invoiceSubjectService;
 
-    public RegistriesController(AdministratorService administratorService, InvoiceSubjectService invoiceSubjectService) {
+    public RegistriesController(HttpServletRequest context, LocaleResolver localeResolver, AdministratorService administratorService, InvoiceSubjectService invoiceSubjectService) {
+        super(context, localeResolver);
         this.administratorService = administratorService;
         this.invoiceSubjectService = invoiceSubjectService;
     }

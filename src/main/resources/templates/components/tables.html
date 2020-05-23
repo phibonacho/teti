@@ -51,9 +51,18 @@
             <a class="py-1 px-2 edit-administrator" href="#" @click="editModal(data.value)"><i class="fas fa-pen text-primary"></i></a>
         </div>
     </template>
-    <template v-slot:cell(contract)="data">
-        <a v-if="!!data.value" class="py-1 px-2 " :href="'/contract/' + data.value.id + '/detail'"><b-badge pill variant="primary">{{ data.value.id }}</b-badge></a>
-        <a v-else class="py-1 px-2 " v-b-modal.add-contract-modal><i class="fas fa-plus-circle text-primary"></i></a>
+    <template v-slot:cell(contract_info)="data">
+        <a v-if="!!data.item.contract" class="py-1 px-2 " :href="'/contract/' + data.item.contract.id + '/detail'"><b-badge pill variant="primary">{{ data.item.contract.id }}</b-badge></a>
+        <button v-else class="py-1 px-2 btn" @click="contractModal(data.item.id)"><i class="fas fa-plus-circle text-primary"></i></button>
+    </template>
+</th:block>
+
+<th:block th:fragment="contract-detail-table-columns">
+    <template v-slot:cell(show_details)="row">
+        <button class="btn btn-primary mx-auto" @click="row.toggleDetails">
+            {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+            <i class="fas fa-chevron-right" :class="{ 'fa-rotate-90' : row.detailsShowing }"></i>
+        </button>
     </template>
 </th:block>
 

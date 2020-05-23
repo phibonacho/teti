@@ -1,5 +1,5 @@
 // SCSS
-import "../scss/admin_detail.scss";
+import "../scss/contract_detail.scss";
 
 // JS
 import "./components/fontawesome";
@@ -64,18 +64,15 @@ function deepCopy(that) {
 new Vue({
     el : '#app',
     data : {
-        is_url : '/is-api',
+        is_url : '/ctr-api',
         saveOverlay: false,
         search_is : deepCopy(emptyIS),
-        save_is :  deepCopy(emptyIS),
-        edit_is :  deepCopy(emptyIS),
-        delete_is : undefined,
-        save_contract : deepCopy(emptyContract),
-        save_contract_is : null,
-        save_contract_aux_closingMonth : null,
-        is_page : 1,
-        is_size : 10,
-        is_rows : 0,
+        save_service :  deepCopy(emptyIS),
+        edit_service :  deepCopy(emptyIS),
+        delete_service : undefined,
+        srv_page : 1,
+        srv_size : 10,
+        srv_rows : 0,
         fields: [
             {
                 key: 'businessName',
@@ -105,7 +102,6 @@ new Vue({
             }
         ],
         isBusy: true,
-        items : [],
         months : [null,0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(mon => ({
             value : mon,
             text : mon == null
@@ -122,10 +118,10 @@ new Vue({
         saveData (event) {
             event.preventDefault();
             this.saveOverlay = true;
-            let promise = axios.post(`/adm-api/${window.administratorID}/add-is`, this.save_is)
+            let promise = axios.post(`/ctr-api/${window.contractId}/add-service`, this.save_service)
             promise.then(response => {
                 // clean form...
-                this.save_is = deepCopy(emptyIS);
+                this.save_service = deepCopy(emptyIS);
                 this.$root.$emit('bv::refresh::table', 'is-table');
             }).catch(response => {
                 console.log(response);
@@ -135,7 +131,7 @@ new Vue({
         },
         editData (event) {
             event.preventDefault();
-            let promise = axios.put(`/is-api/${this.edit_is.id}/edit`, this.edit_is)
+            let promise = axios.put(`/srv-api/${this.edit_is.id}/edit`, this.edit_service)
             promise.then(response => {
                 // clean form...
                 this.$root.$emit('bv::refresh::table', 'is-table');
