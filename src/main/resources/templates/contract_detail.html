@@ -2,7 +2,7 @@
 <head>
     <title th:text="'Teti | ' + #{title.contract.detail}"></title>
     <link rel="stylesheet" th:href="@{/css/common.css}">
-    <link rel="stylesheet" th:href="@{/css/contract.css}">
+    <link rel="stylesheet" th:href="@{/css/contract_detail.css}">
     <script th:inline="javascript">
         /*<![CDATA[*/
         var contractId = /*[[${contract.id}]]*/ 'default';
@@ -11,18 +11,86 @@
 </head>
 <body>
 <div id="app">
-    <nav th:replace="components/bars :: navbar_vue(#{title.contract.detail} + contract.id)"></nav>
+    <nav th:replace="components/bars :: navbar_vue(#{title.contract.detail} + ' ' + ${contract.id})"></nav>
     <nav th:replace="components/bars :: vue_sidebar"></nav>
     <main class="mx-auto col-md-9 col-lg-10 pt-3 px-4">
-        <div class="card mt-3">
-            <div class="card-body">
+        <div class="row">
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="container-fluid">
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col-6">
+                                                <div class="info-wrapper">
+                                                    <span th:text="${contract.id}"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{contract.id}"></small>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="info-wrapper">
+                                                    <span  th:text="${!#strings.isEmpty(contract.billingMonth)}? ${contract.billingMonth} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{contract.billingMonth}"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <div class="info-wrapper">
+                                                    <span  th:text="${!#strings.isEmpty(contract.billAmount)}? ${contract.billAmount} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{contract.billingAmount}"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="form-row">
+                                            <div class="col">
+                                                <div class="info-wrapper">
+                                                    <th:block th:if="${!#sets.isEmpty(contract.closingMonths)}">
+                                                        <th:block th:each="month, iStat: ${contract.closingMonths}">
+                                                            <span th:text="${iStat.last}? ${month.closingMonth} : ${month.closingMonth} + '-'"></span>
+                                                        </th:block>
+                                                    </th:block>
+                                                    <span th:text="${!#strings.isEmpty(contract.closingMonths)}?${admin.note} : '---'"></span>
+                                                </div>
+                                                <small class="info-name" th:text="#{contract.closingMonth}"></small>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <h4 class="text-primary" th:text="#{service.add}"></h4>
+                                <form th:replace="components/forms :: service-form-vue(save, #{btn.save}, 'saveData')"></form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h4 class="text-primary" th:text="#{contract.related.services}"></h4>
+                        <th:block th:insert="components/tables :: vue_table(provider,fields,service_page,service_size,service_rows,service_url,'service-table', ~{components/tables :: contract-detail-table-columns}, #{service.none}, #{contract.none.filtered})"/>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div id="memo-drawer">
 
-                <th:block th:insert="components/tables :: vue_table(provider,fields,srv_page,srv_size,srv_rows,srv_url,'srv-table', ~{components/tables :: contract-detail-table-columns}, #{administrators.none}, #{administrators.none.filtered})"/>
+                </div>
             </div>
         </div>
     </main>
 </div>
 <script th:src="@{/js/common.js}"></script>
-<script th:src="@{/js/contract.js}"></script>
+<script th:src="@{/js/contract_detail.js}"></script>
 </body>
 </html>

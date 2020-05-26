@@ -58,9 +58,11 @@
 </th:block>
 
 <th:block th:fragment="contract-detail-table-columns">
+    <template v-slot:cell(formatted_deadline)="data">
+        {{ monthName(data.item.serviceDeadline) }}
+    </template>
     <template v-slot:cell(show_details)="row">
-        <button class="btn btn-primary mx-auto" @click="row.toggleDetails">
-            {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+        <button class="btn text-primary mx-auto" @click="row.toggleDetails">
             <i class="fas fa-chevron-right" :class="{ 'fa-rotate-90' : row.detailsShowing }"></i>
         </button>
     </template>

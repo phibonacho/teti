@@ -207,5 +207,23 @@
             </div>
         </div>
     </form>
+    <!--  Service  -->
+    <form th:fragment="service-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_service'" th:id="${prefix} + '_form'">
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col">
+                    <th:block th:replace="~{ :: input_bundle(${prefix}, serviceName, #{service.name}, text)}"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <th:block th:replace="~{ :: select_bundle(${prefix}, serviceDeadline, #{service.deadline}, months)}"/>
+                </div>
+            </div>
+            <div class="form-row justify-content-end mt-4">
+                <button type="submit" class="btn btn-secondary px-4 mx-1 text-uppercase" th:text="${btnCaption}"></button>
+            </div>
+        </div>
+    </form>
 </body>
 </html>

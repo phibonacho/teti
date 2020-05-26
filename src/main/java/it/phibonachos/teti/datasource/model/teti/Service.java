@@ -1,5 +1,8 @@
 package it.phibonachos.teti.datasource.model.teti;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.time.Month;
 import java.util.Set;
@@ -15,10 +18,11 @@ public class Service {
     private String serviceName;
 
     @Enumerated @Column(name = "ServiceDeadline")
-    private Month serviceDeadLine;
+    private Month serviceDeadline;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "ContractID")
+    @JsonIgnore
     private Contract contract;
 
     @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
@@ -41,12 +45,13 @@ public class Service {
         this.serviceName = serviceName;
     }
 
-    public Month getServiceDeadLine() {
-        return serviceDeadLine;
+    @JsonFormat(shape = JsonFormat.Shape.NUMBER)
+    public Month getServiceDeadline() {
+        return serviceDeadline;
     }
 
-    public void setServiceDeadLine(Month serviceDeadLine) {
-        this.serviceDeadLine = serviceDeadLine;
+    public void setServiceDeadline(Month serviceDeadLine) {
+        this.serviceDeadline = serviceDeadLine;
     }
 
     public Contract getContract() {

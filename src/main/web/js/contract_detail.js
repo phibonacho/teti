@@ -31,21 +31,11 @@ Vue.use(BadgePlugin);
 
 Vue.component("my-spinner", Spinner);
 
-const emptyIS =  {
-    businessName : '',
-    fiscalCode : '',
-    phone : '',
-    mobilePhone : '',
-    fax : '',
-    note : '',
-    address : {
-        street : '',
-            streetNumber : '',
-            zipCode : '',
-            city : ''
-    },
-    administrator : {
-        id : window.administratorID
+const emptyService =  {
+    serviceName : '',
+    serviceDeadline : null,
+    contract : {
+        id : window.contractId
     }
 };
 
@@ -61,68 +51,63 @@ function deepCopy(that) {
     return JSON.parse(JSON.stringify(that));
 }
 
+const months = [null,0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(mon => ({
+    value : mon,
+    text : mon == null
+        ? '---'
+        : new Date(2000, mon).toLocaleString({}, {month: 'long'})
+}));
+
+const monthName = (id) => {
+    if(id == null)
+        return months[0];
+    return months[id+1].text;
+};
+
 new Vue({
     el : '#app',
     data : {
-        is_url : '/ctr-api',
+        contract_id : window.contractId,
+        service_url : '/ctr-api',
         saveOverlay: false,
-        search_is : deepCopy(emptyIS),
-        save_service :  deepCopy(emptyIS),
-        edit_service :  deepCopy(emptyIS),
+        search_service : deepCopy(emptyService),
+        save_service :  deepCopy(emptyService),
+        edit_service :  deepCopy(emptyService),
         delete_service : undefined,
-        srv_page : 1,
-        srv_size : 10,
-        srv_rows : 0,
+        service_page : 1,
+        service_size : 10,
+        service_rows : 0,
         fields: [
             {
-                key: 'businessName',
-                label: 'Ragione Sociale'
+                key: 'serviceName',
+                label: 'Servizio'
             },
             {
-                key: 'contacts',
-                label: 'Contatti',
-                formatter : (value, key, item) => [item.phone, item.mobilePhone, item.fax]
-                    .filter(elem => !!elem)
-                    .join(" - ")
+                key: 'formatted_deadline',
+                label: 'Scadenza'
             },
             {
-                key: 'address',
-                label: 'Indirizzo',
-                formatter : (value) => [value.street, value.streetNumber, value.zipCode, value.city]
-                    .filter(elem => !!elem)
-                    .join(', ')
-            },
-            {
-                key : 'contract_info',
-                label : 'Contratto'
-            },
-            {
-                key : 'id',
+                key : 'show_details',
                 label : ''
             }
         ],
         isBusy: true,
-        months : [null,0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(mon => ({
-            value : mon,
-            text : mon == null
-                ? '---'
-                : new Date(2000, mon).toLocaleString({}, {month: 'long'})
-        }))
+        months : months
     },
     methods : {
         reloadData (event) {
             if(event !== undefined)
                 event.preventDefault();
-            this.$root.$emit('bv::refresh::table', 'is-table');
+            this.$root.$emit('bv::refresh::table', 'service-table');
         },
         saveData (event) {
             event.preventDefault();
             this.saveOverlay = true;
-            let promise = axios.post(`/ctr-api/${window.contractId}/add-service`, this.save_service)
+            let promise = axios.post(`/ctr-api/${window.contractId}/service/add`, this.save_service)
             promise.then(response => {
                 // clean form...
-                this.save_service = deepCopy(emptyIS);
-                this.$root.$emit('bv::refresh::table', 'is-table');
+                this.save_service = deepCopy(emptyService);
+                this.$root.$emit('bv::refresh::table', 'service-table');
             }).catch(response => {
                 console.log(response);
             }).then(response => {
@@ -136,7 +121,7 @@ new Vue({
                 // clean form...
                 this.$root.$emit('bv::refresh::table', 'is-table');
                 this.$root.$emit('bv::hide::modal', 'edit-modal');
-                this.edit_is = deepCopy(emptyIS);
+                this.edit_is = deepCopy(emptyService);
             }).catch(response => {
                 console.log(response);
             });
@@ -166,7 +151,7 @@ new Vue({
         },
         saveContract(event) {
             event.preventDefault();
-            let promise = axios.post(`/is-api/${this.save_contract_is}/contract/add`, this.save_contract)
+            let promise = axios.post(`/ctr-api/${this.contract_id}/service/add`, this.save_contract)
             promise.then(response => {
                 // clean form...
                 this.save_contract = deepCopy(emptyContract);
@@ -182,10 +167,10 @@ new Vue({
         provider (ctx) {
             this.toggleBusy(true);
             return axios
-                .post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search_is)
+                .post( `${ctx.apiUrl}/${this.contract_id}/service/${ctx.currentPage}/${ctx.perPage}`, this.search_service)
                 .then(response => {
                     this.toggleBusy(false);
-                    this.is_rows = response.data.recordsTotal;
+                    this.service_rows = response.data.recordsTotal;
                     return response.data.data;
                 }).catch(error => {
                     this.toggleBusy(false);
@@ -202,7 +187,7 @@ new Vue({
             let promise = axios.get(`/is-api/id/${id}`);
             promise.then(response => {
                 // load data and show modal
-                this.edit_is = response.data;
+                this.edit_service = response.data;
                 // set admin
                 this.$root.$emit('bv::show::modal', 'edit-modal');
             }).catch(response => {
@@ -215,14 +200,12 @@ new Vue({
             this.delete_is = id;
             this.$root.$emit('bv::show::modal', 'delete-modal');
         },
-        contractModal(id) {
+        serviceModal(id) {
             this.save_contract_is = id;
-            this.$root.$emit('bv::show::modal', 'add-contract-modal');
+            this.$root.$emit('bv::show::modal', 'add-service-modal');
         },
         monthName(id) {
-            if(id == null)
-                return this.months[12];
-            return this.months[id+1].text;
+            return monthName(id);
         }
     }
 });

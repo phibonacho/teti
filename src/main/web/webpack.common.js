@@ -12,6 +12,7 @@ module.exports = {
         login : './js/login.js',
         admin : './js/admin.js',
         admin_detail : './js/admin_detail.js',
+        contract_detail : './js/contract_detail.js',
         invoice_subjects : './js/invoice_subjects.js'
     },
     output: {

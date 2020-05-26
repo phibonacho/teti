@@ -225,7 +225,7 @@ new Vue({
         },
         monthName(id) {
             if(id == null)
-                return this.months[12];
+                return this.months[0];
             return this.months[id+1].text;
         }
     }

@@ -20,9 +20,9 @@ public class ServiceSpecs extends SpecsInterface {
 
     public static Specification<Service> withDeadlinein(Service filter) {
         return (Specification<Service>) (root, query, cb) -> {
-            if(filter.getServiceDeadLine() == null)
+            if(filter.getServiceDeadline() == null)
                 return cb.and();
-            return cb.equal(root.get("serviceDeadline"), filter.getServiceDeadLine());
+            return cb.equal(root.get("serviceDeadline"), filter.getServiceDeadline());
         };
     }
 
