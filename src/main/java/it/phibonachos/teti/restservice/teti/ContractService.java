@@ -41,6 +41,8 @@ public interface ContractService {
 
     Service findService(Long id);
 
+    boolean existsServiceOfContract(Long serviceId, Long contractId);
+
     Service addService(long id, Service contract);
 
     boolean removeService(Service service);
@@ -58,6 +60,10 @@ public interface ContractService {
     List<ServiceMemo> findMemos(ServiceMemo filter);
 
     ServiceMemo findMemo(Long id);
+
+    List<ServiceMemo> findRelatedMemos(ServiceMemo filter, long serviceId);
+
+    Page<ServiceMemo> findRelatedMemos(ServiceMemo filter, long serviceId, int page, int size);
 
     ServiceMemo addMemo(long serviceId, ServiceMemo memo);
 

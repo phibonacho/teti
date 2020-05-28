@@ -61,10 +61,22 @@
     <template v-slot:cell(formatted_deadline)="data">
         {{ monthName(data.item.serviceDeadline) }}
     </template>
-    <template v-slot:cell(show_details)="row">
-        <button class="btn text-primary mx-auto" @click="row.toggleDetails">
-            <i class="fas fa-chevron-right" :class="{ 'fa-rotate-90' : row.detailsShowing }"></i>
+    <template v-slot:cell(id)="data">
+        <button class="btn btn-white text-primary mx-auto" @click="showMemos(data.value)">
+            <i class="fas fa-external-link-alt"></i>
         </button>
+    </template>
+</th:block>
+
+<th:block th:fragment="memo-table-columns">
+    <template v-slot:cell(actions)="row">
+        <button class="btn btn-white" @click="row.toggleDetails" :class="{ 'fa-rotate-90' : row.detailsShowing}">
+            <i class="fas fa-chevron-right"></i>
+        </button>
+    </template>
+
+    <template v-slot:row-details="row">
+        <p>{{ row.item.memoContent }}</p>
     </template>
 </th:block>
 

@@ -1,5 +1,7 @@
 package it.phibonachos.teti.datasource.model.teti;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -17,6 +19,7 @@ public class ServiceMemo {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
     @JoinColumn(name = "ServiceID")
+    @JsonIgnore
     private Service service;
 
     public long getId() {
@@ -39,7 +42,7 @@ public class ServiceMemo {
         return memoContent;
     }
 
-    public void setCommentContent(String memoContent) {
+    public void setMemoContent(String memoContent) {
         this.memoContent = memoContent;
     }
 

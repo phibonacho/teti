@@ -4,6 +4,7 @@ import it.phibonachos.teti.datasource.model.teti.Contract;
 import it.phibonachos.teti.datasource.model.teti.Service;
 import it.phibonachos.teti.datasource.model.teti.ServiceMemo;
 import it.phibonachos.teti.datasource.repository.specification.ContractSpecs;
+import it.phibonachos.teti.datasource.repository.specification.MemoSpecs;
 import it.phibonachos.teti.datasource.repository.specification.ServiceSpecs;
 import it.phibonachos.teti.datasource.repository.teti.ContractRepository;
 import it.phibonachos.teti.datasource.repository.teti.MemoRepository;
@@ -99,6 +100,11 @@ public class ContractServiceImpl extends ServiceUtility implements ContractServi
     }
 
     @Override
+    public boolean existsServiceOfContract(Long serviceId, Long contractId) {
+        return serviceRepository.checkCombination(serviceId, contractId) != null;
+    }
+
+    @Override
     public Service addService(long id, Service service) {
         service.setContract(find(id));
         save(serviceRepository, service);
@@ -129,12 +135,12 @@ public class ContractServiceImpl extends ServiceUtility implements ContractServi
 
     @Override
     public Page<ServiceMemo> findMemos(ServiceMemo filter, int page, int size) {
-        return null;
+        return find(memoRepository, MemoSpecs.havingProperties(filter), page, size);
     }
 
     @Override
     public List<ServiceMemo> findMemos(ServiceMemo filter) {
-        return null;
+        return find(memoRepository, MemoSpecs.havingProperties(filter));
     }
 
     @Override
@@ -143,8 +149,19 @@ public class ContractServiceImpl extends ServiceUtility implements ContractServi
     }
 
     @Override
+    public List<ServiceMemo> findRelatedMemos(ServiceMemo filter, long serviceId) {
+        return find(memoRepository, MemoSpecs.havingProperties(filter, serviceId));
+    }
+
+    @Override
+    public Page<ServiceMemo> findRelatedMemos(ServiceMemo filter, long serviceId, int page, int size) {
+        return find(memoRepository, MemoSpecs.havingProperties(filter, serviceId), page, size);
+    }
+
+    @Override
     public ServiceMemo addMemo(long serviceId, ServiceMemo memo) {
-        return null;
+        memo.setService(findService(serviceId));
+        return save(memoRepository, memo);
     }
 
     @Override

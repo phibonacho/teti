@@ -22,8 +22,13 @@
         <input type="checkbox" th:id="${id}" th:v-model="${prefix} + '.' + ${name}">
         <label th:for="${id}" class="sr-only" th:text="${label}"></label>
     </th:block>
+    <th:block th:fragment="textarea_bundle(prefix, name, label)" th:with="id=${prefix} + '-' + ${name}">
+        <h6 class="text-primary" th:text="${label}"></h6>
+        <textarea th:id="name" th:v-model="${prefix} + '.' + ${name}" class="form-control" style="height: 83px"></textarea>
+        <label th:for="note" class="sr-only" th:text="${label}"></label>
+    </th:block>
 
-    <!-- vue add form -->
+    <!-- Admin -->
     <form th:fragment="admin-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_admin'" th:id="${prefix} + '_form'">
         <div class="form-group">
             <div class="form-row">
@@ -86,6 +91,7 @@
             </div>
         </div>
     </form>
+
     <!--  Invoice Subject  -->
     <form th:fragment="is-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_is'" th:id="${prefix} + '_form'">
         <div class="form-group">
@@ -153,6 +159,7 @@
             </div>
         </div>
     </form>
+
     <!-- Contract -->
     <form th:fragment="contract-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_contract'" th:id="${prefix} + '_form'">
         <div class="form-group">
@@ -207,6 +214,7 @@
             </div>
         </div>
     </form>
+
     <!--  Service  -->
     <form th:fragment="service-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_service'" th:id="${prefix} + '_form'">
         <div class="form-group">
@@ -218,6 +226,25 @@
             <div class="form-row">
                 <div class="col">
                     <th:block th:replace="~{ :: select_bundle(${prefix}, serviceDeadline, #{service.deadline}, months)}"/>
+                </div>
+            </div>
+            <div class="form-row justify-content-end mt-4">
+                <button type="submit" class="btn btn-secondary px-4 mx-1 text-uppercase" th:text="${btnCaption}"></button>
+            </div>
+        </div>
+    </form>
+
+    <!--  Memo  -->
+    <form th:fragment="memo-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_memo'" th:id="${prefix} + '_form'">
+        <div class="form-group">
+            <div class="form-row">
+                <div class="col">
+                    <th:block th:replace="~{ :: input_bundle(${prefix}, memoTitle, #{memo.title}, text)}"/>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="col">
+                    <th:block th:replace="~{ :: textarea_bundle(${prefix}, memoContent, #{memo.content})}"/>
                 </div>
             </div>
             <div class="form-row justify-content-end mt-4">

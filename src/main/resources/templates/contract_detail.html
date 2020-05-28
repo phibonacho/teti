@@ -82,9 +82,18 @@
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div id="memo-drawer">
-
+            <div class="col-md-6" :class="{ 'd-none' : target_service === undefined}">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="text-primary">{{ target_service }} - Memo</h5>
+                        <th:block th:insert="components/tables :: vue_table(memos,memo_fields,memo_page,memo_size,memo_rows,service_url,'memo-table', ~{components/tables :: memo-table-columns}, #{memo.none}, #{memo.none.filtered})"/>
+                    </div>
+                </div>
+                <div class="card mt-3">
+                    <div class="card-body">
+                        <h5 class="text-primary" th:text="#{memo.add}"></h5>
+                        <form th:replace="components/forms :: memo-form-vue(save, #{btn.save}, 'saveMemo')"></form>
+                    </div>
                 </div>
             </div>
         </div>

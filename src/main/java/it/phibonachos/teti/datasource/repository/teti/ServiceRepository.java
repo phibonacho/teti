@@ -11,4 +11,7 @@ public interface ServiceRepository extends JpaRepository<Service, Long>, JpaSpec
 
     @Query(value = "from Service  where contract.id = ?1", countQuery ="from Service  where contract.id = ?1")
     Page<Service> findByContractId(Long contractId, Pageable pageable);
+
+    @Query(value = "from Service  where id = ?1 and contract.id = ?2")
+    Service checkCombination(Long serviceId, Long contractId);
 }

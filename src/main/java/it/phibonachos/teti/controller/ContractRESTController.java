@@ -2,6 +2,7 @@ package it.phibonachos.teti.controller;
 
 import it.phibonachos.teti.datasource.model.teti.Contract;
 import it.phibonachos.teti.datasource.model.teti.Service;
+import it.phibonachos.teti.datasource.model.teti.ServiceMemo;
 import it.phibonachos.teti.restservice.teti.ContractService;
 import it.phibonachos.teti.restservice.teti.InvoiceSubjectService;
 import org.springframework.beans.BeanUtils;
@@ -90,6 +91,27 @@ public class ContractRESTController {
     @RequestMapping(value = {"/{id}/service/", "/{id}/service/{page}", "/{id}/service/{page}/{size}"}, method = RequestMethod.POST)
     public ResponseEntity<Object> getAllService(@PathVariable("id") Long id, @PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "size") Optional<Integer> size,@RequestBody Service filters) {
         Page<Service> matching = contractService.findRelatedServices(filters, id, page.map(i -> i-1).orElse(0), size.orElse(10));
+        return new ResponseEntity<>(Map.of("recordsTotal", matching.getTotalElements(), "data", matching.getContent()), HttpStatus.OK);
+    }
+
+    /* Memos */
+
+    @RequestMapping(value = "/{cid}/service/{sid}/memo/add", method = RequestMethod.POST)
+    public ResponseEntity<Object> addMemo(@PathVariable("cid") Long contractId, @PathVariable("sid") Long serviceId, @RequestBody ServiceMemo toAssociate) {
+        try {
+            if(contractService.existsServiceOfContract(serviceId, contractId))
+                return new ResponseEntity<>(contractService.addMemo(serviceId, toAssociate), HttpStatus.ACCEPTED);
+            else
+                return new ResponseEntity<>(Map.of("error", "No contract/service match"), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("no service matching id.", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(value = {"/{id}/serviceMemos/", "/{id}/serviceMemos/{page}", "/{id}/serviceMemos/{page}/{size}"}, method = RequestMethod.POST)
+    public ResponseEntity<Object> getAllMemos(@PathVariable("id") Long id, @PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "size") Optional<Integer> size,@RequestBody ServiceMemo filters) {
+        Page<ServiceMemo> matching = contractService.findRelatedMemos(filters, id, page.map(i -> i-1).orElse(0), size.orElse(10));
         return new ResponseEntity<>(Map.of("recordsTotal", matching.getTotalElements(), "data", matching.getContent()), HttpStatus.OK);
     }
 }

@@ -39,6 +39,11 @@ const emptyService =  {
     }
 };
 
+const emptyMemo =  {
+    memoTitle : '',
+    memoContent : ''
+};
+
 const emptyContract = {
     billingMonth : null,
     closingMonths : [],
@@ -68,15 +73,21 @@ new Vue({
     el : '#app',
     data : {
         contract_id : window.contractId,
+        target_service : undefined,
         service_url : '/ctr-api',
-        saveOverlay: false,
         search_service : deepCopy(emptyService),
         save_service :  deepCopy(emptyService),
         edit_service :  deepCopy(emptyService),
         delete_service : undefined,
+        save_memo :  deepCopy(emptyMemo),
+        edit_memo :  deepCopy(emptyMemo),
+        delete_memo :  undefined,
         service_page : 1,
         service_size : 10,
         service_rows : 0,
+        memo_page : 1,
+        memo_size : 10,
+        memo_rows : 0,
         fields: [
             {
                 key: 'serviceName',
@@ -87,18 +98,36 @@ new Vue({
                 label: 'Scadenza'
             },
             {
-                key : 'show_details',
+                key : 'id',
                 label : ''
             }
         ],
+        memo_fields: [
+            {
+                key: 'memoTitle',
+                label: 'Memo'
+            },
+            {
+                key: 'actions',
+                label: '',
+                class: 'text-right'
+            }
+        ],
         isBusy: true,
-        months : months
+        isMemoBusy: true,
+        months : months,
+        displayMemo : []
     },
     methods : {
         reloadData (event) {
             if(event !== undefined)
                 event.preventDefault();
             this.$root.$emit('bv::refresh::table', 'service-table');
+        },
+        reloadMemo (event) {
+            if(event !== undefined)
+                event.preventDefault();
+            this.$root.$emit('bv::refresh::table', 'memo-table');
         },
         saveData (event) {
             event.preventDefault();
@@ -149,16 +178,13 @@ new Vue({
         delete_contractPCM(index) {
             this.save_contract.closingMonths.splice(index,1);
         },
-        saveContract(event) {
+        saveMemo(event) {
             event.preventDefault();
-            let promise = axios.post(`/ctr-api/${this.contract_id}/service/add`, this.save_contract)
+            let promise = axios.post(`/ctr-api/${this.contract_id}/service/${this.target_service}/memo/add`, this.save_memo)
             promise.then(response => {
                 // clean form...
-                this.save_contract = deepCopy(emptyContract);
-                this.save_contract_is = null;
-                this.save_contract_aux_closingMonth = null;
-                this.$root.$emit('bv::refresh::table', 'is-table');
-                this.$root.$emit('bv::hide::modal', 'add-contract-modal');
+                this.save_memo = deepCopy(emptyMemo);
+                this.$root.$emit('bv::refresh::table', 'memo-table');
             }).catch(response => {
                 console.log(response);
             }).then(response => {
@@ -177,11 +203,30 @@ new Vue({
                     console.log(error);
                 });
         },
+        memos (ctx) {
+            this.toggleMemoBusy(true);
+            return axios
+                .post( `${ctx.apiUrl}/${this.target_service}/serviceMemos/${ctx.currentPage}/${ctx.perPage}`, this.search_service)
+                .then(response => {
+                    this.toggleBusy(false);
+                    this.service_rows = response.data.recordsTotal;
+                    return response.data.data;
+                }).catch(error => {
+                    this.toggleBusy(false);
+                    console.log(error);
+                });
+        },
         toggleBusy(state = undefined) {
             if(state === undefined)
                 this.isBusy = !this.isBusy;
             else
                 this.isBusy = state;
+        },
+        toggleMemoBusy(state = undefined) {
+            if(state === undefined)
+                this.isMemoBusy = !this.isMemoBusy;
+            else
+                this.isMemoBusy = state;
         },
         editModal(id) {
             let promise = axios.get(`/is-api/id/${id}`);
@@ -206,6 +251,10 @@ new Vue({
         },
         monthName(id) {
             return monthName(id);
+        },
+        showMemos(id) {
+            this.target_service = id;
+            this.reloadMemo();
         }
     }
 });
