@@ -61,6 +61,8 @@ public interface ContractService {
 
     ServiceMemo findMemo(Long id);
 
+    boolean existsMemoOfService(Long memoId, Long serviceId);
+
     List<ServiceMemo> findRelatedMemos(ServiceMemo filter, long serviceId);
 
     Page<ServiceMemo> findRelatedMemos(ServiceMemo filter, long serviceId, int page, int size);

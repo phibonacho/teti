@@ -1,6 +1,8 @@
 @import "base/variables";
 @import "~bootstrap/scss/bootstrap";
+@import "~bootstrap-vue/src/variables";
 @import "~bootstrap-vue/src/components/modal/modal";
+@import "~bootstrap-vue/src/components/table/table";
 @import "./components/forms";
 
 .info-wrapper {

@@ -7,13 +7,9 @@
 <body>
 <th:block th:fragment="vue_table(provider,fields,page,size,rows,url,id,content, no_result, no_result_filtered)">
     <b-overlay :show="isBusy"
-               variant="transparent">
-        <template v-slot:overlay>
-            <div class="text-center">
-                <my-spinner></my-spinner>
-            </div>
-        </template>
-        <b-table hover
+               variant="transparent"
+               spinner-variant="primary" >
+        <b-table
                  th::items="${provider}"
                  th::fields="${fields}"
                  th::current-page="${page}"
@@ -65,6 +61,9 @@
         <button class="btn btn-white text-primary mx-auto" @click="showMemos(data.value)">
             <i class="fas fa-external-link-alt"></i>
         </button>
+        <button class="btn btn-white text-danger mx-auto" @click="deleteServiceModal(data.value)">
+            <i class="fas fa-trash-alt"></i>
+        </button>
     </template>
 </th:block>
 
@@ -76,7 +75,14 @@
     </template>
 
     <template v-slot:row-details="row">
-        <p>{{ row.item.memoContent }}</p>
+        <div class="card">
+            <div class="card-body">
+                <p>{{ row.item.memoContent }}</p>
+            </div>
+        </div>
+        <button class="btn btn-white text-danger float-right" @click="deleteMemoModal(row.item.id)">
+            <i class="fas fa-trash-alt"></i>
+        </button>
     </template>
 </th:block>
 

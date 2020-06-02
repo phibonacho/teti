@@ -20,11 +20,9 @@ import java.util.Optional;
 public class ContractRESTController {
 
     private final ContractService contractService;
-    private final InvoiceSubjectService invoiceSubjectService;
 
-    public ContractRESTController(ContractService contractService, InvoiceSubjectService invoiceSubjectService) {
+    public ContractRESTController(ContractService contractService) {
         this.contractService = contractService;
-        this.invoiceSubjectService = invoiceSubjectService;
     }
 
     @RequestMapping(value = {"/", "/{page}", "/{page}/{size}"}, method = RequestMethod.POST)
@@ -88,6 +86,19 @@ public class ContractRESTController {
         }
     }
 
+    @RequestMapping(value = "/{id}/service/{sid}/delete", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> removeService(@PathVariable("id") Long contractId, @PathVariable("sid") Long serviceId) {
+        try {
+            if(contractService.existsServiceOfContract(serviceId, contractId))
+                return new ResponseEntity<>(contractService.removeService(serviceId), HttpStatus.ACCEPTED);
+            else
+                return new ResponseEntity<>(Map.of("error", "No contract/service match"), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("no service matching id.", HttpStatus.NOT_FOUND);
+        }
+    }
+
     @RequestMapping(value = {"/{id}/service/", "/{id}/service/{page}", "/{id}/service/{page}/{size}"}, method = RequestMethod.POST)
     public ResponseEntity<Object> getAllService(@PathVariable("id") Long id, @PathVariable(name = "page") Optional<Integer> page, @PathVariable(name = "size") Optional<Integer> size,@RequestBody Service filters) {
         Page<Service> matching = contractService.findRelatedServices(filters, id, page.map(i -> i-1).orElse(0), size.orElse(10));
@@ -106,6 +117,19 @@ public class ContractRESTController {
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>("no service matching id.", HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @RequestMapping(value = "/{sid}/service/{mid}/memo/delete", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> removeMemo(@PathVariable("sid") Long serviceId, @PathVariable("mid") Long memoId) {
+        try {
+            if(contractService.existsMemoOfService(memoId, serviceId))
+                return new ResponseEntity<>(contractService.removeMemo(memoId), HttpStatus.ACCEPTED);
+            else
+                return new ResponseEntity<>(Map.of("error", "No service/memo match"), HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<>("no memo matching id.", HttpStatus.NOT_FOUND);
         }
     }
 

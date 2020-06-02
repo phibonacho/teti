@@ -17,7 +17,7 @@ public class ServiceMemo {
     @Column(name = "MemoContent")
     private String memoContent;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE})
     @JoinColumn(name = "ServiceID")
     @JsonIgnore
     private Service service;

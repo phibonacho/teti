@@ -11,10 +11,8 @@ import it.phibonachos.teti.datasource.repository.teti.MemoRepository;
 import it.phibonachos.teti.datasource.repository.teti.ServiceRepository;
 import it.phibonachos.teti.restservice.teti.ContractService;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @org.springframework.stereotype.Service
@@ -101,7 +99,7 @@ public class ContractServiceImpl extends ServiceUtility implements ContractServi
 
     @Override
     public boolean existsServiceOfContract(Long serviceId, Long contractId) {
-        return serviceRepository.checkCombination(serviceId, contractId) != null;
+        return serviceRepository.checkServiceParent(serviceId, contractId) != null;
     }
 
     @Override
@@ -149,6 +147,11 @@ public class ContractServiceImpl extends ServiceUtility implements ContractServi
     }
 
     @Override
+    public boolean existsMemoOfService(Long memoId, Long serviceId) {
+        return memoRepository.checkMemoParent(memoId, serviceId) != null;
+    }
+
+    @Override
     public List<ServiceMemo> findRelatedMemos(ServiceMemo filter, long serviceId) {
         return find(memoRepository, MemoSpecs.havingProperties(filter, serviceId));
     }
@@ -166,12 +169,12 @@ public class ContractServiceImpl extends ServiceUtility implements ContractServi
 
     @Override
     public boolean removeMemo(ServiceMemo memo) {
-        return false;
+        return remove(memoRepository, memo);
     }
 
     @Override
     public boolean removeMemo(Long id) {
-        return false;
+        return remove(memoRepository, id);
     }
 
     @Override

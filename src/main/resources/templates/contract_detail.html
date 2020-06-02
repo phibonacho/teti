@@ -41,7 +41,7 @@
                                         <div class="form-row">
                                             <div class="col">
                                                 <div class="info-wrapper">
-                                                    <span  th:text="${!#strings.isEmpty(contract.billAmount)}? ${contract.billAmount} : '---'"></span>
+                                                    <span  th:text="${!#strings.isEmpty(contract.billingAmount)}? ${contract.billingAmount} : '---'"></span>
                                                 </div>
                                                 <small class="info-name" th:text="#{contract.billingAmount}"></small>
                                             </div>
@@ -97,6 +97,22 @@
                 </div>
             </div>
         </div>
+        <b-modal id="delete-service-modal" centered size="sm" hide-footer header-bg-variant="danger" header-text-variant="light" th:title="#{service.delete}">
+            <div class="row text-center">
+                <p>Sei sicuro di voler eliminare il servizio {{ delete_service }} ?</p>
+                <form action="#" class="mx-auto">
+                    <button type="submit" class="text-uppercase btn btn-danger" th:text="#{btn.delete}" @click="deleteService"></button>
+                </form>
+            </div>
+        </b-modal>
+        <b-modal id="delete-memo-modal" centered size="sm" hide-footer header-bg-variant="danger" header-text-variant="light" th:title="#{memo.delete}">
+            <div class="row text-center">
+                <p>Sei sicuro di voler eliminare il memo {{ delete_memo }} ?</p>
+                <form action="#" class="mx-auto">
+                    <button type="submit" class="text-uppercase btn btn-danger" th:text="#{btn.delete}" @click="deleteMemo"></button>
+                </form>
+            </div>
+        </b-modal>
     </main>
 </div>
 <script th:src="@{/js/common.js}"></script>

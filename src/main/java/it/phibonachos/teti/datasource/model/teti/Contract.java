@@ -1,6 +1,7 @@
 package it.phibonachos.teti.datasource.model.teti;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.time.Month;
@@ -17,7 +18,7 @@ public class Contract {
     private Month billingMonth;
 
     @Column(name = "BillingAmount")
-    private double billAmount;
+    private double billingAmount;
 
     @Column(name = "ToBill")
     private boolean toBill;
@@ -49,12 +50,12 @@ public class Contract {
         this.billingMonth = billingMonth;
     }
 
-    public double getBillAmount() {
-        return billAmount;
+    public double getBillingAmount() {
+        return billingAmount;
     }
 
-    public void setBillAmount(double billAmount) {
-        this.billAmount = billAmount;
+    public void setBillingAmount(double billAmount) {
+        this.billingAmount = billAmount;
     }
 
     public boolean isToBill() {
@@ -78,6 +79,7 @@ public class Contract {
         return closingMonths;
     }
 
+    @JsonProperty
     public void setClosingMonths(Set<RELClosingMonth> closingMonths) {
         this.closingMonths = closingMonths;
     }

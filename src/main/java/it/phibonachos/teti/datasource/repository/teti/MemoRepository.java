@@ -1,6 +1,5 @@
 package it.phibonachos.teti.datasource.repository.teti;
 
-import it.phibonachos.teti.datasource.model.teti.Service;
 import it.phibonachos.teti.datasource.model.teti.ServiceMemo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -12,4 +11,7 @@ public interface MemoRepository extends JpaRepository<ServiceMemo, Long>, JpaSpe
 
     @Query(value = "from ServiceMemo  where service.id = ?1", countQuery ="from ServiceMemo  where service.id = ?1")
     Page<ServiceMemo> findByServiceId(Long serviceId, Pageable pageable);
+
+    @Query(value = "from ServiceMemo  where id = ?1 and service.id = ?2")
+    ServiceMemo checkMemoParent(Long memoId, Long serviceId);
 }

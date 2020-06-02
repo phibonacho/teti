@@ -155,13 +155,28 @@ new Vue({
                 console.log(response);
             });
         },
-        deleteData(event) {
+        deleteService(event) {
             event.preventDefault();
-            let promise = axios.delete(`/is-api/${this.delete_is}/delete`);
+            let promise = axios.delete(`/ctr-api/${window.contractId}/service/${this.delete_service}/delete`);
 
             promise.then(response =>{
-                this.$root.$emit('bv::refresh::table', 'adm-table');
-                this.$root.$emit('bv::hide::modal', 'delete-modal');
+                this.$root.$emit('bv::refresh::table', 'service-table');
+                this.$root.$emit('bv::hide::modal', 'delete-service-modal');
+                if(this.target_service === this.delete_service)
+                    this.target_service = undefined;
+            }).catch(error=> {
+                console.log(error);
+            }).then(()=>{
+                this.reloadData();
+            })
+        },
+        deleteMemo(event) {
+            event.preventDefault();
+            let promise = axios.delete(`/ctr-api/${this.target_service}/service/${this.delete_memo}/memo/delete`);
+
+            promise.then(response =>{
+                this.$root.$emit('bv::refresh::table', 'memo-table');
+                this.$root.$emit('bv::hide::modal', 'delete-memo-modal');
             }).catch(error=> {
                 console.log(error);
             }).then(()=>{
@@ -241,9 +256,13 @@ new Vue({
 
             })
         },
-        deleteModal(id) {
-            this.delete_is = id;
-            this.$root.$emit('bv::show::modal', 'delete-modal');
+        deleteServiceModal(id) {
+            this.delete_service = id;
+            this.$root.$emit('bv::show::modal', 'delete-service-modal');
+        },
+        deleteMemoModal(id) {
+            this.delete_memo = id;
+            this.$root.$emit('bv::show::modal', 'delete-memo-modal');
         },
         serviceModal(id) {
             this.save_contract_is = id;
