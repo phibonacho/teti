@@ -171,6 +171,7 @@ new Vue({
         saveContract(event) {
             event.preventDefault();
             let promise = axios.post(`/is-api/${this.save_contract_is}/contract/add`, this.save_contract)
+            console.log(this.save_contract);
             promise.then(response => {
                 // clean form...
                 this.save_contract = deepCopy(emptyContract);

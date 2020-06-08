@@ -8,6 +8,7 @@ import "./components/sidebar";
 import Spinner from "./vue/my-spinner";
 
 // VUE
+import {edit, reload, save, remove, provider} from './components/utilities/dataUtils'
 import axios from 'axios';
 import {
     FormPlugin, FormInputPlugin, FormSelectPlugin,
@@ -120,68 +121,22 @@ new Vue({
     },
     methods : {
         reloadData (event) {
-            if(event !== undefined)
-                event.preventDefault();
-            this.$root.$emit('bv::refresh::table', 'service-table');
+            reload(event, this.$root, 'service-table');
         },
         reloadMemo (event) {
-            if(event !== undefined)
-                event.preventDefault();
-            this.$root.$emit('bv::refresh::table', 'memo-table');
+            reload(event, this.$root, 'memo-table');
         },
         saveData (event) {
-            event.preventDefault();
-            this.saveOverlay = true;
-            let promise = axios.post(`/ctr-api/${window.contractId}/service/add`, this.save_service)
-            promise.then(response => {
-                // clean form...
-                this.save_service = deepCopy(emptyService);
-                this.$root.$emit('bv::refresh::table', 'service-table');
-            }).catch(response => {
-                console.log(response);
-            }).then(response => {
-                this.saveOverlay = false;
-            });
+            save(event, this.$root, `/ctr-api/${window.contractId}/service/add`, this.save_service, 'service-table', (response) => this.save_service = deepCopy(emptyService));
         },
         editData (event) {
-            event.preventDefault();
-            let promise = axios.put(`/srv-api/${this.edit_is.id}/edit`, this.edit_service)
-            promise.then(response => {
-                // clean form...
-                this.$root.$emit('bv::refresh::table', 'is-table');
-                this.$root.$emit('bv::hide::modal', 'edit-modal');
-                this.edit_is = deepCopy(emptyService);
-            }).catch(response => {
-                console.log(response);
-            });
+            edit(event, this.$root, `/srv-api/${this.edit_is.id}/edit`, this.edit_service, 'service-table', 'edit-modal');
         },
         deleteService(event) {
-            event.preventDefault();
-            let promise = axios.delete(`/ctr-api/${window.contractId}/service/${this.delete_service}/delete`);
-
-            promise.then(response =>{
-                this.$root.$emit('bv::refresh::table', 'service-table');
-                this.$root.$emit('bv::hide::modal', 'delete-service-modal');
-                if(this.target_service === this.delete_service)
-                    this.target_service = undefined;
-            }).catch(error=> {
-                console.log(error);
-            }).then(()=>{
-                this.reloadData();
-            })
+            remove(event, this.$root, `/ctr-api/${window.contractId}/service/${this.delete_service}/delete`, 'service-table', 'delete-service-modal');
         },
         deleteMemo(event) {
-            event.preventDefault();
-            let promise = axios.delete(`/ctr-api/${this.target_service}/service/${this.delete_memo}/memo/delete`);
-
-            promise.then(response =>{
-                this.$root.$emit('bv::refresh::table', 'memo-table');
-                this.$root.$emit('bv::hide::modal', 'delete-memo-modal');
-            }).catch(error=> {
-                console.log(error);
-            }).then(()=>{
-                this.reloadData();
-            })
+            remove(event, this.$root, `/ctr-api/${this.target_service}/service/${this.delete_memo}/memo/delete`, 'memo-table', 'delete-memo-modal');
         },
         save_contractPCM(event) {
             if(!this.save_contract.closingMonths
@@ -194,42 +149,21 @@ new Vue({
             this.save_contract.closingMonths.splice(index,1);
         },
         saveMemo(event) {
-            event.preventDefault();
-            let promise = axios.post(`/ctr-api/${this.contract_id}/service/${this.target_service}/memo/add`, this.save_memo)
-            promise.then(response => {
-                // clean form...
-                this.save_memo = deepCopy(emptyMemo);
-                this.$root.$emit('bv::refresh::table', 'memo-table');
-            }).catch(response => {
-                console.log(response);
-            }).then(response => {
-            });
+            save(event, this.$root, `/ctr-api/${this.contract_id}/service/${this.target_service}/memo/add`, this.save_memo, 'memo-table', (response) => this.save_memo = deepCopy(emptyMemo));
         },
         provider (ctx) {
             this.toggleBusy(true);
-            return axios
-                .post( `${ctx.apiUrl}/${this.contract_id}/service/${ctx.currentPage}/${ctx.perPage}`, this.search_service)
-                .then(response => {
-                    this.toggleBusy(false);
-                    this.service_rows = response.data.recordsTotal;
-                    return response.data.data;
-                }).catch(error => {
-                    this.toggleBusy(false);
-                    console.log(error);
-                });
+            return provider(`${ctx.apiUrl}/${this.contract_id}/service/${ctx.currentPage}/${ctx.perPage}`,
+                this.search_service,
+                this.service_rows,
+                () => this.toggleBusy(false));
         },
         memos (ctx) {
             this.toggleMemoBusy(true);
-            return axios
-                .post( `${ctx.apiUrl}/${this.target_service}/serviceMemos/${ctx.currentPage}/${ctx.perPage}`, this.search_service)
-                .then(response => {
-                    this.toggleBusy(false);
-                    this.service_rows = response.data.recordsTotal;
-                    return response.data.data;
-                }).catch(error => {
-                    this.toggleBusy(false);
-                    console.log(error);
-                });
+            return provider(`${ctx.apiUrl}/${this.target_service}/serviceMemos/${ctx.currentPage}/${ctx.perPage}`,
+                {}, // to add search_memo
+                this.service_rows,
+                () => this.toggleMemoBusy(false));
         },
         toggleBusy(state = undefined) {
             if(state === undefined)
