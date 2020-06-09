@@ -78,7 +78,7 @@
                 <div class="card mt-3">
                     <div class="card-body">
                         <h4 class="text-primary" th:text="#{contract.related.services}"></h4>
-                        <th:block th:insert="components/tables :: vue_table(provider,fields,service_page,service_size,service_rows,service_url,'service-table', ~{components/tables :: contract-detail-table-columns}, #{service.none}, #{contract.none.filtered})"/>
+                        <th:block th:insert="components/tables :: vue_table(provider,fields,'service.page','service.size','service.rows','service.url','service-table', ~{components/tables :: contract-detail-table-columns}, #{service.none}, #{contract.none.filtered})"/>
                     </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                 <div class="card">
                     <div class="card-body">
                         <h5 class="text-primary">{{ target_service }} - Memo</h5>
-                        <th:block th:insert="components/tables :: vue_table(memos,memo_fields,memo_page,memo_size,memo_rows,service_url,'memo-table', ~{components/tables :: memo-table-columns}, #{memo.none}, #{memo.none.filtered})"/>
+                        <th:block th:insert="components/tables :: vue_table(memos,memo_fields,'memo.page','memo.size','memo.rows','service.url','memo-table', ~{components/tables :: memo-table-columns}, #{memo.none}, #{memo.none.filtered})"/>
                     </div>
                 </div>
                 <div class="card mt-3">
@@ -116,6 +116,6 @@
     </main>
 </div>
 <script th:src="@{/js/common.js}"></script>
-<script th:src="@{/js/contract_detail.js}"></script>
+<script th:src="@{contract_detail.jcontract_detail.js}"></script>
 </body>
 </html>

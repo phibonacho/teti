@@ -5,10 +5,9 @@ import "../scss/contract_detail.scss";
 import "./components/fontawesome";
 import "./components/navbar";
 import "./components/sidebar";
-import Spinner from "./vue/my-spinner";
 
 // VUE
-import {edit, reload, save, remove, provider} from './components/utilities/dataUtils'
+import {edit, reload, save, remove, provider, baseData} from './components/utilities/dataUtils'
 import axios from 'axios';
 import {
     FormPlugin, FormInputPlugin, FormSelectPlugin,
@@ -30,8 +29,6 @@ Vue.use(InputGroupPlugin);
 Vue.use(ListGroupPlugin);
 Vue.use(BadgePlugin);
 
-Vue.component("my-spinner", Spinner);
-
 const emptyService =  {
     serviceName : '',
     serviceDeadline : null,
@@ -45,14 +42,6 @@ const emptyMemo =  {
     memoContent : ''
 };
 
-const emptyContract = {
-    billingMonth : null,
-    closingMonths : [],
-    billingAmount : null,
-    toBill : false,
-    notes : '',
-};
-
 function deepCopy(that) {
     return JSON.parse(JSON.stringify(that));
 }
@@ -61,18 +50,20 @@ const months = [null,0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(mon => ({
     value : mon,
     text : mon == null
         ? '---'
-        : new Date(2000, mon).toLocaleString({}, {month: 'long'})
+        : new Date(2000, mon).toLocaleString('it', {month: 'long'})
 }));
 
 const monthName = (id) => {
     if(id == null)
         return months[0];
-    return months[id+1].text;
+    return months[++id].text;
 };
 
 new Vue({
     el : '#app',
     data : {
+        service : baseData("/ctr-api", emptyService, { target : undefined }),
+        memo : baseData("ctr-api", emptyMemo),
         contract_id : window.contractId,
         target_service : undefined,
         service_url : '/ctr-api',
@@ -120,36 +111,26 @@ new Vue({
         displayMemo : []
     },
     methods : {
-        reloadData (event) {
+        reloadData (event = undefined) {
             reload(event, this.$root, 'service-table');
         },
-        reloadMemo (event) {
+        reloadMemo (event = undefined) {
             reload(event, this.$root, 'memo-table');
         },
         saveData (event) {
-            save(event, this.$root, `/ctr-api/${window.contractId}/service/add`, this.save_service, 'service-table', (response) => this.save_service = deepCopy(emptyService));
+            save(event, this.$root, `/ctr-api/${this.contract_id}/service/add`, this.service.save, 'service-table', (response) => this.service.save = deepCopy(emptyService));
         },
-        editData (event) {
+        editData (event) { // ?
             edit(event, this.$root, `/srv-api/${this.edit_is.id}/edit`, this.edit_service, 'service-table', 'edit-modal');
         },
         deleteService(event) {
-            remove(event, this.$root, `/ctr-api/${window.contractId}/service/${this.delete_service}/delete`, 'service-table', 'delete-service-modal');
+            remove(event, this.$root, `/ctr-api/${this.contract_id}/service/${this.service.remove}/delete`, 'service-table', 'delete-service-modal');
         },
         deleteMemo(event) {
-            remove(event, this.$root, `/ctr-api/${this.target_service}/service/${this.delete_memo}/memo/delete`, 'memo-table', 'delete-memo-modal');
-        },
-        save_contractPCM(event) {
-            if(!this.save_contract.closingMonths
-                .some(m => m.closingMonth === this.save_contract_aux_closingMonth))
-            this.save_contract.closingMonths.push({
-                closingMonth : this.save_contract_aux_closingMonth
-            });
-        },
-        delete_contractPCM(index) {
-            this.save_contract.closingMonths.splice(index,1);
+            remove(event, this.$root, `/ctr-api/${this.service.target}/service/${this.memo.remove}/memo/delete`, 'memo-table', 'delete-memo-modal');
         },
         saveMemo(event) {
-            save(event, this.$root, `/ctr-api/${this.contract_id}/service/${this.target_service}/memo/add`, this.save_memo, 'memo-table', (response) => this.save_memo = deepCopy(emptyMemo));
+            save(event, this.$root, `/ctr-api/${this.contract_id}/service/${this.service.target}/memo/add`, this.memo.save, 'memo-table', (response) => this.save_memo = deepCopy(emptyMemo));
         },
         provider (ctx) {
             this.toggleBusy(true);
@@ -191,17 +172,17 @@ new Vue({
             })
         },
         deleteServiceModal(id) {
-            this.delete_service = id;
+            this.service.remove = id;
             this.$root.$emit('bv::show::modal', 'delete-service-modal');
         },
         deleteMemoModal(id) {
-            this.delete_memo = id;
+            this.memo.remove = id;
             this.$root.$emit('bv::show::modal', 'delete-memo-modal');
         },
-        serviceModal(id) {
+/*        serviceModal(id) {
             this.save_contract_is = id;
             this.$root.$emit('bv::show::modal', 'add-service-modal');
-        },
+        },*/
         monthName(id) {
             return monthName(id);
         },

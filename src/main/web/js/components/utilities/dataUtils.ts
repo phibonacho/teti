@@ -68,3 +68,36 @@ export function provider(request : string, filter : object, rows : number, onDon
             console.log(error);
         });
 }
+
+export function baseData(url : string, emptyObject : Object, opt = {}) {
+    return Object.assign({
+        url : url,
+        save : Object.assign(emptyObject),
+        search : Object.assign(emptyObject),
+        edit : Object.assign(emptyObject),
+        remove : undefined,
+        page : 1,
+        rows : 0,
+        size : 10
+    }, opt);
+}
+
+export const service_data = {
+    save : {},
+    search : {},
+    edit : {},
+    remove : undefined,
+    page : 1,
+    rows : 0,
+    size : 10
+};
+
+export const memo_data = {
+    save : {},
+    search : {},
+    edit : {},
+    remove : undefined,
+    page : 1,
+    rows : 0,
+    size : 10
+}
