@@ -70,7 +70,7 @@
                         <div class="card">
                             <div class="card-body">
                                 <h4 class="text-primary" th:text="#{service.add}"></h4>
-                                <form th:replace="components/forms :: service-form-vue(save, #{btn.save}, 'saveData')"></form>
+                                <form th:replace="components/forms :: service-form-vue(save, #{btn.save}, 'saveService')"></form>
                             </div>
                         </div>
                     </div>
@@ -78,14 +78,14 @@
                 <div class="card mt-3">
                     <div class="card-body">
                         <h4 class="text-primary" th:text="#{contract.related.services}"></h4>
-                        <th:block th:insert="components/tables :: vue_table(provider,fields,'service.page','service.size','service.rows','service.url','service-table', ~{components/tables :: contract-detail-table-columns}, #{service.none}, #{contract.none.filtered})"/>
+                        <th:block th:insert="components/tables :: vue_table(services,fields,'service.page','service.size','service.rows','service.url','service-table', ~{components/tables :: contract-detail-table-columns}, #{service.none}, #{contract.none.filtered})"/>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6" :class="{ 'd-none' : target_service === undefined}">
+            <div class="col-md-6" :class="{ 'd-none' : service.target === undefined}">
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="text-primary">{{ target_service }} - Memo</h5>
+                        <h5 class="text-primary">{{ service.target }} - Memo</h5>
                         <th:block th:insert="components/tables :: vue_table(memos,memo_fields,'memo.page','memo.size','memo.rows','service.url','memo-table', ~{components/tables :: memo-table-columns}, #{memo.none}, #{memo.none.filtered})"/>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
         </div>
         <b-modal id="delete-service-modal" centered size="sm" hide-footer header-bg-variant="danger" header-text-variant="light" th:title="#{service.delete}">
             <div class="row text-center">
-                <p>Sei sicuro di voler eliminare il servizio {{ delete_service }} ?</p>
+                <p>Sei sicuro di voler eliminare il servizio {{ service.remove }} ?</p>
                 <form action="#" class="mx-auto">
                     <button type="submit" class="text-uppercase btn btn-danger" th:text="#{btn.delete}" @click="deleteService"></button>
                 </form>
@@ -107,7 +107,7 @@
         </b-modal>
         <b-modal id="delete-memo-modal" centered size="sm" hide-footer header-bg-variant="danger" header-text-variant="light" th:title="#{memo.delete}">
             <div class="row text-center">
-                <p>Sei sicuro di voler eliminare il memo {{ delete_memo }} ?</p>
+                <p>Sei sicuro di voler eliminare il memo {{ memo.remove }} ?</p>
                 <form action="#" class="mx-auto">
                     <button type="submit" class="text-uppercase btn btn-danger" th:text="#{btn.delete}" @click="deleteMemo"></button>
                 </form>
@@ -116,6 +116,6 @@
     </main>
 </div>
 <script th:src="@{/js/common.js}"></script>
-<script th:src="@{contract_detail.jcontract_detail.js}"></script>
+<script th:src="@{/js/contract_detail.js}"></script>
 </body>
 </html>

@@ -15,6 +15,7 @@ import {
     TablePlugin, PaginationPlugin,
     CardPlugin, InputGroupPlugin, ListGroupPlugin, BadgePlugin
 } from "bootstrap-vue";
+import {baseData, edit, provider, reload, save, remove} from "./components/utilities/dataUtils";
 
 Vue.use(FormPlugin);
 Vue.use(FormInputPlugin);
@@ -64,18 +65,14 @@ function deepCopy(that) {
 new Vue({
     el : '#app',
     data : {
-        is_url : '/is-api',
+        administrator_id : window.administratorID,
+        is : baseData("/is-api", emptyIS),
+        contract : baseData("/is-api", emptyContract),
         saveOverlay: false,
-        search_is : deepCopy(emptyIS),
-        save_is :  deepCopy(emptyIS),
-        edit_is :  deepCopy(emptyIS),
-        delete_is : undefined,
+
         save_contract : deepCopy(emptyContract),
         save_contract_is : null,
         save_contract_aux_closingMonth : null,
-        is_page : 1,
-        is_size : 10,
-        is_rows : 0,
         fields: [
             {
                 key: 'businessName',
@@ -114,49 +111,17 @@ new Vue({
         }))
     },
     methods : {
-        reloadData (event) {
-            if(event !== undefined)
-                event.preventDefault();
-            this.$root.$emit('bv::refresh::table', 'is-table');
+        reloadData (event = undefined) {
+            reload(event, this.$root, 'is-table');
         },
         saveData (event) {
-            event.preventDefault();
-            this.saveOverlay = true;
-            let promise = axios.post(`/adm-api/${window.administratorID}/add-is`, this.save_is)
-            promise.then(response => {
-                // clean form...
-                this.save_is = deepCopy(emptyIS);
-                this.$root.$emit('bv::refresh::table', 'is-table');
-            }).catch(response => {
-                console.log(response);
-            }).then(response => {
-                this.saveOverlay = false;
-            });
+            save(event, this.$root, `/adm-api/${this.administrator_id}/add-is`, this.is.save, 'is-table', (response => this.is.save = deepCopy(emptyIS)));
         },
         editData (event) {
-            event.preventDefault();
-            let promise = axios.put(`/is-api/${this.edit_is.id}/edit`, this.edit_is)
-            promise.then(response => {
-                // clean form...
-                this.$root.$emit('bv::refresh::table', 'is-table');
-                this.$root.$emit('bv::hide::modal', 'edit-modal');
-                this.edit_is = deepCopy(emptyIS);
-            }).catch(response => {
-                console.log(response);
-            });
+            edit(event, this.$root, `/is-api/${this.is.edit}/edit`, this.is.edit, 'is-table', 'edit-modal');
         },
         deleteData(event) {
-            event.preventDefault();
-            let promise = axios.delete(`/is-api/${this.delete_is}/delete`);
-
-            promise.then(response =>{
-                this.$root.$emit('bv::refresh::table', 'adm-table');
-                this.$root.$emit('bv::hide::modal', 'delete-modal');
-            }).catch(error=> {
-                console.log(error);
-            }).then(()=>{
-                this.reloadData();
-            })
+            remove(event, this.$root, `/is-api/${this.is.delete}/delete`, 'is-table', 'delete-modal');
         },
         save_contractPCM(event) {
             if(!this.save_contract.closingMonths
@@ -169,33 +134,20 @@ new Vue({
             this.save_contract.closingMonths.splice(index,1);
         },
         saveContract(event) {
-            event.preventDefault();
-            let promise = axios.post(`/is-api/${this.save_contract_is}/contract/add`, this.save_contract)
-            console.log(this.save_contract);
-            promise.then(response => {
-                // clean form...
-                this.save_contract = deepCopy(emptyContract);
+            save(event, this.$root, `/is-api/${this.save_contract_is}/add-is`, this.contract.save, 'is-table', (response => {
+                this.contract.save = deepCopy(emptyContract);
                 this.save_contract_is = null;
                 this.save_contract_aux_closingMonth = null;
                 this.$root.$emit('bv::refresh::table', 'is-table');
                 this.$root.$emit('bv::hide::modal', 'add-contract-modal');
-            }).catch(response => {
-                console.log(response);
-            }).then(response => {
-            });
+            }));
         },
         provider (ctx) {
             this.toggleBusy(true);
-            return axios
-                .post( `${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`, this.search_is)
-                .then(response => {
-                    this.toggleBusy(false);
-                    this.is_rows = response.data.recordsTotal;
-                    return response.data.data;
-                }).catch(error => {
-                    this.toggleBusy(false);
-                    console.log(error);
-                });
+            return provider(`${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`,
+                this.is.search,
+                this.is.rows,
+                () => this.toggleBusy(false));
         },
         toggleBusy(state = undefined) {
             if(state === undefined)
@@ -207,7 +159,7 @@ new Vue({
             let promise = axios.get(`/is-api/id/${id}`);
             promise.then(response => {
                 // load data and show modal
-                this.edit_is = response.data;
+                this.is.edit = response.data;
                 // set admin
                 this.$root.$emit('bv::show::modal', 'edit-modal');
             }).catch(response => {
@@ -217,7 +169,7 @@ new Vue({
             })
         },
         deleteModal(id) {
-            this.delete_is = id;
+            this.is.delete = id;
             this.$root.$emit('bv::show::modal', 'delete-modal');
         },
         contractModal(id) {

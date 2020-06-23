@@ -93,7 +93,7 @@
     </form>
 
     <!--  Invoice Subject  -->
-    <form th:fragment="is-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_is'" th:id="${prefix} + '_form'">
+    <form th:fragment="is-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix= 'is.' + ${name}" th:id="${prefix} + '_form'">
         <div class="form-group">
             <div class="form-row">
                 <div class="col-md-6">
@@ -216,7 +216,7 @@
     </form>
 
     <!--  Service  -->
-    <form th:fragment="service-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_service'" th:id="${prefix} + '_form'">
+    <form th:fragment="service-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix= 'service.' + ${name}" th:id="${prefix} + '_form'">
         <div class="form-group">
             <div class="form-row">
                 <div class="col">
@@ -235,7 +235,7 @@
     </form>
 
     <!--  Memo  -->
-    <form th:fragment="memo-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix=${name} + '_memo'" th:id="${prefix} + '_form'">
+    <form th:fragment="memo-form-vue(name, btnCaption, submitAction)" th:@submit="${submitAction}" th:with="prefix='memo.' + ${name}" th:id="${prefix} + '_form'">
         <div class="form-group">
             <div class="form-row">
                 <div class="col">

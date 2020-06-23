@@ -70,11 +70,12 @@ export function provider(request : string, filter : object, rows : number, onDon
 }
 
 export function baseData(url : string, emptyObject : Object, opt = {}) {
+    // todo remove assign and use deepCopy function
     return Object.assign({
         url : url,
-        save : Object.assign(emptyObject),
-        search : Object.assign(emptyObject),
-        edit : Object.assign(emptyObject),
+        save : deepCopy(emptyObject),
+        search : deepCopy(emptyObject),
+        edit : deepCopy(emptyObject),
         remove : undefined,
         page : 1,
         rows : 0,
@@ -100,4 +101,8 @@ export const memo_data = {
     page : 1,
     rows : 0,
     size : 10
+}
+
+export function deepCopy(that) {
+    return JSON.parse(JSON.stringify(that));
 }
