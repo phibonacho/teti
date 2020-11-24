@@ -32,8 +32,6 @@ Vue.use(BadgePlugin);
 
 Vue.component("my-spinner", Spinner);
 
-console.log("pippo pluto paperino");
-
 const emptyIS =  {
     businessName : '',
     fiscalCode : '',
