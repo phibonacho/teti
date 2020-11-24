@@ -50,15 +50,6 @@ public class TetiSecurityConfig {
         }
     }
 
-/*    @Configuration
-    @Order(1)
-    public static class APIConfiguration extends WebSecurityConfigurerAdapter {
-        @Override
-        protected void configure(HttpSecurity http) throws Exception {
-            http.antMatcher("*-api/**").authorizeRequests().anyRequest().authenticated().and().httpBasic();
-        }
-    }*/
-
     @Bean("passwordEncoder")
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

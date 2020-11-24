@@ -12,7 +12,7 @@ import org.springframework.web.servlet.LocaleResolver;
 import javax.servlet.http.HttpServletRequest;
 
 @Controller
-@RequestMapping("/contract")
+@RequestMapping("/contracts")
 public class ContractController extends BaseController{
 
     final ContractService contractService;

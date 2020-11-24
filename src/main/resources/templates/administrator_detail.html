@@ -136,7 +136,7 @@
                         </div>
                     </div>
                 </b-collapse>
-                <th:block th:insert="components/tables :: vue_table(provider,fields,'is.page','is.size','is.rows','is.url','is-table', ~{components/tables :: adm-detail-table-columns}, #{invoice_subject.none}, #{invoice_subject.none.filtered})"/>
+                <th:block th:insert="components/tables :: vue_table(provider,fields,'is_page','is_size','is_rows','is_url','is-table', ~{components/tables :: adm-detail-table-columns}, #{invoice_subject.none}, #{invoice_subject.none.filtered})"/>
             </div>
         </div>
     </main>
@@ -145,7 +145,7 @@
     </b-modal>
     <b-modal id="delete-modal" centered size="sm" hide-footer header-bg-variant="danger" header-text-variant="light" th:title="#{info.invoice_subject.delete}">
         <div class="row text-center">
-            <p>Sei sicuro di voler eliminare il soggetto di fatturazione {{ is.delete }} ?</p>
+            <p>Sei sicuro di voler eliminare il soggetto di fatturazione {{ delete_is }} ?</p>
             <form action="#" class="mx-auto">
                 <button type="submit" class="text-uppercase btn btn-danger" th:text="#{btn.delete}" @click="deleteData"></button>
             </form>

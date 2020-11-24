@@ -15,7 +15,7 @@ import {
     TablePlugin, PaginationPlugin,
     CardPlugin, InputGroupPlugin, ListGroupPlugin, BadgePlugin
 } from "bootstrap-vue";
-import {baseData, edit, provider, reload, save, remove} from "./components/utilities/dataUtils";
+import {edit, provider, reload, save, remove} from "./components/utilities/dataUtils";
 
 Vue.use(FormPlugin);
 Vue.use(FormInputPlugin);
@@ -31,6 +31,8 @@ Vue.use(ListGroupPlugin);
 Vue.use(BadgePlugin);
 
 Vue.component("my-spinner", Spinner);
+
+console.log("pippo pluto paperino");
 
 const emptyIS =  {
     businessName : '',
@@ -66,10 +68,19 @@ new Vue({
     el : '#app',
     data : {
         administrator_id : window.administratorID,
-        is : baseData("/is-api", emptyIS),
-        contract : baseData("/is-api", emptyContract),
+
+        is_page : 1,
+        is_size : 10,
+        is_rows : 0,
+        is_url : '/is-api',
+
+        search_is : deepCopy(emptyIS),
+        save_is : deepCopy(emptyIS),
+        edit_is : deepCopy(emptyIS),
+        delete_is : null,
         saveOverlay: false,
 
+        search_contract : deepCopy(emptyContract),
         save_contract : deepCopy(emptyContract),
         save_contract_is : null,
         save_contract_aux_closingMonth : null,
@@ -115,13 +126,13 @@ new Vue({
             reload(event, this.$root, 'is-table');
         },
         saveData (event) {
-            save(event, this.$root, `/adm-api/${this.administrator_id}/add-is`, this.is.save, 'is-table', (response => this.is.save = deepCopy(emptyIS)));
+            save(event, this.$root, `/adm-api/${this.administrator_id}/add-is`, this.save_is, 'is-table', (response => this.save_is = deepCopy(emptyIS)));
         },
         editData (event) {
-            edit(event, this.$root, `/is-api/${this.is.edit}/edit`, this.is.edit, 'is-table', 'edit-modal');
+            edit(event, this.$root, `/is-api/${this.edit_is.id}/edit`, this.edit_is, 'is-table', 'edit-modal');
         },
         deleteData(event) {
-            remove(event, this.$root, `/is-api/${this.is.delete}/delete`, 'is-table', 'delete-modal');
+            remove(event, this.$root, `/is-api/${this.delete_is}/delete`, 'is-table', 'delete-modal');
         },
         save_contractPCM(event) {
             if(!this.save_contract.closingMonths
@@ -134,8 +145,8 @@ new Vue({
             this.save_contract.closingMonths.splice(index,1);
         },
         saveContract(event) {
-            save(event, this.$root, `/is-api/${this.save_contract_is}/add-is`, this.contract.save, 'is-table', (response => {
-                this.contract.save = deepCopy(emptyContract);
+            save(event, this.$root, `/is-api/${this.save_contract_is}/contract/add`, this.save_contract, 'is-table', (response => {
+                this.save_contract = deepCopy(emptyContract);
                 this.save_contract_is = null;
                 this.save_contract_aux_closingMonth = null;
                 this.$root.$emit('bv::refresh::table', 'is-table');
@@ -145,8 +156,8 @@ new Vue({
         provider (ctx) {
             this.toggleBusy(true);
             return provider(`${ctx.apiUrl}/${ctx.currentPage}/${ctx.perPage}`,
-                this.is.search,
-                this.is.rows,
+                this.search_is,
+                this.is_rows,
                 () => this.toggleBusy(false));
         },
         toggleBusy(state = undefined) {
@@ -156,10 +167,10 @@ new Vue({
                 this.isBusy = state;
         },
         editModal(id) {
-            let promise = axios.get(`/is-api/id/${id}`);
+            let promise = axios.get(`${this.is_url}/id/${id}`);
             promise.then(response => {
                 // load data and show modal
-                this.is.edit = response.data;
+                this.edit_is = response.data;
                 // set admin
                 this.$root.$emit('bv::show::modal', 'edit-modal');
             }).catch(response => {
@@ -169,7 +180,7 @@ new Vue({
             })
         },
         deleteModal(id) {
-            this.is.delete = id;
+            this.delete_is = id;
             this.$root.$emit('bv::show::modal', 'delete-modal');
         },
         contractModal(id) {

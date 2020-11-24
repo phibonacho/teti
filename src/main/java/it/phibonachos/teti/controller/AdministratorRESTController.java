@@ -66,7 +66,6 @@ public class AdministratorRESTController {
     @RequestMapping(value = "/{id}/delete", method = RequestMethod.DELETE)
     public ResponseEntity<Object> deleteAdministrator(@PathVariable("id") Long id) {
         try {
-            System.out.println("removing admin: ");
             administratorService.remove(administratorService.find(id));
             return new ResponseEntity<>(List.of(id), HttpStatus.ACCEPTED);
         } catch (Exception e) {

@@ -21,6 +21,10 @@ public class Role {
         this.description = description;
     }
 
+    public Role() {
+
+    }
+
     public String getDescription() {
         return description;
     }

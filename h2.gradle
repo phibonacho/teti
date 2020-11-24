@@ -1,0 +1,3 @@
+bootRun {
+    systemProperty "spring.profiles.active", 'h2'
+}
