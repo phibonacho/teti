@@ -6,6 +6,7 @@ import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.context.annotation.Profile;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -19,9 +20,9 @@ import java.util.Properties;
 @Configuration
 @EnableJpaRepositories(
         entityManagerFactoryRef =  "entityManager",
-        transactionManagerRef = "transactionManager",
         basePackages = "it.phibonachos.teti.datasource.repository"
 )
+@Profile({"dev", "prod"})
 public class TetiDataConfig {
 
     @Bean(name = "entityManager")

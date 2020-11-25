@@ -48,7 +48,7 @@
         </div>
     </template>
     <template v-slot:cell(contract_info)="data">
-        <a v-if="!!data.item.contract" class="py-1 px-2 " :href="'/contract/' + data.item.contract.id + '/detail'"><b-badge pill variant="primary">{{ data.item.contract.id }}</b-badge></a>
+        <a v-if="!!data.item.contract" class="py-1 px-2 " :href="'/contracts/' + data.item.contract.id + '/detail'"><b-badge pill variant="primary">{{ data.item.contract.id }}</b-badge></a>
         <button v-else class="py-1 px-2 btn" @click="contractModal(data.item.id)"><i class="fas fa-plus-circle text-primary"></i></button>
     </template>
 </th:block>

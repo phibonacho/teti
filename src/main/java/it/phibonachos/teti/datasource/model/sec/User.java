@@ -3,7 +3,7 @@ package it.phibonachos.teti.datasource.model.sec;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "User", catalog = "sec")
+@Table(name = "User", schema = "sec")
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -75,5 +75,13 @@ public class User {
 
     public void setActive(boolean active) {
         this.active = active;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }
